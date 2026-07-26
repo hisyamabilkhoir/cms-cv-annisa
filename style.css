@@ -2025,7 +2025,7 @@ body {
 }
 
 .achieve-tab-content.active {
-  display: inline;
+  display: block;
   animation: fadeIn 0.4s ease forwards;
 }
 
