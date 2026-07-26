@@ -4,7 +4,7 @@
 ========================= */
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
   --bg0: #05060d;
   --bg1: #070812;
@@ -17,19 +17,19 @@
   --text: rgba(255, 255, 255, .92);
   --muted: rgba(255, 255, 255, .62);
 
-  --c1: #7c3aed;
-  /* purple */
-  --c2: #22d3ee;
-  /* cyan */
-  --c3: #fb7185;
-  /* pink */
+  --c1: #ff69b4;
+  /* hot pink */
+  --c2: #e66377;
+  /* deep pink */
+  --c3: #b84f90;
+  /* purple pink */
 
   --shadow: 0 18px 70px rgba(0, 0, 0, .45);
   --shadow2: 0 10px 40px rgba(0, 0, 0, .32);
 
-  --glow1: 0 0 0 1px rgba(124, 58, 237, .25), 0 18px 50px rgba(124, 58, 237, .10);
-  --glow2: 0 0 0 1px rgba(34, 211, 238, .25), 0 18px 50px rgba(34, 211, 238, .10);
-  --glow3: 0 0 0 1px rgba(251, 113, 133, .25), 0 18px 50px rgba(251, 113, 133, .08);
+  --glow1: 0 0 0 1px rgba(255, 105, 180, .25), 0 18px 50px rgba(255, 105, 180, .10);
+  --glow2: 0 0 0 1px rgba(230, 99, 119, .25), 0 18px 50px rgba(230, 99, 119, .10);
+  --glow3: 0 0 0 1px rgba(184, 79, 144, .25), 0 18px 50px rgba(184, 79, 144, .08);
 
   --radius: 20px;
   --radius2: 28px;
