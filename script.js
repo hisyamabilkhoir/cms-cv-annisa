@@ -1140,3 +1140,27 @@ if (typeof Swiper !== 'undefined') {
     },
   });
 }
+
+// Initialize Customer Say Swiper
+if (typeof Swiper !== 'undefined' && document.querySelector('.csay-swiper')) {
+  const csaySwiper = new Swiper('.csay-swiper', {
+    slidesPerView: 1.3,
+    centeredSlides: true,
+    spaceBetween: 16,
+    grabCursor: true,
+    loop: true,
+    initialSlide: 2,
+    speed: 600,
+    watchSlidesProgress: true,
+    breakpoints: {
+      480: { slidesPerView: 2, spaceBetween: 16 },
+      768: { slidesPerView: 3, spaceBetween: 18 },
+      1024: { slidesPerView: 4, spaceBetween: 20 },
+      1280: { slidesPerView: 5, spaceBetween: 22 },
+    },
+    navigation: {
+      nextEl: '.csay-next',
+      prevEl: '.csay-prev',
+    },
+  });
+}
