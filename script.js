@@ -497,9 +497,9 @@
 
   let activeFilter = "all";
   let query = "";
-  let currentPage = 1;
-  const ITEMS_PER_PAGE = 6;
-  const projectPagination = document.getElementById("projectPagination");
+  let projectsSwiper = null;
+
+  const mobileHighlightGrid = document.getElementById("mobileHighlightGrid");
 
   function renderProjects() {
     if (!projectsGrid) return;
@@ -511,94 +511,83 @@
       return matchesFilter && matchesQuery;
     });
 
-    const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
-    if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
-    const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
-    const paginatedItems = items.slice(startIdx, startIdx + ITEMS_PER_PAGE);
-
-    projectsGrid.innerHTML = paginatedItems.map(p => `
-      <article class="project card3d reveal is-visible" data-tilt data-tilt-strength="12" onclick="openModal('${p.id}')">
-        <div class="project__thumb">
-          <img src="${escapeAttr(p.thumb)}" alt="" loading="lazy" decoding="async">
-        </div>
-        
-        <div class="project__content">
-          <div class="project__top">
-            <div class="tag ${p.platform}">${platformLabel(p.platform)}</div>
+    projectsGrid.innerHTML = items.map(p => `
+      <div class="swiper-slide" onclick="openModal('${p.id}')">
+        <div class="wp-project-card">
+          <div class="wp-project-thumb">
+            <span class="wp-project-tag">${platformLabel(p.platform)}</span>
+            <img src="${escapeAttr(p.thumb)}" alt="${escapeAttr(p.title)}" loading="lazy" decoding="async">
           </div>
-          <h3 class="project__title">${escapeHtml(p.title)}</h3>
-          
-          <div class="project__hover-content">
-            <div class="project__hover-inner">
-              <p class="project__desc">${escapeHtml(p.desc)}</p>
-              <div class="project__actions">
-                <button class="btn btn--primary" data-tilt data-tilt-strength="10" onclick="event.stopPropagation(); openModal('${p.id}')">
-                  Detail
-                  <span class="btn__glow" aria-hidden="true"></span>
-                </button>
+          <div class="wp-project-info">
+            <h3>${escapeHtml(p.title)}</h3>
+            <span class="year">2024</span>
+            <div class="wp-project-actions-container">
+              <div class="wp-project-action-circle">
+                <svg class="ico" aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;"><use href="#i-arrow-right"></use></svg>
+              </div>
+              <div class="wp-project-action-pill">
+                View Project &rarr;
               </div>
             </div>
           </div>
         </div>
-      </article>
+      </div>
     `).join("");
 
-    projectsGrid.querySelectorAll("[data-open]").forEach(btn => {
-      btn.addEventListener("click", () => openModal(btn.getAttribute("data-open")));
-    });
-
-    if (!prefersReducedMotion) initTiltWithin(projectsGrid);
-
-    // Render Pagination
-    if (projectPagination) {
-      if (totalPages <= 1) {
-        projectPagination.innerHTML = "";
-      } else {
-        let paginationHTML = "";
-        paginationHTML += `<button class="page-btn page-nav" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>&larr;</button>`;
-        for (let i = 1; i <= totalPages; i++) {
-           paginationHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
-        }
-        paginationHTML += `<button class="page-btn page-nav" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>&rarr;</button>`;
-        projectPagination.innerHTML = paginationHTML;
-        projectPagination.querySelectorAll('.page-btn:not([disabled])').forEach(btn => {
-           btn.addEventListener('click', () => {
-             const action = btn.getAttribute('data-page');
-             if (action === 'prev') currentPage--;
-             else if (action === 'next') currentPage++;
-             else currentPage = parseInt(action);
-             
-             renderProjects();
-             const projectsSection = document.getElementById('projects');
-             if (projectsSection) {
-                 const headerOffset = 100;
-                 const elementPosition = projectsSection.getBoundingClientRect().top;
-                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-             }
-           });
+    if (projectsSwiper) {
+      projectsSwiper.destroy(true, true);
+    }
+    
+    // Allow DOM to update
+    setTimeout(() => {
+      if (document.querySelector('.projects-swiper')) {
+        projectsSwiper = new Swiper('.projects-swiper', {
+          effect: 'coverflow',
+          grabCursor: true,
+          centeredSlides: true,
+          slidesPerView: 'auto',
+          watchSlidesProgress: true,
+          initialSlide: Math.min(2, Math.floor(items.length / 2)),
+          coverflowEffect: {
+            rotate: 0,
+            stretch: 70,
+            depth: 300,
+            modifier: 1,
+            slideShadows: false,
+            scale: 0.9
+          },
+          navigation: {
+            nextEl: '.projects-nav-next',
+            prevEl: '.projects-nav-prev',
+          },
+          pagination: {
+            el: '.projects-pagination',
+            clickable: true,
+          },
         });
       }
-    }
+    }, 50);
+
   }
 
-  filters.forEach(btn => {
+  const portfolioFilters = Array.from(document.querySelectorAll(".portfolio-filter"));
+  portfolioFilters.forEach(btn => {
     btn.addEventListener("click", () => {
-      filters.forEach(b => {
+      portfolioFilters.forEach(b => {
         b.classList.toggle("active", b === btn);
         b.setAttribute("aria-selected", b === btn ? "true" : "false");
       });
       activeFilter = btn.dataset.filter || "all";
-      currentPage = 1;
       renderProjects();
     });
   });
 
-  projectSearch && projectSearch.addEventListener("input", (e) => {
-    query = e.target.value || "";
-    currentPage = 1;
-    renderProjects();
-  });
+  if (projectSearch) {
+    projectSearch.addEventListener("input", (e) => {
+      query = e.target.value || "";
+      renderProjects();
+    });
+  }
 
   renderProjects();
 
@@ -1063,5 +1052,91 @@ if (achieveFilters.length > 0 && achieveTabs.length > 0) {
         targetTab.classList.add("active");
       }
     });
+  });
+}
+
+/* =========================
+   Typewriter Effect
+========================= */
+var TxtType = function(el, toRotate, period) {
+  this.toRotate = toRotate;
+  this.el = el;
+  this.loopNum = 0;
+  this.period = parseInt(period, 10) || 2000;
+  this.txt = '';
+  this.tick();
+  this.isDeleting = false;
+};
+
+TxtType.prototype.tick = function() {
+  var i = this.loopNum % this.toRotate.length;
+  var fullTxt = this.toRotate[i];
+
+  if (this.isDeleting) {
+    this.txt = fullTxt.substring(0, this.txt.length - 1);
+  } else {
+    this.txt = fullTxt.substring(0, this.txt.length + 1);
+  }
+
+  this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+  var that = this;
+  var delta = 150 - Math.random() * 100;
+
+  if (this.isDeleting) { delta /= 2; }
+
+  if (!this.isDeleting && this.txt === fullTxt) {
+    delta = this.period;
+    this.isDeleting = true;
+  } else if (this.isDeleting && this.txt === '') {
+    this.isDeleting = false;
+    this.loopNum++;
+    delta = 500;
+  }
+
+  setTimeout(function() {
+    that.tick();
+  }, delta);
+};
+
+function initTypewriter() {
+  var elements = document.getElementsByClassName('typewrite');
+  for (var i=0; i<elements.length; i++) {
+    var toRotate = elements[i].getAttribute('data-type');
+    var period = elements[i].getAttribute('data-period');
+    if (toRotate) {
+      new TxtType(elements[i], JSON.parse(toRotate), period);
+    }
+  }
+}
+
+// Call immediately
+initTypewriter();
+
+// Initialize Brands Swiper
+if (typeof Swiper !== 'undefined') {
+  const brandsSwiper = new Swiper('.brands-swiper', {
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    initialSlide: 2, // Start in the middle
+    coverflowEffect: {
+      rotate: 25,
+      stretch: 30,
+      depth: 120,
+      modifier: 1.5,
+      slideShadows: false,
+    },
+    watchSlidesProgress: true,
+    loop: true,
+    pagination: {
+      el: '.brands-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.brands-nav-next',
+      prevEl: '.brands-nav-prev',
+    },
   });
 }
