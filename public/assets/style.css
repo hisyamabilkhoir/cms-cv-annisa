@@ -3572,11 +3572,7 @@ body {
   padding: 20px 0;
 }
 
-/* Center slides when count ≤ slidesPerView */
-.csay-swiper .swiper-wrapper {
-  justify-content: center;
-}
-
+/* Swiper Slide */
 .csay-swiper .swiper-slide {
   height: auto;
 }

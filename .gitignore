@@ -1,0 +1,54 @@
+# Environment configuration
+.env
+.env.test
+.env.development
+.env.production
+
+# Composer dependencies
+/vendor/
+composer.phar
+
+# CodeIgniter 4 Writable Directories
+/writable/cache/*
+!/writable/cache/index.html
+!/writable/cache/.gitignore
+
+/writable/debugbar/*
+!/writable/debugbar/index.html
+!/writable/debugbar/.gitignore
+
+/writable/logs/*
+!/writable/logs/index.html
+!/writable/logs/.gitignore
+
+/writable/session/*
+!/writable/session/index.html
+!/writable/session/.gitignore
+
+/writable/uploads/*
+!/writable/uploads/index.html
+!/writable/uploads/.gitignore
+# Temporary public session files (if session.savePath was incorrectly set to null)
+/public/null/
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*~
+
+# Operating System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporary / Conversion Python scripts & backups
+convert*.py
+fix_img.py
+seed_images.py
+landing_backup/
