@@ -1,8 +1,11 @@
 <?= $this->extend('admin/layouts/app') ?>
 
 <?= $this->section('content') ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="mb-0 fw-bold">Kategori Prestasi</h4>
+<div class="admin-page-header">
+    <div>
+        <h2 class="mb-1">Kategori Prestasi</h2>
+        <p class="text-muted mb-0">Kelola kategori filter untuk pengelompokan achievement & sertifikasi.</p>
+    </div>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
         <i class="bi bi-plus-circle me-2"></i>Tambah Kategori
     </button>
@@ -26,7 +29,7 @@
                         <tr>
                             <td>
                                 <?php if($item['icon']): ?>
-                                    <i class="ri-<?= $item['icon'] ?> fs-4 text-primary"></i>
+                                    <i class="ri-<?= $item['icon'] ?> fs-4 text-pink"></i>
                                 <?php endif; ?>
                             </td>
                             <td class="fw-medium"><?= $item['name'] ?></td>

@@ -10,6 +10,6 @@ class AdminModel extends Model
     protected $primaryKey = 'id';
     protected $useTimestamps = true;
     protected $allowedFields = [
-        'username', 'email', 'password', 'name', 'avatar'
+        'username', 'email', 'password', 'name', 'avatar', 'remember_token'
     ];
 }

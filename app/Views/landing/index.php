@@ -1,3 +1,41 @@
+<?php
+if (!function_exists('getAchSvgPlaceholder')) {
+  function getAchSvgPlaceholder($title = 'No Image Available', $w = 600, $h = 420)
+  {
+    $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' . $w . '" height="' . $h . '" viewBox="0 0 ' . $w . ' ' . $h . '">'
+      . '<defs>'
+      . '<linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">'
+      . '<stop offset="0%" stop-color="#140f1d"/>'
+      . '<stop offset="50%" stop-color="#231730"/>'
+      . '<stop offset="100%" stop-color="#180e24"/>'
+      . '</linearGradient>'
+      . '</defs>'
+      . '<rect width="100%" height="100%" fill="url(#g)"/>'
+      . '<rect x="8" y="8" width="' . ($w - 16) . '" height="' . ($h - 16) . '" rx="16" fill="none" stroke="#ff69b4" stroke-width="1.5" stroke-opacity="0.25" stroke-dasharray="6 6"/>'
+      . '<g transform="translate(' . ($w / 2) . ', ' . ($h / 2 - 18) . ')">'
+      . '<circle r="34" fill="#ff69b4" fill-opacity="0.12" stroke="#ff69b4" stroke-width="1.5" stroke-opacity="0.3"/>'
+      . '<path d="M-12 -8 h24 a2 2 0 0 1 2 2 v16 a2 2 0 0 1 -2 2 h-24 a2 2 0 0 1 -2 -2 v-16 a2 2 0 0 1 2 -2 Z M-8 6 l6 -6 l5 5 l4 -4 l5 5" fill="none" stroke="#ff80ab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+      . '<circle cx="6" cy="-2" r="2.5" fill="#ff80ab"/>'
+      . '</g>'
+      . '<text x="50%" y="' . ($h / 2 + 36) . '" dominant-baseline="middle" text-anchor="middle" fill="#ff80ab" font-family="sans-serif" font-size="14" font-weight="700">NO IMAGE</text>'
+      . '<text x="50%" y="' . ($h / 2 + 56) . '" dominant-baseline="middle" text-anchor="middle" fill="#a090b0" font-family="sans-serif" font-size="11">Foto belum di-upload</text>'
+      . '</svg>';
+    return 'data:image/svg+xml;base64,' . base64_encode($svg);
+  }
+}
+
+if (!function_exists('getLogoSvgPlaceholder')) {
+  function getLogoSvgPlaceholder($name = 'LOGO', $w = 200, $h = 80)
+  {
+    $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' . $w . '" height="' . $h . '" viewBox="0 0 ' . $w . ' ' . $h . '">'
+      . '<rect width="100%" height="100%" rx="12" fill="#231730"/>'
+      . '<rect x="2" y="2" width="' . ($w - 4) . '" height="' . ($h - 4) . '" rx="10" fill="none" stroke="#ff69b4" stroke-width="1" stroke-opacity="0.2"/>'
+      . '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#ff80ab" font-family="sans-serif" font-size="13" font-weight="700">' . htmlspecialchars($name) . '</text>'
+      . '</svg>';
+    return 'data:image/svg+xml;base64,' . base64_encode($svg);
+  }
+}
+?>
 <!doctype html>
 <html lang="id" data-theme="dark">
 
@@ -5,6 +43,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#060711" />
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/jpeg" href="<?= base_url('assets/uploads/logo.jpeg') ?>">
+  <link rel="shortcut icon" type="image/jpeg" href="<?= base_url('assets/uploads/logo.jpeg') ?>">
 
   <!-- SEO BASIC -->
   <title>Annisa Esce – Content Creator & Video Editor</title>
@@ -38,30 +80,33 @@
   <style>
     /* Dynamic Section Backgrounds */
     #about.section::before {
-      <?php if (!empty($about['bg_image'])): ?>background-image: url('<?= base_url('assets/uploads/about/' . $about['bg_image']) ?>') !important;
-      background-size: cover !important;
-      background-position: center !important;
-      opacity: 1 !important;
-      filter: none !important;
+      <?php if (!empty($about['bg_image'])): ?>
+        background-image: url('<?= base_url('assets/uploads/about/' . $about['bg_image']) ?>') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        opacity: 1 !important;
+        filter: none !important;
       <?php endif; ?>
     }
 
     @media (max-width: 768px) {
       #about.section::before {
-        <?php if (!empty($about['bg_mobile'])): ?>background-image: url('<?= base_url('assets/uploads/about/' . $about['bg_mobile']) ?>') !important;
-        background-size: cover !important;
-        background-position: center !important;
-        opacity: 1 !important;
-        filter: none !important;
+        <?php if (!empty($about['bg_mobile'])): ?>
+          background-image: url('<?= base_url('assets/uploads/about/' . $about['bg_mobile']) ?>') !important;
+          background-size: cover !important;
+          background-position: center !important;
+          opacity: 1 !important;
+          filter: none !important;
         <?php endif; ?>
       }
     }
 
     #brands.section::before,
     #brands {
-      <?php if (!empty($brandSettings['bg_desktop'])): ?>background-image: url('<?= base_url('assets/uploads/brands/' . $brandSettings['bg_desktop']) ?>') !important;
-      background-size: cover !important;
-      background-position: center !important;
+      <?php if (!empty($brandSettings['bg_desktop'])): ?>
+        background-image: url('<?= base_url('assets/uploads/brands/' . $brandSettings['bg_desktop']) ?>') !important;
+        background-size: cover !important;
+        background-position: center !important;
       <?php endif; ?>
     }
 
@@ -69,17 +114,20 @@
 
       #brands.section::before,
       #brands {
-        <?php if (!empty($brandSettings['bg_mobile'])): ?>background-image: url('<?= base_url('assets/uploads/brands/' . $brandSettings['bg_mobile']) ?>') !important;
-        background-size: cover !important;
-        background-position: center !important;
+        <?php if (!empty($brandSettings['bg_mobile'])): ?>
+          background-image: url('<?= base_url('assets/uploads/brands/' . $brandSettings['bg_mobile']) ?>') !important;
+          background-size: cover !important;
+          background-position: center !important;
         <?php endif; ?>
       }
     }
   </style>
 
   <!-- ICON -->
-  <link rel="icon" type="image/jpeg" href="<?= !empty($settings['site_logo']) ? base_url('assets/uploads/settings/' . $settings['site_logo']) : base_url('assets/logo.jpeg') ?>">
-  <link rel="shortcut icon" type="image/jpeg" href="<?= !empty($settings['site_logo']) ? base_url('assets/uploads/settings/' . $settings['site_logo']) : base_url('assets/logo.jpeg') ?>">
+  <link rel="icon" type="image/jpeg"
+    href="<?= !empty($settings['site_logo']) ? base_url('assets/uploads/settings/' . $settings['site_logo']) : base_url('assets/logo.jpeg') ?>">
+  <link rel="shortcut icon" type="image/jpeg"
+    href="<?= !empty($settings['site_logo']) ? base_url('assets/uploads/settings/' . $settings['site_logo']) : base_url('assets/logo.jpeg') ?>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <!-- Canonical -->
@@ -100,6 +148,101 @@
 
 
 <body>
+  <!-- FEMININE FLORAL & BUTTERFLY PRELOADER (CIWI-CIWI ESTETIK) -->
+  <div id="pageLoader" class="page-loader">
+    <div class="loader-bg-glow"></div>
+    <div class="loader-content">
+      <!-- Aesthetic Butterfly & Flower SVG Container -->
+      <div class="loader-art-wrap">
+        <!-- Rotating Floral Wreath Ring -->
+        <svg class="floral-wreath-ring" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255, 105, 180, 0.2)" stroke-width="1.5" stroke-dasharray="6 8" />
+          <circle cx="100" cy="100" r="72" fill="none" stroke="url(#pinkGlowGrad)" stroke-width="2.5" stroke-dasharray="140 300" class="ring-spinner" />
+          <defs>
+            <linearGradient id="pinkGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff69b4" />
+              <stop offset="50%" stop-color="#ec407a" />
+              <stop offset="100%" stop-color="#ab47bc" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <!-- Animated Floating Petals & Sparkles -->
+        <div class="loader-petals">
+          <span class="petal p1">🌸</span>
+          <span class="petal p2">✨</span>
+          <span class="petal p3">🌺</span>
+          <span class="petal p4">💖</span>
+          <span class="petal p5">✨</span>
+          <span class="petal p6">🌸</span>
+        </div>
+
+        <!-- Animated Glowing Pink Butterfly Center -->
+        <div class="butterfly-box">
+          <svg class="butterfly-svg" viewBox="0 0 100 100">
+            <!-- Left Wing -->
+            <path class="wing wing-left" d="M50 45 C35 15, 5 20, 10 45 C15 65, 38 60, 50 50 C40 65, 20 85, 30 90 C40 95, 48 70, 50 55 Z" fill="url(#wingGradLeft)" />
+            <!-- Right Wing -->
+            <path class="wing wing-right" d="M50 45 C65 15, 95 20, 90 45 C85 65, 62 60, 50 50 C60 65, 80 85, 70 90 C60 95, 52 70, 50 55 Z" fill="url(#wingGradRight)" />
+            <!-- Body & Antenna -->
+            <ellipse cx="50" cy="50" rx="3.5" ry="18" fill="#ffffff" />
+            <path d="M49 33 Q42 22 36 20 M51 33 Q58 22 64 20" stroke="#ff80ab" stroke-width="2" stroke-linecap="round" fill="none" />
+            <defs>
+              <linearGradient id="wingGradLeft" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ff80ab" />
+                <stop offset="50%" stop-color="#ec407a" />
+                <stop offset="100%" stop-color="#8e44ad" />
+              </linearGradient>
+              <linearGradient id="wingGradRight" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff80ab" />
+                <stop offset="50%" stop-color="#ec407a" />
+                <stop offset="100%" stop-color="#8e44ad" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Text & Progress Bar -->
+      <div class="loader-text-group">
+        <h2 class="loader-brand-title">Annisa <span class="text-pink">Esce</span></h2>
+        <p class="loader-subtitle">Creating Magic & Aesthetic Visuals ✨</p>
+        <div class="loader-progress-track">
+          <div class="loader-progress-fill" id="loaderProgress"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const loader = document.getElementById("pageLoader");
+      const progress = document.getElementById("loaderProgress");
+      
+      if (progress) {
+        setTimeout(function() {
+          progress.style.width = "100%";
+        }, 100);
+      }
+
+      function hideLoader() {
+        if (loader && !loader.classList.contains("fade-out")) {
+          loader.classList.add("fade-out");
+          setTimeout(function () {
+            loader.style.display = "none";
+          }, 850);
+        }
+      }
+
+      window.addEventListener("load", function () {
+        setTimeout(hideLoader, 1000);
+      });
+
+      // Fallback timeout
+      setTimeout(hideLoader, 2200);
+    });
+  </script>
+
   <!-- GLOBAL BACKGROUND (no external resources) -->
   <div class="bg" aria-hidden="true">
     <div class="bg__grid"></div>
@@ -201,8 +344,12 @@
           </p>
 
           <h1 class="hero__title grad-white-pink" style="padding-bottom: 10px; margin-top: 0px;">
-            <?= esc($hero['title_line1'] ?? 'Konten yang') ?> <span class="typewrite" data-period="2000" data-type='<?= esc($hero['typewrite_words1'] ?? '[ "nempel,", "berkesan,", "viral," ]') ?>'><span class="wrap"></span></span><br>
-            <?= esc($hero['title_line2'] ?? 'hasil yang') ?> <span class="typewrite" data-period="2000" data-type='<?= esc($hero['typewrite_words2'] ?? '[ "kerasa.", "nyata.", "maksimal." ]') ?>'><span class="wrap"></span></span>
+            <?= esc($hero['title_line1'] ?? 'Konten yang') ?> <span class="typewrite" data-period="2000"
+              data-type='<?= esc($hero['typewrite_words1'] ?? '[ "nempel,", "berkesan,", "viral," ]') ?>'><span
+                class="wrap"></span></span><br>
+            <?= esc($hero['title_line2'] ?? 'hasil yang') ?> <span class="typewrite" data-period="2000"
+              data-type='<?= esc($hero['typewrite_words2'] ?? '[ "kerasa.", "nyata.", "maksimal." ]') ?>'><span
+                class="wrap"></span></span>
           </h1>
 
           <p class="hero__desc" style="color: white;">
@@ -234,18 +381,45 @@
         </div>
 
         <div class="hero__visual reveal">
+          <!-- Animated Glowing Pink Butterfly Ornament (di luar frame, tidak ter-clip) -->
+          <div class="frame-butterfly-ornament" title="Aesthetic Butterfly">
+            <svg class="frame-butterfly-svg" viewBox="0 0 100 100">
+              <!-- Left Wing -->
+              <path class="f-wing f-wing-left" d="M50 45 C35 15, 5 20, 10 45 C15 65, 38 60, 50 50 C40 65, 20 85, 30 90 C40 95, 48 70, 50 55 Z" fill="url(#fWingGradLeft)" />
+              <!-- Right Wing -->
+              <path class="f-wing f-wing-right" d="M50 45 C65 15, 95 20, 90 45 C85 65, 62 60, 50 50 C60 65, 80 85, 70 90 C60 95, 52 70, 50 55 Z" fill="url(#fWingGradRight)" />
+              <!-- Body & Antenna -->
+              <ellipse cx="50" cy="50" rx="3.5" ry="18" fill="#ffffff" />
+              <path d="M49 33 Q42 22 36 20 M51 33 Q58 22 64 20" stroke="#ff80ab" stroke-width="2" stroke-linecap="round" fill="none" />
+              <defs>
+                <linearGradient id="fWingGradLeft" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#ff9ebb" />
+                  <stop offset="50%" stop-color="#ff4081" />
+                  <stop offset="100%" stop-color="#ab47bc" />
+                </linearGradient>
+                <linearGradient id="fWingGradRight" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff9ebb" />
+                  <stop offset="50%" stop-color="#ff4081" />
+                  <stop offset="100%" stop-color="#ab47bc" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
           <div class="portrait card3d" data-tilt data-tilt-strength="16">
             <div class="portrait__frame">
               <div class="portrait__shine" aria-hidden="true"></div>
 
               <div class="portrait__avatar">
                 <!-- No external image: data-uri placeholder -->
-                <img class="avatar__img" alt="Your photo" loading="lazy" decoding="async" src="<?= !empty($hero['photo']) ? base_url('assets/uploads/hero/' . $hero['photo']) : base_url('assets/header.jpg') ?>">
+                <img class="avatar__img" alt="Your photo" loading="lazy" decoding="async"
+                  src="<?= !empty($hero['photo']) ? base_url('assets/uploads/hero/' . $hero['photo']) : base_url('assets/header.jpg') ?>"
+                  onerror="this.src='<?= getAchSvgPlaceholder('Annisa Esce', 400, 500) ?>'">
               </div>
 
               <div class="portrait__meta">
-                <?php if (!empty($heroMeta)) : ?>
-                  <?php foreach ($heroMeta as $meta) : ?>
+                <?php if (!empty($heroMeta)): ?>
+                  <?php foreach ($heroMeta as $meta): ?>
                     <div class="meta__row">
                       <span class="meta__k"><?= esc($meta['key_label']) ?></span>
                       <span class="meta__v"><?= esc($meta['value_text']) ?></span>
@@ -262,8 +436,8 @@
         </div>
 
         <div class="hero__stats">
-          <?php if (!empty($heroStats)) : ?>
-            <?php foreach ($heroStats as $stat) : ?>
+          <?php if (!empty($heroStats)): ?>
+            <?php foreach ($heroStats as $stat): ?>
               <div class="stat card3d reveal" data-tilt data-tilt-strength="9">
                 <div class="stat__num"><?= esc($stat['value']) ?></div>
                 <div class="stat__label"><?= esc($stat['label']) ?></div>
@@ -287,7 +461,7 @@
               </div>
             </div>
 
-            <h3 class="about2__title">
+            <h3 class="about2__title" id="butterfly-landing-target">
               <?= $about['title'] ?? 'Menciptakan konten yang <span class="text-pink">berkesan</span>, <br>bukan hanya sekadar viral.' ?>
             </h3>
 
@@ -296,8 +470,8 @@
             </p>
 
             <div class="about2__icons">
-              <?php if (!empty($aboutIcons)) : ?>
-                <?php foreach ($aboutIcons as $ai) : ?>
+              <?php if (!empty($aboutIcons)): ?>
+                <?php foreach ($aboutIcons as $ai): ?>
                   <div class="aboutIcon">
                     <div class="aboutIcon__circle">
                       <i class="<?= esc($ai['icon']) ?>" style="font-size: 20px; color: #ff69b4"></i>
@@ -342,11 +516,12 @@
             </div>
 
             <div class="about2__mini">
-              <?php if (!empty($aboutMiniStats)) : ?>
-                <?php foreach ($aboutMiniStats as $ams) : ?>
+              <?php if (!empty($aboutMiniStats)): ?>
+                <?php foreach ($aboutMiniStats as $ams): ?>
                   <div class="miniStat">
                     <span class="miniStat__k">
-                      <i class="<?= esc($ams['icon']) ?>" style="font-size: 14px; color: #ff69b4;"></i> <?= esc($ams['label']) ?>
+                      <i class="<?= esc($ams['icon']) ?>" style="font-size: 14px; color: #ff69b4;"></i>
+                      <?= esc($ams['label']) ?>
                     </span>
                     <span class="miniStat__v text-pink"><?= esc($ams['value']) ?></span>
                   </div>
@@ -381,8 +556,8 @@
           </div>
 
           <div class="about2__cards">
-            <?php if (!empty($aboutCards)) : ?>
-              <?php foreach ($aboutCards as $ac) : ?>
+            <?php if (!empty($aboutCards)): ?>
+              <?php foreach ($aboutCards as $ac): ?>
                 <article class="about2__card card3d reveal" data-tilt data-tilt-strength="10">
                   <div class="about2__icon">
                     <i class="<?= esc($ac['icon']) ?>" style="font-size: 20px; color: #ff69b4;"></i>
@@ -468,10 +643,17 @@
       <div class="container">
 
         <!-- Section Header -->
-        <div class="section__head reveal" style="text-align: center; margin-bottom: 40px; display: flex; flex-direction: column; align-items: center;">
-          <p style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">OUR BRANDS</p>
-          <h2 class="section__title" style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif; text-align: center;">Brand &amp; Project We've <span style="color: #ff69b4;">Worked With</span></h2>
-          <p class="section__sub" style="font-size: 15px; color: var(--muted); text-align: center; margin: 0 auto; max-width: 500px;">Kolaborasi nyata, hasil yang berdampak.</p>
+        <div class="section__head reveal"
+          style="text-align: center; margin-bottom: 40px; display: flex; flex-direction: column; align-items: center;">
+          <p
+            style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">
+            OUR BRANDS</p>
+          <h2 class="section__title" id="bfly-brands"
+            style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif; text-align: center;">
+            Brand &amp; Project We've <span style="color: #ff69b4;">Worked With</span></h2>
+          <p class="section__sub"
+            style="font-size: 15px; color: var(--muted); text-align: center; margin: 0 auto; max-width: 500px;">
+            Kolaborasi nyata, hasil yang berdampak.</p>
         </div>
 
       </div>
@@ -480,23 +662,26 @@
       <!-- Brands Grid Full Width -->
       <div class="swiper brands-swiper">
         <div class="swiper-wrapper">
-          <?php if (!empty($brands)) : ?>
-            <?php foreach ($brands as $b) : ?>
+          <?php if (!empty($brands)): ?>
+            <?php foreach ($brands as $b): ?>
               <div class="swiper-slide">
                 <div class="wp-brand-card">
                   <div class="wp-brand-logo">
-                    <img src="<?= base_url(file_exists(FCPATH . 'assets/uploads/brands/' . $b['logo']) ? 'assets/uploads/brands/' . $b['logo'] : 'assets/assets/' . $b['logo']) ?>" alt="<?= esc($b['name']) ?>">
+                    <img
+                      src="<?= base_url(file_exists(FCPATH . 'assets/uploads/brands/' . $b['logo']) ? 'assets/uploads/brands/' . $b['logo'] : 'assets/assets/' . $b['logo']) ?>"
+                      alt="<?= esc($b['name']) ?>" onerror="this.src='<?= getLogoSvgPlaceholder(esc($b['name'])) ?>'">
                   </div>
                   <h3><?= esc($b['name']) ?></h3>
                   <span class="wp-brand-location">
                     <i class="ri-map-pin-line"></i> <?= esc($b['location']) ?>
                   </span>
                   <p><?= esc($b['description']) ?></p>
-                  <?php if (!empty($b['project_link'])) : ?>
-                    <a href="<?= esc($b['project_link']) ?>" class="btn-view-project" target="_blank">View Project <svg class="ico" aria-hidden="true">
+                  <?php if (!empty($b['project_link'])): ?>
+                    <a href="<?= esc($b['project_link']) ?>" class="btn-view-project" target="_blank">View Project <svg
+                        class="ico" aria-hidden="true">
                         <use href="#i-arrow-right"></use>
                       </svg></a>
-                  <?php else : ?>
+                  <?php else: ?>
                     <a href="#projects" class="btn-view-project">View Project <svg class="ico" aria-hidden="true">
                         <use href="#i-arrow-right"></use>
                       </svg></a>
@@ -553,15 +738,22 @@
       <div class="container">
 
         <!-- Section Header -->
-        <div class="portfolio-header-row reveal" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 40px; gap: 24px;">
+        <div class="portfolio-header-row reveal"
+          style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 40px; gap: 24px;">
 
           <div class="section__head" style="text-align: left; margin: 0; max-width: 400px;">
-            <p style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">PORTFOLIO</p>
-            <h2 class="section__title" style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif;">Our Selected <span style="color: #ff69b4;">Projects</span></h2>
-            <p class="section__sub" style="font-size: 15px; color: var(--muted); margin: 0;">Kumpulan karya terbaik yang kami buat<br>dengan dedikasi dan sepenuh hati.</p>
+            <p
+              style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">
+              PORTFOLIO</p>
+            <h2 class="section__title" id="bfly-projects"
+              style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif;">
+              Our Selected <span style="color: #ff69b4;">Projects</span></h2>
+            <p class="section__sub" style="font-size: 15px; color: var(--muted); margin: 0;">Kumpulan karya terbaik yang
+              kami buat<br>dengan dedikasi dan sepenuh hati.</p>
           </div>
 
-          <div class="portfolio-filters" role="tablist" aria-label="Filter projects" style="flex: 1; justify-content: flex-end; gap: 8px;">
+          <div class="portfolio-filters" role="tablist" aria-label="Filter projects"
+            style="flex: 1; justify-content: flex-end; gap: 8px;">
             <button class="portfolio-filter active" data-filter="all" role="tab" aria-selected="true">All</button>
             <button class="portfolio-filter" data-filter="property" role="tab" aria-selected="false">Property</button>
             <button class="portfolio-filter" data-filter="travel" role="tab" aria-selected="false">Travel</button>
@@ -644,18 +836,27 @@
       <div class="container">
 
         <!-- Section Header Row -->
-        <div class="portfolio-header-row reveal" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 40px; gap: 24px;">
+        <div class="portfolio-header-row reveal"
+          style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 40px; gap: 24px;">
           <div class="section__head" style="text-align: left; margin: 0; max-width: 400px;">
-            <p style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">ACHIEVEMENTS</p>
-            <h2 class="section__title" style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif;">Key <span style="color: #ff69b4;">Milestones</span></h2>
-            <p class="section__sub" style="font-size: 15px; color: var(--muted); margin: 0;">Pencapaian dan momen penting selama berkarir.</p>
+            <p
+              style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">
+              ACHIEVEMENTS</p>
+            <h2 class="section__title" id="bfly-achievements"
+              style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif;">
+              Key <span style="color: #ff69b4;">Milestones</span></h2>
+            <p class="section__sub" style="font-size: 15px; color: var(--muted); margin: 0;">Pencapaian dan momen
+              penting selama berkarir.</p>
           </div>
 
-          <div class="filters achieve-filters" role="tablist" aria-label="Filter achievements" style="flex: 1; justify-content: flex-end; gap: 8px; margin: 0;">
-            <?php if (!empty($achievementCategories)) : ?>
-              <?php foreach ($achievementCategories as $idx => $cat) : ?>
-                <button class="filter <?= $idx === 0 ? 'active' : '' ?>" data-target="<?= esc($cat['slug']) ?>" role="tab" aria-selected="<?= $idx === 0 ? 'true' : 'false' ?>">
-                  <i class="<?= esc($cat['icon'] ?? 'bi bi-award-fill') ?>" style="margin-right: 4px;"></i> <?= esc($cat['name']) ?>
+          <div class="filters achieve-filters" role="tablist" aria-label="Filter achievements"
+            style="flex: 1; justify-content: flex-end; gap: 8px; margin: 0;">
+            <?php if (!empty($achievementCategories)): ?>
+              <?php foreach ($achievementCategories as $idx => $cat): ?>
+                <button class="filter <?= $idx === 0 ? 'active' : '' ?>" data-target="<?= esc($cat['slug']) ?>" role="tab"
+                  aria-selected="<?= $idx === 0 ? 'true' : 'false' ?>">
+                  <i class="<?= esc($cat['icon'] ?? 'bi bi-award-fill') ?>" style="margin-right: 4px;"></i>
+                  <?= esc($cat['name']) ?>
                 </button>
               <?php endforeach; ?>
             <?php else: ?>
@@ -678,8 +879,8 @@
           </div>
         </div>
 
-        <?php if (!empty($achievementCategories)) : ?>
-          <?php foreach ($achievementCategories as $idx => $cat) : ?>
+        <?php if (!empty($achievementCategories)): ?>
+          <?php foreach ($achievementCategories as $idx => $cat): ?>
             <div class="achieve-tab-content <?= $idx === 0 ? 'active' : '' ?>" id="tab-<?= esc($cat['slug']) ?>">
 
               <?php
@@ -696,19 +897,44 @@
               }
               ?>
 
-              <?php if ($mainAch) : ?>
+              <?php if ($mainAch): ?>
+                <?php
+                $mainPlaceholder = getAchSvgPlaceholder('Highlight Achievement', 600, 420);
+                $mainPhotoUrl = '';
+                if (!empty($mainAch['photo'])) {
+                  if (file_exists(FCPATH . 'assets/uploads/achievements/' . $mainAch['photo'])) {
+                    $mainPhotoUrl = base_url('assets/uploads/achievements/' . $mainAch['photo']);
+                  } elseif (file_exists(FCPATH . 'assets/images/' . $mainAch['photo'])) {
+                    $mainPhotoUrl = base_url('assets/images/' . $mainAch['photo']);
+                  } elseif (file_exists(FCPATH . 'assets/' . $mainAch['photo'])) {
+                    $mainPhotoUrl = base_url('assets/' . $mainAch['photo']);
+                  }
+                }
+                if (empty($mainPhotoUrl)) {
+                  $mainPhotoUrl = $mainPlaceholder;
+                }
+                ?>
                 <div class="main-achieve reveal">
                   <div class="main-achieve__photo">
-                    <img src="<?= base_url(file_exists(FCPATH . 'assets/uploads/achievements/' . $mainAch['photo']) ? 'assets/uploads/achievements/' . $mainAch['photo'] : 'assets/assets/' . $mainAch['photo']) ?>" alt="<?= esc($mainAch['title']) ?>" loading="lazy">
+                    <img src="<?= $mainPhotoUrl ?>" alt="<?= esc($mainAch['title']) ?>" loading="lazy"
+                      onerror="this.src='<?= $mainPlaceholder ?>'">
                     <div class="main-achieve__photo-text">
-                      <span class="small-text"><?= esc($mainAch['small_text']) ?></span>
-                      <h2><?= esc($mainAch['title']) ?></h2>
-                      <span class="signature">Annisa Esce</span>
+                      <span class="small-text">
+                        <?php if (!empty($mainAch['icon'])): ?>
+                          <i
+                            class="<?= str_contains($mainAch['icon'], 'ri-') || str_contains($mainAch['icon'], 'bi-') ? esc($mainAch['icon']) : 'ri-' . esc($mainAch['icon']) ?> me-1"></i>
+                        <?php endif; ?>
+                        <?= esc($mainAch['small_text']) ?>
+                      </span>
+                      <h2><?= !empty($mainAch['heading_text']) ? esc($mainAch['heading_text']) : esc($mainAch['title']) ?>
+                      </h2>
+                      <span
+                        class="signature"><?= !empty($mainAch['signature_text']) ? esc($mainAch['signature_text']) : 'Annisa Esce' ?></span>
                     </div>
                   </div>
                   <div class="main-achieve__content">
                     <div class="main-achieve__year"><?= esc($mainAch['year']) ?></div>
-                    <?php if (!empty($mainAch['badge_text'])) : ?>
+                    <?php if (!empty($mainAch['badge_text'])): ?>
                       <div class="main-achieve__badge">
                         <?= esc($mainAch['badge_text']) ?>
                       </div>
@@ -719,14 +945,31 @@
                 </div>
               <?php endif; ?>
 
-              <?php if (!empty($timelineAchs)) : ?>
+              <?php if (!empty($timelineAchs)): ?>
                 <div class="achieve-timeline">
-                  <?php foreach ($timelineAchs as $ach) : ?>
+                  <?php foreach ($timelineAchs as $ach): ?>
+                    <?php
+                    $itemPlaceholder = getAchSvgPlaceholder('Achievement Item', 500, 340);
+                    $itemPhotoUrl = '';
+                    if (!empty($ach['photo'])) {
+                      if (file_exists(FCPATH . 'assets/uploads/achievements/' . $ach['photo'])) {
+                        $itemPhotoUrl = base_url('assets/uploads/achievements/' . $ach['photo']);
+                      } elseif (file_exists(FCPATH . 'assets/images/' . $ach['photo'])) {
+                        $itemPhotoUrl = base_url('assets/images/' . $ach['photo']);
+                      } elseif (file_exists(FCPATH . 'assets/' . $ach['photo'])) {
+                        $itemPhotoUrl = base_url('assets/' . $ach['photo']);
+                      }
+                    }
+                    if (empty($itemPhotoUrl)) {
+                      $itemPhotoUrl = $itemPlaceholder;
+                    }
+                    ?>
                     <div class="achieve-item reveal">
                       <div class="achieve-item__year-label"><?= esc($ach['year']) ?></div>
                       <div class="achieve-item__dot"></div>
                       <div class="achieve-item__photo">
-                        <img src="<?= base_url(file_exists(FCPATH . 'assets/uploads/achievements/' . $ach['photo']) ? 'assets/uploads/achievements/' . $ach['photo'] : 'assets/assets/' . $ach['photo']) ?>" alt="<?= esc($ach['title']) ?>" loading="lazy">
+                        <img src="<?= $itemPhotoUrl ?>" alt="<?= esc($ach['title']) ?>" loading="lazy"
+                          onerror="this.src='<?= $itemPlaceholder ?>'">
                       </div>
                       <div class="achieve-item__text card3d" data-tilt data-tilt-strength="10">
                         <svg class="achieve-spark" aria-hidden="true">
@@ -734,7 +977,8 @@
                         </svg>
                         <div class="achieve-text-inner">
                           <div class="achieve-icon">
-                            <i class="bi bi-award-fill" style="color: #ff69b4; font-size: 16px;"></i>
+                            <i class="<?= !empty($ach['icon']) ? (str_contains($ach['icon'], 'ri-') || str_contains($ach['icon'], 'bi-') ? esc($ach['icon']) : 'ri-' . esc($ach['icon'])) : 'bi bi-award-fill' ?>"
+                              style="color: #ff69b4; font-size: 16px;"></i>
                           </div>
                           <div class="achieve-details">
                             <span class="achieve-date"><?= esc($ach['date_label']) ?></span>
@@ -768,7 +1012,8 @@
                   ★ PRESTASI UTAMA
                 </div>
                 <h3>Best Creator of The Year</h3>
-                <p class="muted">Penghargaan tertinggi yang diraih Annisa Esce sebagai kreator paling berpengaruh di tahun 2026.</p>
+                <p class="muted">Penghargaan tertinggi yang diraih Annisa Esce sebagai kreator paling berpengaruh di tahun
+                  2026.</p>
               </div>
             </div>
           </div>
@@ -781,11 +1026,17 @@
     <section class="section" id="resume" data-spot="resume">
       <div class="container">
         <!-- Section Header Row -->
-        <div class="portfolio-header-row reveal" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 40px; gap: 24px;">
+        <div class="portfolio-header-row reveal"
+          style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 40px; gap: 24px;">
           <div class="section__head" style="text-align: left; margin: 0; max-width: 500px;">
-            <p style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">MY RESUME</p>
-            <h2 class="section__title" style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif;">Professional <span style="color: #ff69b4;">Resume</span></h2>
-            <p class="section__sub" style="font-size: 15px; color: var(--muted); margin: 0;">Ringkas, jelas, dan fokus value.</p>
+            <p
+              style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">
+              MY RESUME</p>
+            <h2 class="section__title" id="bfly-resume"
+              style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif;">
+              Professional <span style="color: #ff69b4;">Resume</span></h2>
+            <p class="section__sub" style="font-size: 15px; color: var(--muted); margin: 0;">Ringkas, jelas, dan fokus
+              value.</p>
           </div>
         </div>
 
@@ -795,8 +1046,8 @@
                 <use href="#i-briefcase"></use>
               </svg> Experience</h3>
             <div class="timeline">
-              <?php if (!empty($experiences)) : ?>
-                <?php foreach ($experiences as $exp) : ?>
+              <?php if (!empty($experiences)): ?>
+                <?php foreach ($experiences as $exp): ?>
                   <div class="titem">
                     <div class="titem__dot"></div>
                     <div class="titem__body">
@@ -826,7 +1077,8 @@
                       <strong>Creative Partner</strong>
                       <span class="muted period">2023 — Now</span>
                     </div>
-                    <p class="muted clamp-2">This partnership is ideal for brands looking for consistency, clarity, and long-term growth through content.</p>
+                    <p class="muted clamp-2">This partnership is ideal for brands looking for consistency, clarity, and
+                      long-term growth through content.</p>
                   </div>
                 </div>
               <?php endif; ?>
@@ -838,11 +1090,11 @@
                 <use href="#i-sliders"></use>
               </svg> Skills</h3>
             <div class="skills">
-              <?php if (!empty($skills)) : ?>
-                <?php foreach ($skills as $sk) : ?>
+              <?php if (!empty($skills)): ?>
+                <?php foreach ($skills as $sk): ?>
                   <div class="skill">
                     <span><?= esc($sk['name']) ?></span>
-                    <div class="bar"><i style="width: <?= (int)$sk['percentage'] ?>%"></i></div>
+                    <div class="bar"><i style="width: <?= (int) $sk['percentage'] ?>%"></i></div>
                   </div>
                 <?php endforeach; ?>
               <?php else: ?>
@@ -858,8 +1110,10 @@
             </div>
 
             <div class="resume__actions">
-              <a class="btn btn--primary" target="_blank" href="<?= !empty($hero['cv_file']) ? base_url('assets/uploads/hero/' . $hero['cv_file']) : base_url('assets/assets/cv annisa.pdf') ?>" id="downloadCV" download="<?= esc($hero['cv_file'] ?? 'CV Annisa.pdf') ?>"
-                data-tilt data-tilt-strength="12">
+              <a class="btn btn--primary" target="_blank"
+                href="<?= !empty($hero['cv_file']) ? base_url('assets/uploads/hero/' . $hero['cv_file']) : base_url('assets/assets/cv annisa.pdf') ?>"
+                id="downloadCV" download="<?= esc($hero['cv_file'] ?? 'CV Annisa.pdf') ?>" data-tilt
+                data-tilt-strength="12">
                 <svg class="ico" aria-hidden="true">
                   <use href="#i-download"></use>
                 </svg>
@@ -882,8 +1136,8 @@
                 <use href="#i-tool"></use>
               </svg> Tools</h3>
             <div class="chips">
-              <?php if (!empty($tools)) : ?>
-                <?php foreach ($tools as $tl) : ?>
+              <?php if (!empty($tools)): ?>
+                <?php foreach ($tools as $tl): ?>
                   <span class="chip"><?= esc($tl['name']) ?></span>
                 <?php endforeach; ?>
               <?php else: ?>
@@ -904,9 +1158,14 @@
       <div class="container">
         <div class="csay__header reveal">
           <div class="section__head" style="text-align: left; margin: 0; max-width: 400px;">
-            <p style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">Testimonial</p>
-            <h2 class="section__title" style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif;">What They <span style="color: #ff69b4;">Say</span></h2>
-            <p class="section__sub" style="font-size: 15px; color: var(--muted); margin: 0;">Kumpulan karya terbaik yang kami buat<br>dengan dedikasi dan sepenuh hati.</p>
+            <p
+              style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">
+              Testimonial</p>
+            <h2 class="section__title" id="bfly-customers"
+              style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif;">
+              What They <span style="color: #ff69b4;">Say</span></h2>
+            <p class="section__sub" style="font-size: 15px; color: var(--muted); margin: 0;">Kumpulan karya terbaik yang
+              kami buat<br>dengan dedikasi dan sepenuh hati.</p>
           </div>
           <div class="csay__header-right">
             <div class="csay__nav">
@@ -927,15 +1186,18 @@
         <div class="csay__slider reveal">
           <div class="swiper csay-swiper">
             <div class="swiper-wrapper">
-              <?php if (!empty($testimonials)) : ?>
-                <?php foreach ($testimonials as $t) : ?>
+              <?php if (!empty($testimonials)): ?>
+                <?php foreach ($testimonials as $t): ?>
                   <div class="swiper-slide">
                     <div class="csay__card">
                       <div class="csay__logo">
-                        <img src="<?= base_url(file_exists(FCPATH . 'assets/uploads/testimonials/' . $t['logo']) ? 'assets/uploads/testimonials/' . $t['logo'] : 'assets/assets/' . $t['logo']) ?>" alt="<?= esc($t['brand_name']) ?>">
+                        <img
+                          src="<?= base_url(file_exists(FCPATH . 'assets/uploads/testimonials/' . $t['logo']) ? 'assets/uploads/testimonials/' . $t['logo'] : 'assets/assets/' . $t['logo']) ?>"
+                          alt="<?= esc($t['brand_name']) ?>"
+                          onerror="this.src='<?= getLogoSvgPlaceholder(esc($t['brand_name'])) ?>'">
                       </div>
                       <h4 class="csay__name"><?= esc($t['brand_name']) ?></h4>
-                      <div class="csay__stars"><?= str_repeat('★', (int)$t['rating']) ?></div>
+                      <div class="csay__stars"><?= str_repeat('★', (int) $t['rating']) ?></div>
                       <p class="csay__text"><?= esc($t['text']) ?></p>
                       <span class="csay__quote">❝</span>
                     </div>
@@ -949,7 +1211,8 @@
                     </div>
                     <h4 class="csay__name">Al Fatih Umrah</h4>
                     <div class="csay__stars">★★★★★</div>
-                    <p class="csay__text">Website yang dibuat sangat profesional, modern, dan user friendly. Tim sangat responsif and detail.</p>
+                    <p class="csay__text">Website yang dibuat sangat profesional, modern, dan user friendly. Tim sangat
+                      responsif and detail.</p>
                     <span class="csay__quote">❝</span>
                   </div>
                 </div>
@@ -965,11 +1228,17 @@
     <section class="section" id="contact" data-spot="contact">
       <div class="container">
         <!-- Section Header Row -->
-        <div class="portfolio-header-row reveal" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 40px; gap: 24px;">
+        <div class="portfolio-header-row reveal"
+          style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 40px; gap: 24px;">
           <div class="section__head" style="text-align: left; margin: 0; max-width: 500px;">
-            <p style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">GET IN TOUCH</p>
-            <h2 class="section__title" style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif;">Let's <span style="color: #ff69b4;">Connect</span></h2>
-            <p class="section__sub" style="font-size: 15px; color: var(--muted); margin: 0;">Balas cepat via email / WhatsApp.</p>
+            <p
+              style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff69b4; margin-bottom: 8px;">
+              GET IN TOUCH</p>
+            <h2 class="section__title" id="bfly-contact"
+              style="font-size: 48px; line-height: 1.1; margin-bottom: 16px; color: var(--text); font-family: serif;">
+              Let's <span style="color: #ff69b4;">Connect</span></h2>
+            <p class="section__sub" style="font-size: 15px; color: var(--muted); margin: 0;">Balas cepat via email /
+              WhatsApp.</p>
           </div>
         </div>
 
@@ -978,7 +1247,8 @@
             <h3><svg class="ico" aria-hidden="true">
                 <use href="#i-chat"></use>
               </svg> Send a message</h3>
-            <form id="contactForm" class="form" method="POST" action="https://formspree.io/f/xeeoyydw">
+            <form id="contactForm" class="form" method="POST" action="<?= base_url('send-message') ?>">
+              <?= csrf_field() ?>
               <label>
                 <span>Name</span>
                 <input type="text" name="name" placeholder="Nama kamu" required />
@@ -991,94 +1261,115 @@
                 <span>Message</span>
                 <textarea name="message" rows="5" placeholder="Brief singkat..." required></textarea>
               </label>
-              <button class="btn btn--primary" type="submit" data-tilt data-tilt-strength="12">
-                <svg class="ico" aria-hidden="true">
-                  <use href="#i-send"></use>
-                </svg>
-                Send
+              <button class="btn btn--primary" type="submit" id="contactSubmitBtn" data-tilt data-tilt-strength="12">
+                <span class="btn-text" style="display: inline-flex; align-items: center; gap: 8px;">
+                  <svg class="ico" aria-hidden="true">
+                    <use href="#i-send"></use>
+                  </svg>
+                  Send
+                </span>
+                <span class="btn-loading d-none align-items-center justify-content-center gap-2" style="display: none;">
+                  <i class="ri-loader-4-line spin fs-5"></i>
+                  Sending...
+                </span>
                 <span class="btn__glow" aria-hidden="true"></span>
               </button>
-              <p class="muted small">* Data akan dikirim melalui email.</p>
+              <p class="muted small">* Pesan kamu akan dibalas maksimal dalam 1 × 24 jam.</p>
             </form>
           </div>
 
           <div class="contact__side">
             <div class="card3d contact__card reveal" data-tilt data-tilt-strength="10">
-              <?php $sMap = array_column($socials ?? [], 'url', 'platform'); ?>
               <h3><svg class="ico" aria-hidden="true">
                   <use href="#i-link"></use>
                 </svg> Quick links</h3>
               <div class="links">
-                <a target="_blank" class="link" href="<?= esc($sMap['instagram'] ?? '#') ?>" id="linkIG">
-                  <span class="link__l">
-                    <svg class="ico" aria-hidden="true">
-                      <use href="#i-instagram"></use>
-                    </svg>
-                    Instagram
-                  </span>
-                  <span class="link__r">↗</span>
-                </a>
-                <a target="_blank" class="link" href="<?= esc($sMap['tiktok'] ?? '#') ?>" id="linkTT">
-                  <span class="link__l">
-                    <svg class="ico" aria-hidden="true">
-                      <use href="#i-tiktok"></use>
-                    </svg>
-                    TikTok
-                  </span>
-                  <span class="link__r">↗</span>
-                </a>
-                <a target="_blank" class="link" href="<?= esc($sMap['youtube'] ?? '#') ?>" id="linkYT">
-                  <span class="link__l">
-                    <svg class="ico" aria-hidden="true">
-                      <use href="#i-youtube"></use>
-                    </svg>
-                    YouTube
-                  </span>
-                  <span class="link__r">↗</span>
-                </a>
-                <a target="_blank" class="link" href="mailto:<?= esc($sMap['email'] ?? 'annisa@example.com') ?>" id="linkEmail">
-                  <span class="link__l">
-                    <svg class="ico" aria-hidden="true">
-                      <use href="#i-mail"></use>
-                    </svg>
-                    Email
-                  </span>
-                  <span class="link__r">↗</span>
-                </a>
-                <a target="_blank" class="link" href="<?= esc($sMap['lemon8'] ?? 'https://s.lemon8-app.com/s/GgUMhyccpw') ?>" id="linkLemon">
-                  <span class="link__l">
-                    <span>🍋</span>
-                    Lemon
-                  </span>
-                  <span class="link__r">↗</span>
-                </a>
+                <?php if (!empty($socials)): ?>
+                  <?php foreach ($socials as $soc): ?>
+                    <?php
+                    $pLower = strtolower($soc['platform']);
+                    $href = $soc['url'];
+                    if ($pLower === 'email' && !str_starts_with($href, 'mailto:')) {
+                      $href = 'mailto:' . $href;
+                    }
+                    $iconClass = !empty($soc['icon']) ? $soc['icon'] : 'ri-link';
+                    ?>
+                    <a target="_blank" class="link" href="<?= esc($href) ?>">
+                      <span class="link__l">
+                        <?php if ($pLower === 'lemon8' || $pLower === 'lemon'): ?>
+                          <span>🍋</span>
+                        <?php else: ?>
+                          <i class="<?= esc($iconClass) ?> me-1 text-pink fs-5"></i>
+                        <?php endif; ?>
+                        <?= esc($soc['platform']) ?>
+                      </span>
+                      <span class="link__r">↗</span>
+                    </a>
+                  <?php endforeach; ?>
+                <?php endif; ?>
+
+                <?php if (!empty($settings['contact_email'])): ?>
+                  <a target="_blank" class="link" href="mailto:<?= esc($settings['contact_email']) ?>">
+                    <span class="link__l">
+                      <i class="ri-mail-fill me-1 text-pink fs-5"></i>
+                      Email Direct
+                    </span>
+                    <span class="link__r">↗</span>
+                  </a>
+                <?php endif; ?>
               </div>
 
-              <div style="margin-top: 12px;" class="wa">
-                <a class="btn btn--ghost w-full" href="<?= esc($sMap['whatsapp'] ?? '#') ?>" id="whatsappBtn" data-tilt data-tilt-strength="12">
-                  <svg class="ico" aria-hidden="true">
-                    <use href="#i-whatsapp"></use>
-                  </svg>
-                  WhatsApp
-                </a>
-              </div>
-            </div>
-
-            <div style="margin-top: 15px;" class="card3d contact__card reveal" data-tilt data-tilt-strength="10">
-              <h3><svg class="ico" aria-hidden="true">
-                  <use href="#i-clock"></use>
-                </svg> Availability</h3>
-              <p class="muted clamp-2">Open untuk monthly retainer & campaign.</p>
-              <div class="availability">
-                <span class="badge"><i></i> Open</span>
-                <span class="muted small">Response: 2–6 jam</span>
-              </div>
+              <?php if (!empty($settings['contact_phone'])): ?>
+                <?php
+                $phoneClean = preg_replace('/[^0-9]/', '', $settings['contact_phone']);
+                if (str_starts_with($phoneClean, '0')) {
+                  $phoneClean = '62' . substr($phoneClean, 1);
+                }
+                $waUrl = 'https://wa.me/' . $phoneClean . '?text=Halo%20Annisa,%20saya%20mau%20diskusi%20project%20konten.';
+                ?>
+                <div style="margin-top: 12px;" class="wa">
+                  <a class="btn btn--ghost w-full" target="_blank" href="<?= esc($waUrl) ?>" id="whatsappBtn" data-tilt
+                    data-tilt-strength="12">
+                    <i class="bi bi-whatsapp fs-5 text-pink me-2"></i>
+                    WhatsApp (<?= esc($settings['contact_phone']) ?>)
+                  </a>
+                </div>
+              <?php endif; ?>
             </div>
           </div>
         </div>
 
+        <!-- FULL WIDTH MAPS & AVAILABILITY -->
+        <?php if (!empty($settings['contact_map_iframe'])): ?>
+          <div style="margin-top: 24px;" class="card3d contact__card reveal p-0 overflow-hidden" data-tilt data-tilt-strength="5">
+            <div style="width: 100%; height: 260px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,105,180,0.25);">
+              <?= $settings['contact_map_iframe'] ?>
+            </div>
+          </div>
+        <?php endif; ?>
+
+        <div style="margin-top: 20px;" class="card3d contact__card reveal" data-tilt data-tilt-strength="5">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+              <h3 class="mb-1"><svg class="ico me-1" aria-hidden="true"><use href="#i-clock"></use></svg> Availability &amp; Location</h3>
+              <p class="muted mb-0" style="font-size: 14px; line-height: 1.5;">
+                <?php if (!empty($settings['contact_address'])): ?>
+                  <i class="ri-map-pin-2-fill text-pink me-1"></i> <?= esc($settings['contact_address']) ?> &bull; 
+                <?php endif; ?>
+                Open untuk monthly retainer &amp; campaign.
+              </p>
+            </div>
+            <div class="availability mt-0">
+              <span class="badge"><i></i> Open</span>
+              <span class="muted small ms-2">Response: 2–6 jam</span>
+            </div>
+          </div>
+        </div>
+        </div>
+
         <footer class="footer">
-          <div class="muted small">© <span id="year"></span> <?= esc($settings['site_title'] ?? 'Annisa Esce') ?> - All rights reserved.</div>
+          <div class="muted small">© <span id="year"></span> <?= esc($settings['site_title'] ?? 'Annisa Esce') ?> - All
+            rights reserved.</div>
       </div>
       </footer>
       </div>
@@ -1087,28 +1378,55 @@
 
   <!-- FLOATING QUICK BUTTONS -->
   <div class="floatbar" aria-label="Quick actions">
-    <a class="floatbar__btn floatbar__btn--wa" id="fabWhatsApp" href="<?= esc($sMap['whatsapp'] ?? '#') ?>" target="_blank" rel="noreferrer"
-      data-label="WhatsApp" aria-label="WhatsApp">
-      <svg class="ico" aria-hidden="true">
-        <use href="#i-whatsapp"></use>
-      </svg>
-    </a>
-    <a class="floatbar__btn" id="fabInstagram" href="<?= esc($sMap['instagram'] ?? '#') ?>" target="_blank" rel="noreferrer" data-label="Instagram"
-      aria-label="Instagram">
-      <svg class="ico" aria-hidden="true">
-        <use href="#i-instagram"></use>
-      </svg>
-    </a>
-    <a class="floatbar__btn" id="fabTikTok" href="<?= esc($sMap['tiktok'] ?? '#') ?>" target="_blank" rel="noreferrer" data-label="TikTok"
-      aria-label="TikTok">
-      <svg class="ico" aria-hidden="true">
-        <use href="#i-tiktok"></use>
-      </svg>
-    </a>
-    <a class="floatbar__btn" id="fabLemon" href="<?= esc($sMap['lemon8'] ?? 'https://s.lemon8-app.com/s/GgUMhyccpw') ?>" target="_blank"
-      rel="noreferrer" data-label="Lemon" aria-label="TikTok">
-      🍋
-    </a>
+    <?php if (!empty($settings['contact_phone'])): ?>
+      <?php
+      $phoneClean = preg_replace('/[^0-9]/', '', $settings['contact_phone']);
+      if (str_starts_with($phoneClean, '0')) {
+        $phoneClean = '62' . substr($phoneClean, 1);
+      }
+      $waFloatUrl = 'https://wa.me/' . $phoneClean . '?text=Halo%20Annisa,%20saya%20mau%20diskusi%20project%20konten.';
+      ?>
+      <a class="floatbar__btn floatbar__btn--wa" id="fabWhatsApp" href="<?= esc($waFloatUrl) ?>" target="_blank"
+        rel="noreferrer" data-label="WhatsApp" aria-label="WhatsApp">
+        <i class="bi bi-whatsapp fs-5 text-pink"></i>
+      </a>
+    <?php endif; ?>
+
+    <?php if (!empty($socials)): ?>
+      <?php foreach ($socials as $soc): ?>
+        <?php
+        $pLower = strtolower($soc['platform']);
+        if ($pLower === 'whatsapp')
+          continue;
+        $href = $soc['url'];
+        if ($pLower === 'email' && !str_starts_with($href, 'mailto:')) {
+          $href = 'mailto:' . $href;
+        }
+        $iconClass = !empty($soc['icon']) ? $soc['icon'] : 'ri-link';
+        ?>
+        <a class="floatbar__btn" href="<?= esc($href) ?>" target="_blank" rel="noreferrer"
+          data-label="<?= esc($soc['platform']) ?>" aria-label="<?= esc($soc['platform']) ?>">
+          <?php if ($pLower === 'instagram'): ?>
+            <svg class="ico" aria-hidden="true">
+              <use href="#i-instagram"></use>
+            </svg>
+          <?php elseif ($pLower === 'tiktok'): ?>
+            <svg class="ico" aria-hidden="true">
+              <use href="#i-tiktok"></use>
+            </svg>
+          <?php elseif ($pLower === 'youtube'): ?>
+            <svg class="ico" aria-hidden="true">
+              <use href="#i-youtube"></use>
+            </svg>
+          <?php elseif ($pLower === 'lemon8' || $pLower === 'lemon'): ?>
+            🍋
+          <?php else: ?>
+            <i class="<?= esc($iconClass) ?> fs-5 text-pink"></i>
+          <?php endif; ?>
+        </a>
+      <?php endforeach; ?>
+    <?php endif; ?>
+
     <button class="floatbar__btn floatbar__btn--theme" id="fabTheme" type="button" data-label="Theme"
       aria-label="Toggle theme">
       <svg class="ico" id="fabMoon" aria-hidden="true">
@@ -1140,7 +1458,9 @@
           <div class="modal__tag" id="modalTag">Platform</div>
           <h3 class="modal__title" id="modalTitle">Project Title</h3>
           <p class="modal__desc" id="modalDesc">Description</p>
-          <ul class="modal__bullets" id="modalBullets" style="margin-top: 16px; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px;"></ul>
+          <ul class="modal__bullets" id="modalBullets"
+            style="margin-top: 16px; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px;">
+          </ul>
         </div>
 
         <div class="modal__actions">
@@ -1167,16 +1487,19 @@
 
   <!-- SVG ICON SPRITE (no library) -->
   <svg class="sprite" aria-hidden="true">
-    <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
       <line x1="5" y1="12" x2="19" y2="12"></line>
       <polyline points="12 5 19 12 12 19"></polyline>
     </symbol>
-    <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
       <line x1="19" y1="12" x2="5" y2="12"></line>
       <polyline points="12 19 5 12 12 5"></polyline>
     </symbol>
 
-    <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
       <polyline points="9 18 15 12 9 6"></polyline>
     </symbol>
     <symbol id="i-moon" viewBox="0 0 24 24">
@@ -1317,48 +1640,611 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
     window.PROJECTS = <?= json_encode(array_map(function ($p) {
-                        return [
-                          'id' => 'p' . $p['id'],
-                          'platform' => $p['category_slug'] ?? 'travel',
-                          'title' => $p['title'],
-                          'desc' => $p['description'],
-                          'views' => $p['views'] ?? '',
-                          'ctr' => $p['ctr'] ?? '',
-                          'outcome' => $p['project_link'] ?? '',
-                          'tag' => $p['tag'] ?? '',
-                          'bullets' => $p['bullets'] ?? [],
-                          'thumb' => base_url('assets/uploads/projects/' . $p['thumbnail']),
-                          'images' => $p['images'] ?? [],
-                          'gallery' => $p['gallery'] ?? [],
-                          'youtube' => $p['youtube_url'] ?? ''
-                        ];
-                      }, $projects)) ?>;
+      return [
+        'id' => 'p' . $p['id'],
+        'platform' => $p['category_slug'] ?? 'travel',
+        'title' => $p['title'],
+        'desc' => $p['description'],
+        'views' => $p['views'] ?? '',
+        'ctr' => $p['ctr'] ?? '',
+        'outcome' => $p['project_link'] ?? '',
+        'tag' => $p['tag'] ?? '',
+        'bullets' => $p['bullets'] ?? [],
+        'thumb' => base_url('assets/uploads/projects/' . $p['thumbnail']),
+        'images' => $p['images'] ?? [],
+        'gallery' => $p['gallery'] ?? [],
+        'youtube' => $p['youtube_url'] ?? ''
+      ];
+    }, $projects)) ?>;
+    <?php $sMap = array_column($socials ?? [], 'url', 'platform'); ?>
     window.LINKS = {
-      instagram: "<?= esc($sMap['instagram'] ?? 'https://www.instagram.com/annisaesce/') ?>",
-      tiktok: "<?= esc($sMap['tiktok'] ?? 'https://www.tiktok.com/@annisaesce') ?>",
-      youtube: "<?= esc($sMap['youtube'] ?? 'https://www.youtube.com/@AnnisaHanif') ?>",
-      email: "mailto:<?= esc($sMap['email'] ?? 'annisahanif161@gmail.com') ?>",
-      whatsapp: "<?= esc($sMap['whatsapp'] ?? 'https://wa.me/6289519561589?text=Halo%20saya%20mau%20collab%20untuk%20project%20konten.') ?>"
+      instagram: "<?= esc($sMap['Instagram'] ?? $sMap['instagram'] ?? '') ?>",
+      tiktok: "<?= esc($sMap['TikTok'] ?? $sMap['tiktok'] ?? '') ?>",
+      youtube: "<?= esc($sMap['YouTube'] ?? $sMap['youtube'] ?? '') ?>",
+      email: "mailto:<?= esc($settings['contact_email'] ?? $sMap['Email'] ?? $sMap['email'] ?? '') ?>",
+      whatsapp: "<?= esc(!empty($settings['contact_phone']) ? 'https://wa.me/' . preg_replace('/[^0-9]/', '', $settings['contact_phone']) : ($sMap['WhatsApp'] ?? $sMap['whatsapp'] ?? '')) ?>"
     };
   </script>
   <script src="<?= base_url('assets/script.js?v=' . time()) ?>" defer></script>
 
-  <script
-    type="text/javascript">
-    window.$crisp = [];
-    window.CRISP_WEBSITE_ID = "db91ee50-f9dd-4b59-97c3-53d4a9a13353";
-    (function() {
-      d = document;
-      s = d.createElement("script");
-      s.src = "https://client.crisp.chat/l.js";
-      s.async = 1;
-      d.getElementsByTagName("head")[0].appendChild(s);
-    })();
+  <!-- Crisp Chat Widget (Disabled / Commented out)
+  <script type="text/javascript">
+    // window.$crisp = [];
+    // window.CRISP_WEBSITE_ID = "db91ee50-f9dd-4b59-97c3-53d4a9a13353";
+    // (function() {
+    //   d = document;
+    //   s = d.createElement("script");
+    //   s.src = "https://client.crisp.chat/l.js";
+    //   s.async = 1;
+    //   d.getElementsByTagName("head")[0].appendChild(s);
+    // })();
   </script>
+  -->
+
+  <!-- Style Custom Modal Estetik -->
+  <style>
+    .aesthetic-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(30, 15, 32, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .aesthetic-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .aesthetic-modal-card {
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid rgba(255, 105, 180, 0.35);
+      border-radius: 28px;
+      padding: 38px 32px 32px;
+      width: 90%;
+      max-width: 430px;
+      text-align: center;
+      box-shadow:
+        0 25px 60px rgba(230, 99, 119, 0.35),
+        0 10px 25px rgba(0, 0, 0, 0.1),
+        inset 0 0 15px rgba(255, 182, 193, 0.4);
+      transform: scale(0.75) translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .aesthetic-modal-overlay.active .aesthetic-modal-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .aesthetic-modal-icon {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff69b4 0%, #ec407a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 42px;
+      box-shadow:
+        0 10px 25px rgba(236, 64, 122, 0.45),
+        0 0 0 6px rgba(255, 182, 193, 0.35);
+      animation: modalPulse 2s infinite ease-in-out;
+    }
+
+    @keyframes modalPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 10px 25px rgba(236, 64, 122, 0.45), 0 0 0 6px rgba(255, 182, 193, 0.35);
+      }
+
+      50% {
+        transform: scale(1.06);
+        box-shadow: 0 14px 30px rgba(236, 64, 122, 0.6), 0 0 0 10px rgba(255, 182, 193, 0.2);
+      }
+    }
+
+    .aesthetic-modal-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #2d1b2e;
+      margin: 0 0 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .aesthetic-modal-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #6a556d;
+      margin: 0 0 26px;
+    }
+
+    .aesthetic-modal-btn {
+      background: linear-gradient(135deg, #ff69b4 0%, #ec407a 100%);
+      color: #ffffff !important;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: 50px;
+      padding: 13px 38px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(236, 64, 122, 0.35);
+      transition: all 0.25s ease;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .aesthetic-modal-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(236, 64, 122, 0.5);
+      background: linear-gradient(135deg, #ff7ab8 0%, #f04e85 100%);
+    }
+  </style>
+
+  <!-- Modal Sukses Kontak Estetik -->
+  <div id="aestheticSuccessModal" class="aesthetic-modal-overlay">
+    <div class="aesthetic-modal-card">
+      <div class="aesthetic-modal-icon">
+        <i class="ri-checkbox-circle-fill"></i>
+      </div>
+      <h3 class="aesthetic-modal-title">Pesan Terkirim! 🎉</h3>
+      <p class="aesthetic-modal-desc">
+        Terima kasih sudah menghubungi <strong>Annisa Esce</strong>.<br>
+        Pesan kamu sudah diterima dan akan dibalas maksimal dalam <strong>1 × 24 jam</strong>.
+      </p>
+      <button type="button" class="aesthetic-modal-btn" onclick="closeAestheticModal()">
+        Sama-sama! 💖
+      </button>
+    </div>
+  </div>
 
   <script>
-    window.$crisp = window.$crisp || [];
-    $crisp.push(["config", "position:reverse", true]);
+    function showAestheticModal() {
+      const modal = document.getElementById('aestheticSuccessModal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeAestheticModal() {
+      const modal = document.getElementById('aestheticSuccessModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const submitBtn = document.getElementById('contactSubmitBtn');
+          const btnText = submitBtn ? submitBtn.querySelector('.btn-text') : null;
+          const btnLoading = submitBtn ? submitBtn.querySelector('.btn-loading') : null;
+
+          if (submitBtn) submitBtn.disabled = true;
+          if (btnText) btnText.style.display = 'none';
+          if (btnLoading) btnLoading.style.display = 'inline-flex';
+
+          const formData = new FormData(contactForm);
+
+          fetch(contactForm.action, {
+            method: 'POST',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: formData
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (submitBtn) submitBtn.disabled = false;
+              if (btnText) btnText.style.display = 'inline-flex';
+              if (btnLoading) btnLoading.style.display = 'none';
+
+              if (data.status === 'success') {
+                contactForm.reset();
+                showAestheticModal();
+              } else {
+                alert('Terjadi kesalahan. Silakan coba lagi.');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        });
+      }
+    });
+  </script>
+
+  <!-- FLOATING SPARKLE BUTTERFLY BUTTON (KIRI BAWAH) -->
+  <div class="landing-butterfly-fab" id="landingButterflyBtn" title="Magic Sparkles ✨">
+    <i class="ri-sparkling-fill"></i>
+  </div>
+
+  <style>
+    /* Floating Butterfly Button - Kiri Bawah Landing Page */
+    .landing-butterfly-fab {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff69b4 0%, #ec407a 100%);
+      color: #ffffff;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(236, 64, 122, 0.45);
+      cursor: pointer;
+      z-index: 999999;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .landing-butterfly-fab:hover {
+      transform: scale(1.12) rotate(15deg);
+      box-shadow: 0 14px 35px rgba(236, 64, 122, 0.65);
+    }
+
+    .landing-butterfly-fab.btn-pop {
+      animation: fabPopEffect 0.4s ease-out;
+    }
+
+    @keyframes fabPopEffect {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.35) rotate(-20deg); }
+      100% { transform: scale(1); }
+    }
+
+    /* Butterfly Elements */
+    .butterfly-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 999999;
+      will-change: transform, opacity;
+      display: inline-block;
+      filter: drop-shadow(0 4px 12px rgba(236, 64, 122, 0.45));
+    }
+
+    .butterfly-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+    }
+
+    .butterfly-wing-l {
+      transform-origin: right center;
+      animation: wingFlapLeft 0.16s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    }
+
+    .butterfly-wing-r {
+      transform-origin: left center;
+      animation: wingFlapRight 0.16s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    }
+
+    @keyframes wingFlapLeft {
+      0% { transform: rotateY(0deg); }
+      100% { transform: rotateY(-65deg); }
+    }
+
+    @keyframes wingFlapRight {
+      0% { transform: rotateY(0deg); }
+      100% { transform: rotateY(65deg); }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const landingFab = document.getElementById('landingButterflyBtn');
+      if (!landingFab) return;
+
+      landingFab.addEventListener('click', function (e) {
+        landingFab.classList.remove('btn-pop');
+        void landingFab.offsetWidth;
+        landingFab.classList.add('btn-pop');
+
+        const rect = landingFab.getBoundingClientRect();
+        const startX = rect.left + rect.width / 2;
+        const startY = rect.top + rect.height / 2;
+
+        const colors = [
+          { l: '#ff69b4', r: '#ec407a' },
+          { l: '#ff80ab', r: '#ff4081' },
+          { l: '#f48fb1', r: '#d81b60' },
+          { l: '#f06292', r: '#c2185b' },
+          { l: '#ba68c8', r: '#ab47bc' },
+          { l: '#ffd54f', r: '#ffb300' }
+        ];
+
+        const count = 50;
+
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => {
+            createLandingButterfly(startX, startY, colors[i % colors.length]);
+          }, i * 35);
+        }
+      });
+
+      function createLandingButterfly(startX, startY, color) {
+        const butterfly = document.createElement('div');
+        butterfly.className = 'butterfly-particle';
+
+        const size = Math.floor(Math.random() * 26) + 24;
+        const flapSpeed = (Math.random() * 0.10 + 0.12).toFixed(2);
+
+        butterfly.style.width = size + 'px';
+        butterfly.style.height = size + 'px';
+        butterfly.style.left = (startX - size / 2) + 'px';
+        butterfly.style.top = (startY - size / 2) + 'px';
+
+        butterfly.innerHTML = `
+          <div class="butterfly-body">
+            <svg class="butterfly-wing-l" width="${size/2}" height="${size}" viewBox="0 0 50 80" style="animation-duration: ${flapSpeed}s;">
+              <path d="M50 40 C30 0, 0 10, 5 35 C10 50, 45 45, 50 40 Z M50 42 C30 50, 10 65, 20 78 C35 85, 48 55, 50 42 Z" fill="${color.l}" opacity="0.95"/>
+              <circle cx="30" cy="25" r="4" fill="#ffffff" opacity="0.85"/>
+              <circle cx="20" cy="35" r="2.5" fill="#ffffff" opacity="0.85"/>
+            </svg>
+            <svg class="butterfly-wing-r" width="${size/2}" height="${size}" viewBox="0 0 50 80" style="animation-duration: ${flapSpeed}s;">
+              <path d="M0 40 C20 0, 50 10, 45 35 C40 50, 5 45, 0 40 Z M0 42 C20 50, 40 65, 30 78 C15 85, 2 55, 0 42 Z" fill="${color.r}" opacity="0.95"/>
+              <circle cx="20" cy="25" r="4" fill="#ffffff" opacity="0.85"/>
+              <circle cx="30" cy="35" r="2.5" fill="#ffffff" opacity="0.85"/>
+            </svg>
+          </div>
+        `;
+
+        document.body.appendChild(butterfly);
+
+        // Fly from bottom-left across the entire landing page screen to top-right
+        const targetX = Math.random() * (window.innerWidth - 100); 
+        const targetY = - (Math.random() * (window.innerHeight + 300) + 400); 
+        const rotation = (Math.random() - 0.5) * 120;
+        const duration = Math.random() * 3000 + 4500; // 4.5s to 7.5s
+        const swirlAmp = (Math.random() - 0.5) * 220;
+
+        const animation = butterfly.animate([
+          {
+            transform: `translate(0px, 0px) rotate(0deg) scale(0.3)`,
+            opacity: 1
+          },
+          {
+            transform: `translate(${targetX * 0.25 + swirlAmp}px, ${targetY * 0.25}px) rotate(${rotation * 0.4}deg) scale(1.1)`,
+            opacity: 0.95,
+            offset: 0.25
+          },
+          {
+            transform: `translate(${targetX * 0.6 - swirlAmp}px, ${targetY * 0.6}px) rotate(${rotation * 0.8}deg) scale(1)`,
+            opacity: 0.85,
+            offset: 0.6
+          },
+          {
+            transform: `translate(${targetX * 0.85 + swirlAmp * 0.5}px, ${targetY * 0.85}px) rotate(${rotation * 1.1}deg) scale(0.85)`,
+            opacity: 0.5,
+            offset: 0.85
+          },
+          {
+            transform: `translate(${targetX}px, ${targetY}px) rotate(${rotation}deg) scale(0.4)`,
+            opacity: 0
+          }
+        ], {
+          duration: duration,
+          easing: 'cubic-bezier(0.2, 0.4, 0.4, 1)',
+          fill: 'forwards'
+        });
+
+        animation.onfinish = function () {
+          butterfly.remove();
+        };
+      }
+    });
+  </script>
+
+  <!-- ============================================================
+       SCROLL BUTTERFLY – TERBANG KE SETIAP SECTION
+  ============================================================= -->
+  <script>
+  (function () {
+    /* ─── 1. CONFIG: urutan section + target landing ─── */
+    var SECTIONS = [
+      { sectionId: 'home',         targetId: null,               /* hero butterfly itu sendiri */ },
+      { sectionId: 'about',        targetId: 'butterfly-landing-target' },
+      { sectionId: 'brands',       targetId: 'bfly-brands'       },
+      { sectionId: 'projects',     targetId: 'bfly-projects'     },
+      { sectionId: 'achievements', targetId: 'bfly-achievements' },
+      { sectionId: 'resume',       targetId: 'bfly-resume'       },
+      { sectionId: 'customers',    targetId: 'bfly-customers'    },
+      { sectionId: 'contact',      targetId: 'bfly-contact'      },
+    ];
+
+    var heroBfly  = document.querySelector('.frame-butterfly-ornament');
+    if (!heroBfly) return;
+
+    var currentIdx  = 0;   // index SECTIONS yang aktif sekarang
+    var isFlying    = false;
+    var flyingClone = null;
+    var landedEl    = null;
+    var rafId       = null;
+
+    /* ─── 2. Detect active section index by scroll ─── */
+    function getActiveIdx() {
+      var best = 0;
+      var vh = window.innerHeight;
+      for (var i = 0; i < SECTIONS.length; i++) {
+        var el = document.getElementById(SECTIONS[i].sectionId);
+        if (!el) continue;
+        var rect = el.getBoundingClientRect();
+        // section dianggap aktif jika bagian atasnya sudah melewati 40% viewport
+        if (rect.top <= vh * 0.4) best = i;
+      }
+      return best;
+    }
+
+    /* ─── 3. Helper: quadratic bezier ─── */
+    function easeInOut(t) {
+      return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+    }
+
+    function bezier(p0, cp, p1, t) {
+      return Math.pow(1-t,2)*p0 + 2*(1-t)*t*cp + t*t*p1;
+    }
+
+    /* ─── 4. Fly animation between two screen coords ─── */
+    function flyBetween(fx, fy, tx, ty, dur, onDone) {
+      if (flyingClone) { flyingClone.remove(); flyingClone = null; }
+      if (rafId)       { cancelAnimationFrame(rafId); rafId = null; }
+
+      flyingClone = document.createElement('div');
+      flyingClone.className = 'frame-butterfly-ornament';
+      flyingClone.innerHTML = heroBfly.innerHTML;
+      flyingClone.style.cssText =
+        'position:fixed;z-index:99999;pointer-events:none;width:100px;height:100px;' +
+        'left:' + fx + 'px;top:' + fy + 'px;' +
+        'filter:drop-shadow(0 0 20px rgba(255,64,129,.95)) drop-shadow(0 0 8px #ff80ab);' +
+        'will-change:transform,left,top;transition:none;';
+      document.body.appendChild(flyingClone);
+
+      // control point: arc bulging upward & sideways
+      var midX = (fx + tx) / 2;
+      var cpX  = midX + (Math.random() > 0.5 ? 1 : -1) * 100;
+      var cpY  = Math.min(fy, ty) - 180;
+      var startTime = null;
+
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var p = Math.min((ts - startTime) / dur, 1);
+        var t = easeInOut(p);
+        var x = bezier(fx, cpX, tx, t);
+        var y = bezier(fy, cpY, ty, t);
+        var rot = -15 + t * 40;
+        var sc  = 0.95 + Math.sin(t * Math.PI) * 0.2;
+        var op  = t < 0.85 ? 1 : 1 - ((t-0.85)/0.15)*0.5;
+        if (flyingClone) {
+          flyingClone.style.left      = x + 'px';
+          flyingClone.style.top       = y + 'px';
+          flyingClone.style.transform = 'rotate('+rot+'deg) scale('+sc+')';
+          flyingClone.style.opacity   = op;
+        }
+        if (p < 1) { rafId = requestAnimationFrame(step); }
+        else {
+          if (flyingClone) { flyingClone.remove(); flyingClone = null; }
+          if (onDone) onDone();
+        }
+      }
+      rafId = requestAnimationFrame(step);
+    }
+
+    /* ─── 5. Get landing position (fixed coords) for a section index ─── */
+    function getLandingPos(idx) {
+      if (idx === 0) {
+        // Home: hero butterfly itself
+        var r = heroBfly.getBoundingClientRect();
+        return { x: r.left, y: r.top };
+      }
+      var el = document.getElementById(SECTIONS[idx].targetId);
+      if (!el) {
+        var sec = document.getElementById(SECTIONS[idx].sectionId);
+        if (!sec) return { x: 80, y: 80 };
+        var r2 = sec.getBoundingClientRect();
+        return { x: r2.left + 20, y: r2.top + 20 };
+      }
+      var r3 = el.getBoundingClientRect();
+      return { x: r3.left - 20, y: r3.top - 40 };
+    }
+
+    /* ─── 6. Show/hide landed ornament at a target element ─── */
+    function removeLanded() {
+      if (landedEl) {
+        landedEl.style.opacity = '0';
+        var el = landedEl; landedEl = null;
+        setTimeout(function() { if (el && el.parentNode) el.parentNode.removeChild(el); }, 350);
+      }
+    }
+
+    function showLanded(idx) {
+      removeLanded();
+      if (idx === 0) {
+        // Back on hero: just show hero butterfly
+        heroBfly.style.transition = 'opacity 0.35s ease';
+        heroBfly.style.opacity = '1';
+        return;
+      }
+      var targetId = SECTIONS[idx].targetId;
+      if (!targetId) return;
+      var titleEl = document.getElementById(targetId);
+      if (!titleEl) return;
+
+      landedEl = document.createElement('div');
+      landedEl.innerHTML = heroBfly.innerHTML;
+      landedEl.style.cssText =
+        'position:absolute;top:-36px;left:-10px;width:80px;height:80px;' +
+        'pointer-events:none;z-index:10;' +
+        'filter:drop-shadow(0 0 18px rgba(255,64,129,.95));' +
+        'animation:aboutButterflyLanded 3s ease-in-out infinite alternate;' +
+        'transform-origin:center bottom;opacity:0;transition:opacity 0.4s ease;';
+      titleEl.style.position = 'relative';
+      titleEl.appendChild(landedEl);
+      setTimeout(function() { if (landedEl) landedEl.style.opacity = '1'; }, 50);
+    }
+
+    /* ─── 7. Fly from section A → section B ─── */
+    function flyToSection(fromIdx, toIdx) {
+      if (isFlying) return;
+      isFlying = true;
+
+      // Hide hero butterfly if leaving home
+      if (fromIdx === 0) {
+        heroBfly.style.transition = 'opacity 0.2s ease';
+        heroBfly.style.opacity = '0';
+      }
+      // Fade out current landed ornament immediately
+      removeLanded();
+
+      var from = getLandingPos(fromIdx);
+      var to   = getLandingPos(toIdx);
+      var dist = Math.hypot(to.x - from.x, to.y - from.y);
+      var dur  = Math.max(900, Math.min(1800, dist * 1.2));
+
+      flyBetween(from.x, from.y, to.x, to.y, dur, function() {
+        currentIdx = toIdx;
+        isFlying   = false;
+        showLanded(toIdx);
+      });
+    }
+
+    /* ─── 8. Scroll watcher ─── */
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() {
+        ticking = false;
+        if (isFlying) return;
+        var newIdx = getActiveIdx();
+        if (newIdx !== currentIdx) {
+          flyToSection(currentIdx, newIdx);
+        }
+      });
+    }, { passive: true });
+
+    /* ─── 9. Init state on page load (e.g. refresh mid-page) ─── */
+    var initIdx = getActiveIdx();
+    if (initIdx !== 0) {
+      heroBfly.style.opacity = '0';
+      currentIdx = initIdx;
+      showLanded(initIdx);
+    }
+
+  })();
   </script>
 
 </body>

@@ -1,8 +1,11 @@
 <?= $this->extend('admin/layouts/app') ?>
 
 <?= $this->section('content') ?>
-<div class="mb-4">
-    <h4 class="mb-0 fw-bold">Kelola Kontak & Pesan</h4>
+<div class="admin-page-header">
+    <div>
+        <h2 class="mb-1">Kelola Kontak & Pesan</h2>
+        <p class="text-muted mb-0">Pantau pesan masuk pengunjung, sosial media link, dan informasi kontak.</p>
+    </div>
 </div>
 
 <ul class="nav nav-pills mb-4 custom-tabs" id="contactTabs" role="tablist">
@@ -39,32 +42,38 @@
                         </thead>
                         <tbody>
                             <?php foreach($messages as $item): ?>
-                                <tr class="<?= !$item['is_read'] ? 'table-light fw-medium' : '' ?>">
-                                    <td><?= date('d M Y H:i', strtotime($item['created_at'] ?? 'now')) ?></td>
-                                    <td><?= esc($item['name']) ?></td>
-                                    <td><a href="mailto:<?= esc($item['email']) ?>"><?= esc($item['email']) ?></a></td>
+                                <tr class="<?= !$item['is_read'] ? 'unread-row fw-bold' : '' ?>">
+                                    <td class="text-nowrap" style="color: #6a556d; font-size: 13px;">
+                                        <i class="ri-calendar-line me-1 text-pink"></i><?= date('d M Y H:i', strtotime($item['created_at'] ?? 'now')) ?>
+                                    </td>
+                                    <td class="fw-bold" style="color: #2d1b2e;"><?= esc($item['name']) ?></td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-light text-start w-100 border text-truncate" style="max-width:200px" data-bs-toggle="modal" data-bs-target="#msgModal<?= $item['id'] ?>">
-                                            <?= esc($item['message']) ?>
+                                        <a href="mailto:<?= esc($item['email']) ?>" class="text-pink fw-semibold text-decoration-none">
+                                            <i class="ri-mail-line me-1"></i><?= esc($item['email']) ?>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-msg-preview border-0" data-bs-toggle="modal" data-bs-target="#msgModal<?= $item['id'] ?>" title="Klik untuk lihat pesan penuh">
+                                            <i class="ri-chat-history-line me-1 text-pink"></i><?= esc($item['message']) ?>
                                         </button>
                                     </td>
                                     <td>
                                         <?php if($item['is_read']): ?>
-                                            <span class="badge bg-secondary">Terbaca</span>
+                                            <span class="badge badge-pink-read"><i class="ri-check-double-line me-1"></i>Terbaca</span>
                                         <?php else: ?>
-                                            <span class="badge bg-primary">Baru</span>
+                                            <span class="badge badge-pink-new"><i class="ri-sparkling-fill me-1"></i>Baru</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-end text-nowrap">
                                         <?php if(!$item['is_read']): ?>
                                             <form action="<?= base_url('admin/contacts/message/read/' . $item['id']) ?>" method="post" class="d-inline">
                                                 <?= csrf_field() ?>
-                                                <button type="submit" class="btn btn-sm btn-outline-success me-1" title="Tandai Terbaca"><i class="bi bi-check2-all"></i></button>
+                                                <button type="submit" class="btn-action-icon btn-action-check me-1" title="Tandai Terbaca"><i class="ri-check-line"></i></button>
                                             </form>
                                         <?php endif; ?>
                                         <form action="<?= base_url('admin/contacts/message/delete/' . $item['id']) ?>" method="post" class="d-inline delete-form">
                                             <?= csrf_field() ?>
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                            <button type="submit" class="btn-action-icon btn-action-delete" title="Hapus"><i class="ri-delete-bin-line"></i></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -100,15 +109,15 @@
                         <tbody>
                             <?php foreach($socials as $item): ?>
                                 <tr>
-                                    <td><i class="ri-<?= esc($item['icon']) ?> fs-4 text-primary"></i></td>
+                                    <td><i class="ri-<?= esc($item['icon']) ?> fs-4 text-pink"></i></td>
                                     <td class="fw-medium"><?= esc($item['platform']) ?></td>
-                                    <td><a href="<?= esc($item['url']) ?>" target="_blank"><?= esc($item['url']) ?></a></td>
+                                    <td><a href="<?= esc($item['url']) ?>" target="_blank" class="text-pink fw-semibold"><?= esc($item['url']) ?></a></td>
                                     <td><?= $item['sort_order'] ?></td>
                                     <td class="text-end">
-                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editSocialModal<?= $item['id'] ?>"><i class="bi bi-pencil"></i></button>
+                                        <button class="btn btn-action-check me-1" data-bs-toggle="modal" data-bs-target="#editSocialModal<?= $item['id'] ?>" title="Edit"><i class="bi bi-pencil"></i></button>
                                         <form action="<?= base_url('admin/contacts/social/delete/' . $item['id']) ?>" method="post" class="d-inline delete-form">
                                             <?= csrf_field() ?>
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                            <button type="submit" class="btn btn-action-delete" title="Hapus"><i class="bi bi-trash"></i></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -146,8 +155,24 @@
                     <div class="mb-3">
                         <label class="form-label">Google Maps Iframe Embed Code (Opsional)</label>
                         <textarea class="form-control" name="contact_map_iframe" rows="4" placeholder='<iframe src="..."></iframe>'><?= esc($settings['contact_map_iframe'] ?? '') ?></textarea>
-                        <small class="text-muted">Dapatkan kode iframe embed dari Google Maps. Biarkan kosong jika tidak ingin menampilkan peta.</small>
+                        <small class="text-muted d-block mb-3">Dapatkan kode iframe embed dari Google Maps. Biarkan kosong jika tidak ingin menampilkan peta.</small>
                     </div>
+
+                    <!-- Live Realtime Preview Peta Google Maps -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-pink d-flex align-items-center gap-2">
+                            <i class="ri-map-pin-2-fill fs-5"></i> Live Realtime Preview Peta Google Maps
+                        </label>
+                        <div id="mapPreviewBox" class="p-3 rounded-4 bg-white border border-pink-subtle shadow-sm">
+                            <div id="mapPreviewContent" style="width: 100%; height: 260px; border-radius: 16px; overflow: hidden; background: #fff5f8;" class="d-flex align-items-center justify-content-center text-muted">
+                                <div class="text-center p-3">
+                                    <i class="ri-map-pin-line fs-1 text-pink opacity-50 mb-2 d-block"></i>
+                                    <span class="small fw-medium text-secondary">Preview peta akan langsung muncul di sini ketika Anda memasukkan / mengedit kode iframe.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary"><i class="bi bi-save me-2"></i> Simpan Pengaturan</button>
                     </div>
@@ -259,4 +284,43 @@
     color: #fff;
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mapTextarea = document.querySelector('textarea[name="contact_map_iframe"]');
+    const mapPreviewContent = document.getElementById('mapPreviewContent');
+
+    function updateMapPreview() {
+        if (!mapTextarea || !mapPreviewContent) return;
+        const code = mapTextarea.value.trim();
+        
+        if (code !== '') {
+            mapPreviewContent.innerHTML = code;
+            const iframe = mapPreviewContent.querySelector('iframe');
+            if (iframe) {
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = '0';
+                iframe.style.borderRadius = '16px';
+            }
+        } else {
+            mapPreviewContent.innerHTML = `
+                <div class="text-center p-3">
+                    <i class="ri-map-pin-line fs-1 text-pink opacity-50 mb-2 d-block"></i>
+                    <span class="small fw-medium text-secondary">Preview peta akan langsung muncul di sini ketika Anda memasukkan / mengedit kode iframe.</span>
+                </div>
+            `;
+        }
+    }
+
+    if (mapTextarea) {
+        mapTextarea.addEventListener('input', updateMapPreview);
+        mapTextarea.addEventListener('paste', function() {
+            setTimeout(updateMapPreview, 100);
+        });
+        mapTextarea.addEventListener('keyup', updateMapPreview);
+        updateMapPreview();
+    }
+});
+</script>
 <?= $this->endSection() ?>

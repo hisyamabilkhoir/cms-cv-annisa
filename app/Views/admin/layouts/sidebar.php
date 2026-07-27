@@ -66,24 +66,32 @@
             <div class="nav-icon"><i class="ri-chat-heart-line"></i></div>
             <span class="nav-label">Testimonials</span>
         </a>
-        <a href="<?= base_url('admin/contact-messages') ?>" class="nav-item <?= ($uri->getSegment(2) == 'contact-messages') ? 'active' : '' ?>">
+        <a href="<?= base_url('admin/contacts') ?>" class="nav-item <?= (in_array($uri->getSegment(2), ['contacts', 'contact-messages'])) ? 'active' : '' ?>">
             <div class="nav-icon"><i class="ri-mail-unread-line"></i></div>
-            <span class="nav-label">Pesan Masuk</span>
+            <span class="nav-label">Pesan & Kontak</span>
         </a>
-        <a href="<?= base_url('admin/settings') ?>" class="nav-item <?= ($uri->getSegment(2) == 'settings') ? 'active' : '' ?>">
+        <a href="<?= base_url('admin/account') ?>" class="nav-item <?= (in_array($uri->getSegment(2), ['settings', 'account'])) ? 'active' : '' ?>">
             <div class="nav-icon"><i class="ri-settings-4-line"></i></div>
-            <span class="nav-label">Pengaturan</span>
+            <span class="nav-label">Pengaturan Akun</span>
         </a>
     </div>
 
     <!-- Bottom Sidebar Profile Widget -->
+    <?php 
+    $sAvatar = session()->get('admin_avatar');
+    $sName   = session()->get('admin_name') ?? 'Administrator';
+    $sEmail  = session()->get('admin_email') ?? 'admin@annisa.com';
+    $sAvatarUrl = (!empty($sAvatar) && file_exists(FCPATH . 'assets/uploads/avatars/' . $sAvatar)) 
+                  ? base_url('assets/uploads/avatars/' . $sAvatar) 
+                  : 'https://ui-avatars.com/api/?name=' . urlencode($sName) . '&background=ff69b4&color=fff';
+    ?>
     <div class="sidebar-user-card">
         <div class="user-avatar-wrapper">
-            <img src="<?= base_url('assets/logo.jpeg') ?>" alt="Admin Avatar" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Annisa+Esce&background=ff69b4&color=fff'">
+            <img src="<?= $sAvatarUrl ?>" alt="Admin Avatar" class="user-avatar">
         </div>
         <div class="user-info">
-            <h4 class="user-name"><?= session()->get('admin_name') ?? 'Administrator' ?></h4>
-            <span class="user-email">admin@annisa.com</span>
+            <h4 class="user-name"><?= esc($sName) ?></h4>
+            <span class="user-email"><?= esc($sEmail) ?></span>
         </div>
         <div class="dropdown">
             <button class="user-more-btn" data-bs-toggle="dropdown" aria-expanded="false">
@@ -93,7 +101,7 @@
                 <li><a class="dropdown-item" href="<?= base_url('admin/account') ?>"><i class="ri-user-settings-line me-2"></i> Pengaturan Akun</a></li>
                 <li><a class="dropdown-item" href="<?= base_url() ?>" target="_blank"><i class="ri-external-link-line me-2"></i> Lihat Website</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="<?= base_url('admin/logout') ?>"><i class="ri-logout-box-r-line me-2"></i> Logout</a></li>
+                <li><a class="dropdown-item text-danger btn-logout" href="<?= base_url('admin/logout') ?>"><i class="ri-logout-box-r-line me-2"></i> Logout</a></li>
             </ul>
         </div>
     </div>

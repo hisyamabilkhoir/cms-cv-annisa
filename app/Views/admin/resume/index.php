@@ -1,8 +1,11 @@
 <?= $this->extend('admin/layouts/app') ?>
 
 <?= $this->section('content') ?>
-<div class="mb-4">
-    <h4 class="mb-0 fw-bold">Kelola Resume & Skills</h4>
+<div class="admin-page-header">
+    <div>
+        <h2 class="mb-1">Kelola Resume & Skills</h2>
+        <p class="text-muted mb-0">Kelola riwayat pengalaman kerja, tingkat keahlian (skills), & software tools.</p>
+    </div>
 </div>
 
 <ul class="nav nav-pills mb-4 custom-tabs" id="resumeTabs" role="tablist">
@@ -124,7 +127,7 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                                                <div class="progress-bar bg-primary" style="width: <?= $item['percentage'] ?>%"></div>
+                                                <div class="progress-bar bg-pink-gradient" style="width: <?= $item['percentage'] ?>%; background: linear-gradient(135deg, #ff69b4 0%, #ec407a 100%);"></div>
                                             </div>
                                             <span><?= $item['percentage'] ?>%</span>
                                         </div>

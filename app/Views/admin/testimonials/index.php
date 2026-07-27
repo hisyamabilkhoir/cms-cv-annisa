@@ -1,8 +1,11 @@
 <?= $this->extend('admin/layouts/app') ?>
 
 <?= $this->section('content') ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="mb-0 fw-bold">Kelola Testimonial</h4>
+<div class="admin-page-header">
+    <div>
+        <h2 class="mb-1">Kelola Testimonial</h2>
+        <p class="text-muted mb-0">Kelola ulasan klien, nama brand, rating bintang, & kutipan opini.</p>
+    </div>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
         <i class="bi bi-plus-circle me-2"></i>Tambah Testimonial
     </button>
@@ -27,10 +30,24 @@
                     <?php foreach ($testimonials as $item): ?>
                         <tr>
                             <td>
-                                <?php if($item['logo']): ?>
-                                    <img src="<?= base_url('assets/uploads/testimonials/' . $item['logo']) ?>" alt="<?= esc($item['brand_name']) ?>" style="max-height: 40px; border-radius: 5px;">
+                                <?php 
+                                $logoSrc = '';
+                                if (!empty($item['logo'])) {
+                                    if (file_exists(FCPATH . 'assets/uploads/testimonials/' . $item['logo'])) {
+                                        $logoSrc = base_url('assets/uploads/testimonials/' . $item['logo']);
+                                    } elseif (file_exists(FCPATH . 'assets/assets/' . $item['logo'])) {
+                                        $logoSrc = base_url('assets/assets/' . $item['logo']);
+                                    } elseif (file_exists(FCPATH . 'assets/images/' . $item['logo'])) {
+                                        $logoSrc = base_url('assets/images/' . $item['logo']);
+                                    } elseif (file_exists(FCPATH . 'assets/' . $item['logo'])) {
+                                        $logoSrc = base_url('assets/' . $item['logo']);
+                                    }
+                                }
+                                ?>
+                                <?php if($logoSrc): ?>
+                                    <img src="<?= $logoSrc ?>" alt="<?= esc($item['brand_name']) ?>" class="rounded-circle bg-light p-1 border shadow-sm" style="width: 44px; height: 44px; object-fit: cover;">
                                 <?php else: ?>
-                                    <span class="text-muted">Tidak ada</span>
+                                    <span class="badge bg-light text-muted border rounded-pill">Tidak ada</span>
                                 <?php endif; ?>
                             </td>
                             <td class="fw-medium"><?= esc($item['brand_name']) ?></td>
@@ -98,8 +115,31 @@
                         
                         <div class="mb-3">
                             <label class="form-label">Logo / Avatar</label>
-                            <input type="file" class="form-control mb-2" name="logo" accept="image/*">
-                            <small class="text-muted">Biarkan kosong jika tidak ingin mengubah logo.</small>
+                            <input type="file" class="form-control mb-2 image-preview-input" name="logo" accept="image/*" data-preview="edit-testi-preview-<?= $item['id'] ?>">
+                            <div class="p-2 rounded-3 border bg-light text-center">
+                                <?php 
+                                $editLogoSrc = '';
+                                if (!empty($item['photo'] ?? $item['logo'])) {
+                                    $fileLogo = $item['logo'] ?? $item['photo'];
+                                    if (file_exists(FCPATH . 'assets/uploads/testimonials/' . $fileLogo)) {
+                                        $editLogoSrc = base_url('assets/uploads/testimonials/' . $fileLogo);
+                                    } elseif (file_exists(FCPATH . 'assets/assets/' . $fileLogo)) {
+                                        $editLogoSrc = base_url('assets/assets/' . $fileLogo);
+                                    } elseif (file_exists(FCPATH . 'assets/images/' . $fileLogo)) {
+                                        $editLogoSrc = base_url('assets/images/' . $fileLogo);
+                                    } elseif (file_exists(FCPATH . 'assets/' . $fileLogo)) {
+                                        $editLogoSrc = base_url('assets/' . $fileLogo);
+                                    }
+                                }
+                                ?>
+                                <?php if($editLogoSrc): ?>
+                                    <img id="edit-testi-preview-<?= $item['id'] ?>" src="<?= $editLogoSrc ?>" class="rounded-circle shadow-sm border p-1 bg-white" style="width: 70px; height: 70px; object-fit: cover;">
+                                    <small class="text-muted d-block mt-1"><i class="ri-image-line me-1 text-pink"></i> File saat ini: <?= esc($item['logo']) ?></small>
+                                <?php else: ?>
+                                    <img id="edit-testi-preview-<?= $item['id'] ?>" src="" class="rounded-circle shadow-sm border p-1 bg-white" style="display:none; width: 70px; height: 70px; object-fit: cover;">
+                                    <small class="text-muted d-block" id="edit-testi-placeholder-<?= $item['id'] ?>"><i class="ri-image-add-line fs-4 d-block text-pink"></i> Belum ada logo di-upload</small>
+                                <?php endif; ?>
+                            </div>
                         </div>
                         
                         <div class="mb-3">
@@ -155,7 +195,11 @@
                     
                     <div class="mb-3">
                         <label class="form-label">Logo / Avatar</label>
-                        <input type="file" class="form-control" name="logo" accept="image/*">
+                        <input type="file" class="form-control mb-2 image-preview-input" name="logo" accept="image/*" data-preview="add-testi-preview">
+                        <div class="p-2 rounded-3 border bg-light text-center">
+                            <img id="add-testi-preview" src="" class="rounded-circle shadow-sm border p-1 bg-white" style="display:none; width: 70px; height: 70px; object-fit: cover;">
+                            <small class="text-muted d-block" id="add-testi-placeholder"><i class="ri-image-add-line fs-4 d-block text-pink"></i> Preview logo akan tampil di sini</small>
+                        </div>
                     </div>
                     
                     <div class="mb-3">
@@ -185,4 +229,37 @@
         </div>
     </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.image-preview-input').forEach(input => {
+        input.addEventListener('change', function() {
+            const previewId = this.dataset.preview;
+            if (previewId) {
+                const previewImg = document.getElementById(previewId);
+                if (previewImg && this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        previewImg.style.display = 'inline-block';
+                        
+                        // Hide any placeholder text, icons, or current file notes in the container
+                        const container = previewImg.closest('.p-2, .preview-img-container');
+                        if (container) {
+                            container.querySelectorAll('small, span, div.text-pink, #edit-photo-fallback-' + previewId.replace(/[^0-9]/g, '')).forEach(el => {
+                                if (el !== previewImg) {
+                                    el.style.display = 'none';
+                                }
+                            });
+                        }
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            }
+        });
+    });
+});
+</script>
 <?= $this->endSection() ?>

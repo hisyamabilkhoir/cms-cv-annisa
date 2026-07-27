@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
             for (let i = 1; i <= totalPages; i++) {
                 const li = document.createElement('li');
                 li.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                li.innerHTML = `<button class="page-link" style="${i === currentPage ? 'background-color: var(--primary-color); border-color: var(--primary-color); color: white;' : 'color: var(--primary-color);'}">${i}</button>`;
+                li.innerHTML = `<button class="page-link">${i}</button>`;
                 li.addEventListener('click', () => {
                     currentPage = i;
                     renderTable();

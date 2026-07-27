@@ -134,4 +134,42 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 150);
         }
     });
+
+    // Logout Confirmation Modal (SweetAlert2)
+    document.addEventListener('click', function(e) {
+        const logoutBtn = e.target.closest('.btn-logout');
+        if (logoutBtn) {
+            e.preventDefault();
+            const logoutUrl = logoutBtn.getAttribute('href');
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Keluar dari Sesi?',
+                    text: 'Anda harus memasukkan username & password kembali untuk mengakses admin.',
+                    icon: 'question',
+                    iconColor: '#d64eaa',
+                    showCancelButton: true,
+                    confirmButtonText: '<i class="ri-logout-box-r-line me-1"></i> Ya, Logout',
+                    cancelButtonText: 'Batal',
+                    customClass: {
+                        popup: 'pink-swal-popup',
+                        title: 'pink-swal-title',
+                        htmlContainer: 'pink-swal-html',
+                        confirmButton: 'btn btn-pink-danger rounded-pill px-4 py-2 me-2',
+                        cancelButton: 'btn btn-light rounded-pill px-4 py-2 border'
+                    },
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = logoutUrl;
+                    }
+                });
+            } else {
+                if (confirm('Apakah Anda yakin ingin logout dari admin?')) {
+                    window.location.href = logoutUrl;
+                }
+            }
+        }
+    });
 });

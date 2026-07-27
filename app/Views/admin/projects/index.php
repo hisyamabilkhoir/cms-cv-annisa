@@ -1,8 +1,11 @@
 <?= $this->extend('admin/layouts/app') ?>
 
 <?= $this->section('content') ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="mb-0 fw-bold">Kelola Project</h4>
+<div class="admin-page-header">
+    <div>
+        <h2 class="mb-1">Kelola Projects & Portfolio</h2>
+        <p class="text-muted mb-0">Kelola daftar project portofolio, thumbnail, galeri, & embed YouTube.</p>
+    </div>
     <a href="<?= base_url('admin/projects/create') ?>" class="btn btn-primary">
         <i class="bi bi-plus-circle me-2"></i>Tambah Project
     </a>

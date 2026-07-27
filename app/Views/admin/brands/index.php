@@ -1,8 +1,11 @@
 <?= $this->extend('admin/layouts/app') ?>
 
 <?= $this->section('content') ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h4 mb-0 fw-bold text-dark">Kelola Brands & Partners</h1>
+<div class="admin-page-header">
+    <div>
+        <h2 class="mb-1">Kelola Brands & Partners</h2>
+        <p class="text-muted mb-0">Kelola daftar logo brand, deskripsi kolaborasi, & background section.</p>
+    </div>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
         <i class="ri-add-circle-line me-2"></i>Tambah Brand
     </button>
@@ -84,10 +87,24 @@
                     <?php foreach ($brands as $item): ?>
                         <tr>
                             <td>
-                                <?php if($item['logo']): ?>
-                                    <img src="<?= base_url('assets/uploads/brands/' . $item['logo']) ?>" alt="<?= esc($item['name']) ?>" style="max-height: 40px; border-radius: 6px;">
+                                <?php 
+                                $brandLogoSrc = '';
+                                if (!empty($item['logo'])) {
+                                    if (file_exists(FCPATH . 'assets/uploads/brands/' . $item['logo'])) {
+                                        $brandLogoSrc = base_url('assets/uploads/brands/' . $item['logo']);
+                                    } elseif (file_exists(FCPATH . 'assets/assets/' . $item['logo'])) {
+                                        $brandLogoSrc = base_url('assets/assets/' . $item['logo']);
+                                    } elseif (file_exists(FCPATH . 'assets/images/' . $item['logo'])) {
+                                        $brandLogoSrc = base_url('assets/images/' . $item['logo']);
+                                    } elseif (file_exists(FCPATH . 'assets/' . $item['logo'])) {
+                                        $brandLogoSrc = base_url('assets/' . $item['logo']);
+                                    }
+                                }
+                                ?>
+                                <?php if($brandLogoSrc): ?>
+                                    <img src="<?= $brandLogoSrc ?>" alt="<?= esc($item['name']) ?>" class="rounded bg-light p-1 border shadow-sm" style="max-height: 40px; max-width: 80px; object-fit: contain;">
                                 <?php else: ?>
-                                    <span class="text-muted">Tidak ada logo</span>
+                                    <span class="badge bg-light text-muted border">Tidak ada logo</span>
                                 <?php endif; ?>
                             </td>
                             <td class="fw-bold"><?= esc($item['name']) ?></td>

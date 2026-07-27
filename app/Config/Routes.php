@@ -12,6 +12,7 @@ $routes->post('send-message', 'HomeController::sendMessage');
 
 // Admin Auth
 $routes->get('admin', 'Admin\AuthController::login');
+$routes->get('admin/login', 'Admin\AuthController::login');
 $routes->post('admin/login/process', 'Admin\AuthController::process');
 $routes->get('admin/logout', 'Admin\AuthController::logout');
 
@@ -47,8 +48,9 @@ $routes->group('admin', ['filter' => 'auth'], static function ($routes) {
     $routes->post('brands/update/(:num)', 'Admin\BrandController::update/$1');
     $routes->post('brands/delete/(:num)', 'Admin\BrandController::delete/$1');
 
-    // Contacts
+    // Contacts & Messages
     $routes->get('contacts', 'Admin\ContactController::index');
+    $routes->get('contact-messages', 'Admin\ContactController::index');
     $routes->post('contacts/settings/update', 'Admin\ContactController::updateSettings');
     // Social
     $routes->post('contacts/social/store', 'Admin\ContactController::storeSocial');
@@ -112,7 +114,9 @@ $routes->group('admin', ['filter' => 'auth'], static function ($routes) {
     $routes->post('resume/tool/delete/(:num)', 'Admin\ResumeController::deleteTool/$1');
     $routes->post('settings/update', 'Admin\SettingsController::update');
 
-    // Account
+    // Account & Settings
     $routes->get('account', 'Admin\AccountController::index');
     $routes->post('account/update', 'Admin\AccountController::update');
+    $routes->get('settings', 'Admin\AccountController::index');
+    $routes->post('settings/update', 'Admin\AccountController::update');
 });

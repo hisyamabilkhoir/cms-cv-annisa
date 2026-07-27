@@ -1,15 +1,18 @@
 <?= $this->extend('admin/layouts/app') ?>
 
 <?= $this->section('content') ?>
-<div class="mb-4">
-    <h4 class="mb-0 fw-bold">Pengaturan Akun</h4>
+<div class="admin-page-header">
+    <div>
+        <h2 class="mb-1">Pengaturan Akun Saya</h2>
+        <p class="text-muted mb-0">Kelola nama profil administrator, alamat email, password, & foto avatar.</p>
+    </div>
 </div>
 
 <div class="row">
     <div class="col-md-8 mx-auto">
         <div class="card">
             <div class="card-body p-4">
-                <form action="<?= base_url('admin/account/update') ?>" method="post" enctype="multipart/form-data">
+                <form action="<?= base_url('admin/account/update') ?>" method="post" enctype="multipart/form-data" autocomplete="off">
                     <?= csrf_field() ?>
                     
                     <div class="text-center mb-4">
@@ -29,17 +32,17 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Nama Lengkap *</label>
-                            <input type="text" class="form-control" name="name" value="<?= $admin['name'] ?? '' ?>" required>
+                            <input type="text" class="form-control" name="name" value="<?= esc($admin['name'] ?? '') ?>" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Email *</label>
-                            <input type="email" class="form-control" name="email" value="<?= $admin['email'] ?? '' ?>" required>
+                            <input type="email" class="form-control" name="email" value="<?= esc($admin['email'] ?? '') ?>" required>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Username (Untuk Login) *</label>
-                        <input type="text" class="form-control" name="username" value="<?= $admin['username'] ?? '' ?>" required>
+                        <input type="text" class="form-control" name="username" value="<?= esc($admin['username'] ?? '') ?>" required autocomplete="off">
                     </div>
 
                     <hr class="my-4">
@@ -51,7 +54,12 @@
                     
                     <div class="mb-3">
                         <label class="form-label">Password Baru</label>
-                        <input type="password" class="form-control" name="password" minlength="6" placeholder="Masukkan password baru...">
+                        <div class="position-relative">
+                            <input type="password" class="form-control pe-5" id="accountPassword" name="password" minlength="6" placeholder="Masukkan password baru..." autocomplete="new-password" value="">
+                            <button type="button" id="toggleAccountPassword" class="btn btn-link text-muted position-absolute end-0 top-50 translate-middle-y text-decoration-none pe-3 shadow-none border-0" style="z-index: 5;" aria-label="Toggle password visibility">
+                                <i class="ri-eye-off-line fs-5"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-end mt-4">
@@ -65,6 +73,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Avatar preview
     const avatarInput = document.getElementById('avatar-input');
     const avatarPreview = document.getElementById('avatar-preview');
     
@@ -76,6 +85,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     avatarPreview.src = e.target.result;
                 }
                 reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+
+    // Toggle Password Visibility
+    const toggleBtn = document.getElementById('toggleAccountPassword');
+    const passwordInput = document.getElementById('accountPassword');
+    if (toggleBtn && passwordInput) {
+        toggleBtn.addEventListener('click', function() {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.className = isPassword ? 'ri-eye-line fs-5 text-primary' : 'ri-eye-off-line fs-5';
             }
         });
     }

@@ -1,8 +1,11 @@
 <?= $this->extend('admin/layouts/app') ?>
 
 <?= $this->section('content') ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="mb-0 fw-bold">Kategori Project</h4>
+<div class="admin-page-header">
+    <div>
+        <h2 class="mb-1">Kategori Project</h2>
+        <p class="text-muted mb-0">Kelola kategori filter untuk mengelompokkan project portfolio.</p>
+    </div>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
         <i class="bi bi-plus-circle me-2"></i>Tambah Kategori
     </button>

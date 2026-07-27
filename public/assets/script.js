@@ -1623,10 +1623,10 @@ if (typeof Swiper !== "undefined" && document.querySelector(".csay-swiper")) {
     speed: 600,
     watchSlidesProgress: true,
     breakpoints: {
-      480: { slidesPerView: 2, spaceBetween: 16, centeredSlides: false },
-      768: { slidesPerView: 3, spaceBetween: 18, centeredSlides: false },
-      1024: { slidesPerView: 4, spaceBetween: 20, centeredSlides: false },
-      1280: { slidesPerView: 5, spaceBetween: 22, centeredSlides: false },
+      480: { slidesPerView: 2, spaceBetween: 16, centeredSlides: true },
+      768: { slidesPerView: 3, spaceBetween: 18, centeredSlides: true },
+      1024: { slidesPerView: 4, spaceBetween: 20, centeredSlides: true },
+      1280: { slidesPerView: 5, spaceBetween: 22, centeredSlides: true },
     },
     navigation: {
       nextEl: ".csay-next",

@@ -56,6 +56,17 @@ class AccountController extends BaseController
         }
 
         $this->adminModel->update($adminId, $data);
+
+        // Immediately sync updated profile data to session
+        $updatedAdmin = $this->adminModel->find($adminId);
+        if ($updatedAdmin) {
+            session()->set([
+                'admin_username' => $updatedAdmin['username'],
+                'admin_name'     => $updatedAdmin['name'],
+                'admin_email'    => $updatedAdmin['email'],
+                'admin_avatar'   => $updatedAdmin['avatar'] ?? '',
+            ]);
+        }
         
         return redirect()->to('admin/account')->with('success', 'Profil akun berhasil diperbarui.');
     }

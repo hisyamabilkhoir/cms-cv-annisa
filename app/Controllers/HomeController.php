@@ -130,14 +130,22 @@ class HomeController extends BaseController
     {
         $messageModel = new \App\Models\ContactMessageModel();
         $data = [
-            'name' => $this->request->getPost('name'),
-            'email' => $this->request->getPost('email'),
-            'message' => $this->request->getPost('message'),
+            'name'       => $this->request->getPost('name'),
+            'email'      => $this->request->getPost('email'),
+            'message'    => $this->request->getPost('message'),
             'created_at' => date('Y-m-d H:i:s'),
-            'is_read' => 0
+            'is_read'    => 0
         ];
 
         $messageModel->insert($data);
+
+        if ($this->request->isAJAX()) {
+            return $this->response->setJSON([
+                'status'  => 'success',
+                'message' => 'Pesan Anda berhasil dikirim! Terima kasih telah menghubungi Annisa.'
+            ]);
+        }
+
         return redirect()->to('/#contact')->with('success', 'Pesan Anda berhasil dikirim!');
     }
 }

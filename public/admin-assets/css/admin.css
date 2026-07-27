@@ -30,6 +30,25 @@
     scrollbar-color: #ff69b4 rgba(255, 240, 246, 0.7);
 }
 
+/* Pink Utility Classes */
+.text-pink,
+table td i.ri-user-fill,
+table td i.ri-briefcase-fill,
+table td i.ri-film-fill,
+table td i[class*="ri-"] {
+    color: #ec407a !important;
+}
+
+.bg-pink {
+    background-color: #ec407a !important;
+}
+
+.bg-pink-soft,
+.bg-pink-subtle {
+    background-color: #ffe6f0 !important;
+    color: #ec407a !important;
+}
+
 /* =========================================================
    CUSTOM PINK SCROLLBAR (Browser & Containers)
    ========================================================= */
@@ -349,20 +368,74 @@ body.pink-theme {
     flex: 1;
 }
 
-/* Floating Glass Topbar */
+/* Topbar Glass & Sidebar Mobile Toggler */
 .topbar-glass {
-    background: rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
     border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.88);
-    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.08);
     padding: 10px 22px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
-    z-index: 1050;
+    position: sticky !important;
+    top: 20px !important;
+    z-index: 1050 !important;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar Mobile & Desktop Toggler Button (Pink Aesthetic) */
+.sidebar-mobile-toggler,
+.sidebar-toggler,
+.btn-toggle-sidebar {
+    background: rgba(255, 105, 180, 0.12) !important;
+    border: 1px solid rgba(255, 105, 180, 0.25) !important;
+    color: #ec407a !important;
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 14px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 12px rgba(236, 64, 122, 0.12) !important;
+}
+
+@media (min-width: 992px) {
+    .sidebar-mobile-toggler {
+        display: none !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .sidebar-mobile-toggler {
+        display: inline-flex !important;
+    }
+}
+
+.sidebar-mobile-toggler i,
+.sidebar-toggler i,
+.btn-toggle-sidebar i {
+    color: #ec407a !important;
+}
+
+.sidebar-mobile-toggler:hover,
+.sidebar-toggler:hover,
+.btn-toggle-sidebar:hover {
+    background: #ec407a !important;
+    color: #ffffff !important;
+    border-color: #ec407a !important;
+    transform: scale(1.06);
+    box-shadow: 0 6px 18px rgba(236, 64, 122, 0.35) !important;
+}
+
+.sidebar-mobile-toggler:hover i,
+.sidebar-toggler:hover i,
+.btn-toggle-sidebar:hover i {
+    color: #ffffff !important;
 }
 
 /* Topbar Search Bar */
@@ -815,6 +888,11 @@ body.pink-theme {
     box-shadow: 0 6px 16px rgba(255, 183, 77, 0.3);
 }
 
+.action-icon-teal {
+    background: linear-gradient(135deg, #1abc9c 0%, #00b894 100%);
+    box-shadow: 0 6px 16px rgba(0, 184, 148, 0.3);
+}
+
 .quick-action-info {
     flex: 1;
 }
@@ -1019,6 +1097,53 @@ body.pink-theme {
 .floating-sparkle-btn:hover {
     transform: scale(1.1) rotate(15deg);
     box-shadow: 0 14px 35px rgba(236, 64, 122, 0.6);
+}
+
+.floating-sparkle-btn.btn-pop {
+    animation: fabPopEffect 0.4s ease-out;
+}
+
+@keyframes fabPopEffect {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.35) rotate(-20deg); }
+    100% { transform: scale(1); }
+}
+
+/* Magic Flying Butterflies Elements */
+.butterfly-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 999999;
+    will-change: transform, opacity;
+    display: inline-block;
+    filter: drop-shadow(0 4px 12px rgba(236, 64, 122, 0.45));
+}
+
+.butterfly-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+}
+
+.butterfly-wing-l {
+    transform-origin: right center;
+    animation: wingFlapLeft 0.16s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+.butterfly-wing-r {
+    transform-origin: left center;
+    animation: wingFlapRight 0.16s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+@keyframes wingFlapLeft {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(-65deg); }
+}
+
+@keyframes wingFlapRight {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(65deg); }
 }
 
 
@@ -1303,6 +1428,39 @@ body.modal-open .admin-wrapper {
     border-right-color: transparent;
 }
 
+/* Admin Page Header Glassmorphic Card */
+.admin-page-header {
+    background: rgba(255, 255, 255, 0.88) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-radius: 20px !important;
+    padding: 20px 26px !important;
+    margin-bottom: 24px !important;
+    border: 1px solid rgba(255, 182, 193, 0.45) !important;
+    box-shadow: 0 10px 30px rgba(236, 64, 122, 0.08) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+}
+
+.admin-page-header h1,
+.admin-page-header h2,
+.admin-page-header h4 {
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    color: #2d1b2e !important;
+    margin: 0 0 4px !important;
+    letter-spacing: -0.3px !important;
+}
+
+.admin-page-header p {
+    color: #6a556d !important;
+    font-size: 14px !important;
+    margin: 0 !important;
+}
+
 /* SweetAlert2 Aesthetic Pink Glassmorphism Theme */
 .pink-swal-popup {
     background: rgba(255, 255, 255, 0.96) !important;
@@ -1390,5 +1548,349 @@ body.modal-open .admin-wrapper {
 
 .custom-tabs .nav-link.active i {
     color: #ffffff !important;
+}
+
+/* =========================================================
+   CUSTOM VIBRANT PINK PAGINATION STYLES
+   ========================================================= */
+.pagination {
+    gap: 6px !important;
+    align-items: center;
+}
+
+.pagination .page-item .page-link {
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 105, 180, 0.25) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #ec407a !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    padding: 6px 14px !important;
+    box-shadow: 0 2px 8px rgba(236, 64, 122, 0.05) !important;
+    transition: all 0.25s ease !important;
+}
+
+.pagination .page-item .page-link:hover {
+    background: #ffe6f0 !important;
+    color: #d81b60 !important;
+    border-color: rgba(236, 64, 122, 0.4) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(236, 64, 122, 0.15) !important;
+}
+
+.pagination .page-item.active .page-link,
+.pagination .page-item.active button.page-link {
+    background: linear-gradient(90deg, #ff69b4 0%, #ec407a 100%) !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 14px rgba(236, 64, 122, 0.45) !important;
+    transform: scale(1.04);
+}
+
+.pagination .page-item.disabled .page-link {
+    background: rgba(245, 245, 245, 0.6) !important;
+    color: #c4b5c4 !important;
+    border-color: rgba(230, 230, 230, 0.4) !important;
+    opacity: 0.7;
+    box-shadow: none !important;
+}
+
+/* =========================================================
+   CUSTOM AESTHETIC PINK TABLE STYLES
+   ========================================================= */
+.custom-datatable {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 8px !important;
+    margin-top: 10px !important;
+}
+
+.custom-datatable thead th {
+    background: rgba(255, 240, 246, 0.85) !important;
+    color: #8c7f95 !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    padding: 14px 18px !important;
+    border: none !important;
+}
+
+.custom-datatable thead th:first-child {
+    border-top-left-radius: 14px !important;
+    border-bottom-left-radius: 14px !important;
+}
+
+.custom-datatable thead th:last-child {
+    border-top-right-radius: 14px !important;
+    border-bottom-right-radius: 14px !important;
+}
+
+.custom-datatable tbody tr {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 14px rgba(233, 30, 99, 0.03) !important;
+    transition: all 0.25s ease !important;
+}
+
+.custom-datatable tbody tr:hover {
+    background: rgba(255, 255, 255, 0.98) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 22px rgba(236, 64, 122, 0.12) !important;
+}
+
+.custom-datatable tbody td {
+    padding: 14px 18px !important;
+    vertical-align: middle !important;
+    border: none !important;
+    color: #3b2c40 !important;
+    font-size: 13.5px !important;
+}
+
+/* Link URL Pink di Tabel Admin */
+.custom-datatable tbody td a,
+.table tbody td a {
+    color: #ec407a !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.custom-datatable tbody td a:hover,
+.table tbody td a:hover {
+    color: #d81b60 !important;
+    text-decoration: underline !important;
+}
+
+.custom-datatable tbody td:first-child {
+    border-top-left-radius: 16px !important;
+    border-bottom-left-radius: 16px !important;
+}
+
+.custom-datatable tbody td:last-child {
+    border-top-right-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+}
+
+/* Row unread highlight */
+.custom-datatable tbody tr.unread-row {
+    background: rgba(255, 230, 240, 0.65) !important;
+    border-left: 4px solid #ec407a !important;
+}
+
+/* Badge New (Baru) */
+.badge-pink-new {
+    background: linear-gradient(135deg, #ff69b4 0%, #ec407a 100%) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    padding: 6px 14px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 4px 12px rgba(236, 64, 122, 0.35) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+/* Badge Read (Terbaca) */
+.badge-pink-read {
+    background: rgba(236, 64, 122, 0.08) !important;
+    color: #ec407a !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    padding: 5px 13px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(236, 64, 122, 0.25) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+/* Preview Teks Pesan Button */
+.btn-msg-preview {
+    background: rgba(255, 240, 246, 0.75) !important;
+    border: 1px solid rgba(255, 105, 180, 0.28) !important;
+    color: #4a384c !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    border-radius: 12px !important;
+    padding: 7px 14px !important;
+    text-align: left !important;
+    max-width: 220px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+}
+
+.btn-msg-preview:hover {
+    background: rgba(255, 230, 240, 0.98) !important;
+    border-color: #ec407a !important;
+    color: #ec407a !important;
+    box-shadow: 0 4px 12px rgba(236, 64, 122, 0.15) !important;
+}
+
+/* Action Icons Round Buttons */
+.btn-action-icon {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 15px !important;
+    border: 1px solid transparent !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+}
+
+.btn-action-check {
+    background: rgba(46, 125, 50, 0.08) !important;
+    color: #2e7d32 !important;
+    border-color: rgba(46, 125, 50, 0.25) !important;
+}
+
+.btn-action-check:hover {
+    background: #2e7d32 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3) !important;
+}
+
+.btn-action-delete {
+    background: rgba(239, 83, 80, 0.08) !important;
+    color: #ef5350 !important;
+    border-color: rgba(239, 83, 80, 0.25) !important;
+}
+
+.btn-action-delete:hover {
+    background: #ef5350 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(239, 83, 80, 0.3) !important;
+}
+
+/* Mobile Admin Dashboard Custom Background Override */
+@media (max-width: 991.98px) {
+    body.admin-body,
+    body,
+    .admin-wrapper {
+        background-image: url('../images/bg-dashboard-mobile.png') !important;
+        background-size: cover !important;
+        background-position: center top !important;
+        background-repeat: no-repeat !important;
+        background-attachment: scroll !important;
+    }
+}
+
+/* Table & Badge Aesthetic Pink Theme Overrides */
+.nav-pill-wrapper {
+    background: rgba(255, 105, 180, 0.08) !important;
+    border: 1px solid rgba(255, 105, 180, 0.2) !important;
+    border-radius: 50px !important;
+    padding: 3px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.nav-pill-wrapper .nav-link {
+    color: #6a556d !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    padding: 4px 14px !important;
+    border-radius: 50px !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    line-height: 1.2 !important;
+    box-shadow: none !important;
+}
+
+.nav-pill-wrapper .nav-link:hover {
+    color: #ec407a !important;
+}
+
+.nav-pill-wrapper .nav-link.active {
+    background: linear-gradient(135deg, #ff69b4 0%, #ec407a 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(236, 64, 122, 0.3) !important;
+}
+.table.custom-datatable tbody td .badge.bg-primary,
+.badge.bg-primary,
+.badge-primary {
+    background: rgba(255, 105, 180, 0.15) !important;
+    color: #ec407a !important;
+    border: 1px solid rgba(255, 105, 180, 0.3) !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    padding: 5px 10px !important;
+    border-radius: 8px !important;
+}
+
+.table.custom-datatable tbody td .badge.bg-warning,
+.badge.bg-warning {
+    background: rgba(255, 179, 0, 0.12) !important;
+    color: #d88000 !important;
+    border: 1px solid rgba(255, 179, 0, 0.28) !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    padding: 5px 10px !important;
+    border-radius: 8px !important;
+}
+
+.table.custom-datatable tbody td .badge.bg-secondary,
+.badge.bg-secondary {
+    background: rgba(108, 117, 125, 0.12) !important;
+    color: #6c757d !important;
+    border: 1px solid rgba(108, 117, 125, 0.2) !important;
+    font-weight: 600 !important;
+    font-size: 11px !important;
+    padding: 5px 10px !important;
+    border-radius: 8px !important;
+}
+
+/* Custom Aesthetic Pink Dropdowns Override */
+.btn-pink-light {
+    background: rgba(255, 105, 180, 0.12) !important;
+    border: 1px solid rgba(255, 105, 180, 0.28) !important;
+    color: #ec407a !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    padding: 6px 16px !important;
+    border-radius: 50px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-pink-light:hover,
+.btn-pink-light:focus,
+.btn-pink-light.show {
+    background: #ec407a !important;
+    color: #ffffff !important;
+    border-color: #ec407a !important;
+    box-shadow: 0 4px 14px rgba(236, 64, 122, 0.35) !important;
+}
+
+.dropdown-menu .dropdown-item {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #4a3b4c !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background: rgba(255, 105, 180, 0.12) !important;
+    color: #ec407a !important;
+}
+
+.dropdown-menu .dropdown-item.active,
+.dropdown-menu .dropdown-item:active {
+    background: linear-gradient(135deg, #ff69b4 0%, #ec407a 100%) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 12px rgba(236, 64, 122, 0.3) !important;
 }
 

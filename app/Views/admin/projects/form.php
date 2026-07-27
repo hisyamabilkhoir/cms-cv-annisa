@@ -95,11 +95,15 @@
                         </select>
                     </div>
 
-                    <!-- Galeri Tambahan Upload Section -->
-                    <div class="p-3 rounded-4 mb-4" style="background: rgba(255, 240, 246, 0.35); border: 1px solid rgba(255, 105, 180, 0.2);">
-                        <label class="form-label fw-bold text-pink mb-1"><i class="ri-gallery-upload-line me-1"></i> Upload Galeri Foto Tambahan</label>
-                        <input type="file" class="form-control mb-2" name="gallery_files[]" multiple accept="image/*">
-                        <small class="text-muted d-block"><i class="ri-information-line me-1"></i> Anda dapat memilih beberapa foto sekaligus untuk dijadikan galeri di modal project.</small>
+                    <!-- Kelola Galeri Proyek Link Section -->
+                    <div class="p-3 rounded-4 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3" style="background: rgba(255, 240, 246, 0.5); border: 1px solid rgba(255, 105, 180, 0.25);">
+                        <div>
+                            <h6 class="fw-bold text-pink mb-1"><i class="ri-gallery-line me-2"></i> Kelola Galeri Proyek Dedicated</h6>
+                            <p class="mb-0 text-muted small"><i class="ri-information-line me-1"></i> Untuk mengunggah dan mengelola foto / video galeri secara khusus, silakan buka Halaman Galeri Proyek.</p>
+                        </div>
+                        <a href="<?= base_url('admin/project-galleries') ?>" class="btn btn-outline-pink rounded-pill px-4 py-2 flex-shrink-0">
+                            <i class="ri-external-link-line me-1"></i> Ke Galeri Proyek
+                        </a>
                     </div>
 
                     <hr>
@@ -135,19 +139,48 @@
         <!-- Existing Gallery Items (If Editing) -->
         <?php if(isset($project) && !empty($galleries)): ?>
             <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0 fw-bold"><i class="ri-image-2-line me-1 text-pink"></i> Galeri Foto Tersimpan</h6>
-                    <span class="badge bg-pink-subtle text-pink"><?= count($galleries) ?> Foto</span>
+                <div class="card-header d-flex justify-content-between align-items-center py-3 px-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <h6 class="mb-0 fw-bold"><i class="ri-image-2-line me-1 text-pink"></i> Galeri Tersimpan</h6>
+                        <span class="badge rounded-pill px-2 py-1 text-white shadow-sm" style="background: linear-gradient(90deg, #ff69b4, #ec407a); font-size: 11px; font-weight: 700;"><?= count($galleries) ?> Item</span>
+                    </div>
+                    <a href="<?= base_url('admin/project-galleries?project_id=' . $project['id']) ?>" class="btn btn-sm btn-outline-pink rounded-pill px-3 py-1 text-nowrap fw-bold" style="font-size: 12px;">
+                        <i class="ri-settings-4-line me-1"></i> Kelola Galeri
+                    </a>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-3">
                     <div class="row g-2">
                         <?php foreach($galleries as $g): ?>
                             <div class="col-6 position-relative">
                                 <div class="border rounded-3 overflow-hidden text-center p-1" style="background: rgba(0,0,0,0.02);">
-                                    <img src="<?= base_url('assets/uploads/projects/' . $g['file_path']) ?>" class="img-fluid rounded" style="height: 90px; object-fit: cover; width: 100%;">
+                                    <?php if (($g['media_type'] ?? 'image') === 'youtube') : ?>
+                                        <?php 
+                                            preg_match('/(?:embed\/|watch\?v=|shorts\/|youtu\.be\/)([a-zA-Z0-9_-]+)/i', $g['youtube_url'] ?? '', $ytMatch);
+                                            $ytId = $ytMatch[1] ?? '';
+                                            $thumbSrc = !empty($g['custom_thumbnail']) 
+                                                ? base_url('assets/uploads/projects/' . $g['custom_thumbnail']) 
+                                                : ($ytId ? "https://img.youtube.com/vi/{$ytId}/hqdefault.jpg" : base_url('assets/uploads/projects/' . ($g['file_path'] ?? '')));
+                                            $ytUrl = $g['youtube_url'] ?? '';
+                                        ?>
+                                        <div class="position-relative rounded overflow-hidden cursor-pointer" style="height: 90px;" onclick="playCardYoutube(this, '<?= esc($ytUrl) ?>')">
+                                            <img src="<?= $thumbSrc ?>" class="img-fluid rounded w-100 h-100 object-fit-cover">
+                                            <div class="position-absolute top-0 start-0 m-1 z-2">
+                                                <span class="badge bg-danger p-1 shadow-sm" style="font-size: 9px;"><i class="ri-youtube-fill"></i></span>
+                                            </div>
+                                            <div class="position-absolute inset-0 d-flex align-items-center justify-content-center" style="background: rgba(0,0,0,0.35); top:0; left:0; right:0; bottom:0;">
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 34px; height: 34px; background: #ff4081; color: white;">
+                                                    <i class="ri-play-fill fs-5 ms-1"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php else : ?>
+                                        <div class="position-relative rounded overflow-hidden" style="height: 90px;">
+                                            <img src="<?= base_url('assets/uploads/projects/' . $g['file_path']) ?>" class="img-fluid rounded w-100 h-100 object-fit-cover">
+                                        </div>
+                                    <?php endif; ?>
                                     <form action="<?= base_url('admin/projects/gallery/delete/' . $g['id']) ?>" method="post" class="delete-form mt-1">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-sm btn-outline-danger w-100 py-0" style="font-size: 11px;" title="Hapus foto ini">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger w-100 py-0" style="font-size: 11px;" title="Hapus item ini">
                                             <i class="ri-delete-bin-line me-1"></i> Hapus
                                         </button>
                                     </form>
@@ -163,6 +196,11 @@
 </div>
 
 <script>
+function playCardYoutube(container, embedUrl) {
+    if (!embedUrl) return;
+    container.innerHTML = `<iframe src="${embedUrl}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const thumbInput = document.querySelector('input[name="thumbnail"]');
     const placeholder = document.getElementById('thumb-placeholder');

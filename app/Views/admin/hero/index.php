@@ -1,8 +1,11 @@
 <?= $this->extend('admin/layouts/app') ?>
 
 <?= $this->section('content') ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h4 mb-0 fw-bold text-dark">Pengaturan Hero Section</h1>
+<div class="admin-page-header">
+    <div>
+        <h2 class="mb-1">Pengaturan Hero Section</h2>
+        <p class="text-muted mb-0">Kelola judul headline, typewrite words, foto hero, & file CV.</p>
+    </div>
 </div>
 
 <div class="card mb-4">

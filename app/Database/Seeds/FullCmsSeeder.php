@@ -63,7 +63,7 @@ class FullCmsSeeder extends Seeder
         // Add Testimonials
         $this->db->table('testimonials')->insertBatch([
             ['brand_name' => 'BISA AI', 'logo' => 'triptracker.jpeg', 'rating' => 5, 'text' => 'Gila sih, script dari Annisa bikin retensi video kita naik 40%.', 'is_active' => 1, 'sort_order' => 1],
-            ['brand_name' => 'Shaff.id', 'logo' => 'jack.jpeg', 'rating' => 5, 'text' => 'Editingnya nggak kaku, pacing-nya dapet banget buat TikTok.', 'is_active' => 1, 'sort_order' => 2],
+            ['brand_name' => 'Shaff.id', 'logo' => 'shaff-2.png', 'rating' => 5, 'text' => 'Editingnya nggak kaku, pacing-nya dapet banget buat TikTok.', 'is_active' => 1, 'sort_order' => 2],
             ['brand_name' => 'Al Fatih', 'logo' => 'f&b-1.jpeg', 'rating' => 5, 'text' => 'Kerja cepet, revisi minim, langsung paham brief tanpa banyak tanya.', 'is_active' => 1, 'sort_order' => 3],
         ]);
         
