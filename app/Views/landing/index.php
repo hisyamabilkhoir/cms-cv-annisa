@@ -755,13 +755,11 @@ if (!function_exists('getLogoSvgPlaceholder')) {
           <div class="portfolio-filters" role="tablist" aria-label="Filter projects"
             style="flex: 1; justify-content: flex-end; gap: 8px;">
             <button class="portfolio-filter active" data-filter="all" role="tab" aria-selected="true">All</button>
-            <button class="portfolio-filter" data-filter="property" role="tab" aria-selected="false">Property</button>
-            <button class="portfolio-filter" data-filter="travel" role="tab" aria-selected="false">Travel</button>
-            <button class="portfolio-filter" data-filter="f&b" role="tab" aria-selected="false">F&B</button>
-            <button class="portfolio-filter" data-filter="event" role="tab" aria-selected="false">Event</button>
-            <button class="portfolio-filter" data-filter="fashion" role="tab" aria-selected="false">Fashion</button>
-            <button class="portfolio-filter" data-filter="branding" role="tab" aria-selected="false">Branding</button>
-            <button class="portfolio-filter" data-filter="digital" role="tab" aria-selected="false">Digital</button>
+            <?php if (!empty($projectCategories)): ?>
+              <?php foreach ($projectCategories as $cat): ?>
+                <button class="portfolio-filter" data-filter="<?= esc($cat['slug']) ?>" role="tab" aria-selected="false"><?= esc($cat['name']) ?></button>
+              <?php endforeach; ?>
+            <?php endif; ?>
           </div>
 
         </div>
