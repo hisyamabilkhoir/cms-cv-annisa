@@ -140,6 +140,413 @@ if (!function_exists('resolveAchieveIconClass')) {
       fill: #ffffff !important;
     }
 
+    /* Achievements Photo Uncropped (100% Fit & No Cutting) */
+    .main-achieve__photo {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: rgba(10, 6, 18, 0.45) !important;
+      padding: 20px !important;
+      min-height: 380px !important;
+      overflow: hidden !important;
+    }
+
+    .main-achieve__photo img {
+      position: relative !important;
+      top: auto !important;
+      left: auto !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-height: 480px !important;
+      object-fit: contain !important;
+      object-position: center !important;
+      border-radius: 14px !important;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35) !important;
+    }
+
+    .main-achieve__photo::after {
+      display: none !important;
+    }
+
+    .main-achieve__photo-text {
+      display: none !important;
+    }
+
+    .achieve-item__photo img {
+      object-fit: contain !important;
+      background: rgba(10, 6, 18, 0.35) !important;
+      padding: 8px !important;
+    }
+
+    @media (max-width: 992px) {
+      .main-achieve__photo {
+        min-height: 260px !important;
+        padding: 14px !important;
+      }
+
+      .main-achieve__photo img {
+        max-height: 360px !important;
+      }
+    }
+
+    /* Achievement Detail Trigger Buttons & Modal */
+    .main-achieve__action-wrap {
+      margin-top: 24px;
+    }
+
+    .btn-achieve-detail {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, #ff69b4 0%, #d65a7f 100%);
+      color: #ffffff !important;
+      border: none;
+      border-radius: 50px;
+      padding: 11px 26px;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(255, 105, 180, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .btn-achieve-detail:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
+    }
+
+    .btn-achieve-detail-sm {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 105, 180, 0.12);
+      border: 1px solid rgba(255, 105, 180, 0.35);
+      color: #ff80ab !important;
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 12.5px;
+      font-weight: 600;
+      margin-top: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-achieve-detail-sm:hover {
+      background: #ff69b4;
+      border-color: #ff69b4;
+      color: #ffffff !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+    }
+
+    .main-achieve__photo[data-achieve-detail],
+    .achieve-item__photo[data-achieve-detail] {
+      cursor: pointer;
+    }
+
+    .achieve-photo-zoom-badge {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      background: rgba(15, 8, 22, 0.85);
+      border: 1px solid rgba(255, 105, 180, 0.4);
+      color: #ff80ab;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .main-achieve__photo:hover .achieve-photo-zoom-badge,
+    .achieve-item__photo:hover .achieve-photo-zoom-badge {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Modal Overlay & Dialog */
+    .achieve-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .achieve-modal.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .achieve-modal__backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(4, 2, 10, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .achieve-modal__container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      pointer-events: none;
+    }
+
+    .achieve-modal__dialog {
+      position: relative;
+      width: 100%;
+      max-width: 860px;
+      max-height: 90vh;
+      background: linear-gradient(145deg, rgba(28, 14, 38, 0.96) 0%, rgba(14, 10, 22, 0.98) 100%);
+      border: 1px solid rgba(255, 105, 180, 0.28);
+      border-radius: 24px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7), 0 0 50px rgba(255, 105, 180, 0.2);
+      pointer-events: auto;
+      overflow-y: auto;
+      transform: scale(0.94) translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .achieve-modal.active .achieve-modal__dialog {
+      transform: scale(1) translateY(0);
+    }
+
+    .achieve-modal__close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 105, 180, 0.15);
+      border: 1px solid rgba(255, 105, 180, 0.3);
+      color: #ffffff;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.2s ease;
+    }
+
+    .achieve-modal__close:hover {
+      background: #ff69b4;
+      transform: scale(1.1) rotate(90deg);
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+    }
+
+    .achieve-modal__body {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 32px;
+      gap: 28px;
+    }
+
+    .achieve-modal__media {
+      flex: 1 1 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(8, 5, 14, 0.5);
+      border: 1px solid rgba(255, 105, 180, 0.15);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .achieve-modal__img-box {
+      width: 100%;
+      min-height: 260px;
+      max-height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .achieve-modal__img-box img {
+      width: 100%;
+      height: 100%;
+      max-height: 380px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .achieve-modal__zoom-link {
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+      color: #ff80ab;
+      text-decoration: none;
+      margin-top: 12px;
+      opacity: 0.85;
+      transition: all 0.2s ease;
+    }
+
+    .achieve-modal__zoom-link:hover {
+      opacity: 1;
+      color: #ff69b4;
+      text-decoration: underline;
+    }
+
+    .achieve-modal__info {
+      flex: 1 1 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .achieve-modal__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .achieve-modal__tag {
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .achieve-modal__tag--cat {
+      background: rgba(255, 105, 180, 0.15);
+      border: 1px solid rgba(255, 105, 180, 0.35);
+      color: #ff80ab;
+    }
+
+    .achieve-modal__tag--year {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    .achieve-modal__tag--badge {
+      background: #ff69b4;
+      color: #ffffff;
+    }
+
+    .achieve-modal__title {
+      font-family: serif;
+      font-size: 24px;
+      line-height: 1.3;
+      color: #ffffff !important;
+      margin: 0 0 10px;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .achieve-modal__date {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 18px;
+    }
+
+    .achieve-modal__section-heading {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ff80ab;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+
+    .achieve-modal__desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.88) !important;
+      line-height: 1.7;
+      margin: 0 0 20px;
+    }
+
+    .achieve-modal__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 22px;
+    }
+
+    .achieve-modal__meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .achieve-modal__meta-item .meta-label {
+      font-size: 11px;
+      color: #ff80ab;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .achieve-modal__meta-item .meta-val {
+      font-size: 13.5px;
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .achieve-modal__footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .achieve-modal__btn-contact {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, #ff69b4, #e66377);
+      color: #ffffff !important;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .achieve-modal__btn-contact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .achieve-modal__body {
+        padding: 24px 18px;
+        gap: 20px;
+      }
+
+      .achieve-modal__title {
+        font-size: 20px;
+      }
+
+      .achieve-modal__img-box {
+        max-height: 280px;
+      }
+    }
+
     /* Achievements Empty State Styling */
     .achieve-empty-state {
       display: flex;
@@ -202,8 +609,13 @@ if (!function_exists('resolveAchieveIconClass')) {
     }
 
     @keyframes achieveEmptyFloat {
-      0% { transform: translateY(0px) scale(0.98); }
-      100% { transform: translateY(-6px) scale(1.02); }
+      0% {
+        transform: translateY(0px) scale(0.98);
+      }
+
+      100% {
+        transform: translateY(-6px) scale(1.02);
+      }
     }
 
     .achieve-empty-pill {
@@ -232,8 +644,18 @@ if (!function_exists('resolveAchieveIconClass')) {
     }
 
     @keyframes achieveEmptyPulse {
-      0%, 100% { opacity: 0.5; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.25); box-shadow: 0 0 14px #ff69b4; }
+
+      0%,
+      100% {
+        opacity: 0.5;
+        transform: scale(0.9);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.25);
+        box-shadow: 0 0 14px #ff69b4;
+      }
     }
 
     .achieve-empty-title {
@@ -284,9 +706,11 @@ if (!function_exists('resolveAchieveIconClass')) {
       .achieve-empty-card {
         padding: 36px 20px 32px;
       }
+
       .achieve-empty-title {
         font-size: 20px;
       }
+
       .achieve-empty-desc {
         font-size: 13px;
       }
@@ -370,8 +794,10 @@ if (!function_exists('resolveAchieveIconClass')) {
       <div class="loader-art-wrap">
         <!-- Rotating Floral Wreath Ring -->
         <svg class="floral-wreath-ring" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255, 105, 180, 0.2)" stroke-width="1.5" stroke-dasharray="6 8" />
-          <circle cx="100" cy="100" r="72" fill="none" stroke="url(#pinkGlowGrad)" stroke-width="2.5" stroke-dasharray="140 300" class="ring-spinner" />
+          <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255, 105, 180, 0.2)" stroke-width="1.5"
+            stroke-dasharray="6 8" />
+          <circle cx="100" cy="100" r="72" fill="none" stroke="url(#pinkGlowGrad)" stroke-width="2.5"
+            stroke-dasharray="140 300" class="ring-spinner" />
           <defs>
             <linearGradient id="pinkGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#ff69b4" />
@@ -395,12 +821,17 @@ if (!function_exists('resolveAchieveIconClass')) {
         <div class="butterfly-box">
           <svg class="butterfly-svg" viewBox="0 0 100 100">
             <!-- Left Wing -->
-            <path class="wing wing-left" d="M50 45 C35 15, 5 20, 10 45 C15 65, 38 60, 50 50 C40 65, 20 85, 30 90 C40 95, 48 70, 50 55 Z" fill="url(#wingGradLeft)" />
+            <path class="wing wing-left"
+              d="M50 45 C35 15, 5 20, 10 45 C15 65, 38 60, 50 50 C40 65, 20 85, 30 90 C40 95, 48 70, 50 55 Z"
+              fill="url(#wingGradLeft)" />
             <!-- Right Wing -->
-            <path class="wing wing-right" d="M50 45 C65 15, 95 20, 90 45 C85 65, 62 60, 50 50 C60 65, 80 85, 70 90 C60 95, 52 70, 50 55 Z" fill="url(#wingGradRight)" />
+            <path class="wing wing-right"
+              d="M50 45 C65 15, 95 20, 90 45 C85 65, 62 60, 50 50 C60 65, 80 85, 70 90 C60 95, 52 70, 50 55 Z"
+              fill="url(#wingGradRight)" />
             <!-- Body & Antenna -->
             <ellipse cx="50" cy="50" rx="3.5" ry="18" fill="#ffffff" />
-            <path d="M49 33 Q42 22 36 20 M51 33 Q58 22 64 20" stroke="#ff80ab" stroke-width="2" stroke-linecap="round" fill="none" />
+            <path d="M49 33 Q42 22 36 20 M51 33 Q58 22 64 20" stroke="#ff80ab" stroke-width="2" stroke-linecap="round"
+              fill="none" />
             <defs>
               <linearGradient id="wingGradLeft" x1="100%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="#ff80ab" />
@@ -432,9 +863,9 @@ if (!function_exists('resolveAchieveIconClass')) {
     document.addEventListener("DOMContentLoaded", function () {
       const loader = document.getElementById("pageLoader");
       const progress = document.getElementById("loaderProgress");
-      
+
       if (progress) {
-        setTimeout(function() {
+        setTimeout(function () {
           progress.style.width = "100%";
         }, 100);
       }
@@ -599,12 +1030,17 @@ if (!function_exists('resolveAchieveIconClass')) {
           <div class="frame-butterfly-ornament" title="Aesthetic Butterfly">
             <svg class="frame-butterfly-svg" viewBox="0 0 100 100">
               <!-- Left Wing -->
-              <path class="f-wing f-wing-left" d="M50 45 C35 15, 5 20, 10 45 C15 65, 38 60, 50 50 C40 65, 20 85, 30 90 C40 95, 48 70, 50 55 Z" fill="url(#fWingGradLeft)" />
+              <path class="f-wing f-wing-left"
+                d="M50 45 C35 15, 5 20, 10 45 C15 65, 38 60, 50 50 C40 65, 20 85, 30 90 C40 95, 48 70, 50 55 Z"
+                fill="url(#fWingGradLeft)" />
               <!-- Right Wing -->
-              <path class="f-wing f-wing-right" d="M50 45 C65 15, 95 20, 90 45 C85 65, 62 60, 50 50 C60 65, 80 85, 70 90 C60 95, 52 70, 50 55 Z" fill="url(#fWingGradRight)" />
+              <path class="f-wing f-wing-right"
+                d="M50 45 C65 15, 95 20, 90 45 C85 65, 62 60, 50 50 C60 65, 80 85, 70 90 C60 95, 52 70, 50 55 Z"
+                fill="url(#fWingGradRight)" />
               <!-- Body & Antenna -->
               <ellipse cx="50" cy="50" rx="3.5" ry="18" fill="#ffffff" />
-              <path d="M49 33 Q42 22 36 20 M51 33 Q58 22 64 20" stroke="#ff80ab" stroke-width="2" stroke-linecap="round" fill="none" />
+              <path d="M49 33 Q42 22 36 20 M51 33 Q58 22 64 20" stroke="#ff80ab" stroke-width="2" stroke-linecap="round"
+                fill="none" />
               <defs>
                 <linearGradient id="fWingGradLeft" x1="100%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stop-color="#ff9ebb" />
@@ -971,7 +1407,8 @@ if (!function_exists('resolveAchieveIconClass')) {
             <button class="portfolio-filter active" data-filter="all" role="tab" aria-selected="true">All</button>
             <?php if (!empty($projectCategories)): ?>
               <?php foreach ($projectCategories as $cat): ?>
-                <button class="portfolio-filter" data-filter="<?= esc($cat['slug']) ?>" role="tab" aria-selected="false"><?= esc($cat['name']) ?></button>
+                <button class="portfolio-filter" data-filter="<?= esc($cat['slug']) ?>" role="tab"
+                  aria-selected="false"><?= esc($cat['name']) ?></button>
               <?php endforeach; ?>
             <?php endif; ?>
           </div>
@@ -1126,22 +1563,28 @@ if (!function_exists('resolveAchieveIconClass')) {
                   $mainPhotoUrl = $mainPlaceholder;
                 }
                 ?>
+                <?php
+                $mainAchJson = htmlspecialchars(json_encode([
+                  'title' => $mainAch['title'] ?? '',
+                  'year' => $mainAch['year'] ?? '',
+                  'date_label' => $mainAch['date_label'] ?? '',
+                  'badge' => $mainAch['badge_text'] ?? '',
+                  'category' => $cat['name'] ?? 'Pencapaian',
+                  'description' => $mainAch['description'] ?? '',
+                  'photo' => $mainPhotoUrl,
+                  'small_text' => $mainAch['small_text'] ?? '',
+                  'heading_text' => $mainAch['heading_text'] ?? '',
+                  'signature_text' => $mainAch['signature_text'] ?? ''
+                ]), ENT_QUOTES, 'UTF-8');
+                ?>
                 <div class="main-achieve reveal">
-                  <div class="main-achieve__photo">
+                  <div class="main-achieve__photo" role="button" tabindex="0" title="Klik untuk melihat detail sertifikat"
+                    data-achieve-detail="<?= $mainAchJson ?>">
                     <img src="<?= $mainPhotoUrl ?>" alt="<?= esc($mainAch['title']) ?>" loading="lazy"
                       onerror="this.src='<?= $mainPlaceholder ?>'">
-                    <div class="main-achieve__photo-text">
-                      <span class="small-text">
-                        <?php if (!empty($mainAch['icon'])): ?>
-                          <i class="<?= esc(resolveAchieveIconClass($mainAch['icon'], 'bi bi-trophy-fill')) ?> me-1"></i>
-                        <?php endif; ?>
-                        <?= esc($mainAch['small_text']) ?>
-                      </span>
-                      <h2><?= !empty($mainAch['heading_text']) ? esc($mainAch['heading_text']) : esc($mainAch['title']) ?>
-                      </h2>
-                      <span
-                        class="signature"><?= !empty($mainAch['signature_text']) ? esc($mainAch['signature_text']) : 'Annisa Esce' ?></span>
-                    </div>
+                    <span class="achieve-photo-zoom-badge">
+                      <i class="bi bi-zoom-in"></i> Klik untuk Detail
+                    </span>
                   </div>
                   <div class="main-achieve__content">
                     <div class="main-achieve__year"><?= esc($mainAch['year']) ?></div>
@@ -1152,6 +1595,11 @@ if (!function_exists('resolveAchieveIconClass')) {
                     <?php endif; ?>
                     <h3><?= esc($mainAch['title']) ?></h3>
                     <p class="muted"><?= esc($mainAch['description']) ?></p>
+                    <div class="main-achieve__action-wrap">
+                      <button type="button" class="btn-achieve-detail" data-achieve-detail="<?= $mainAchJson ?>">
+                        <i class="bi bi-eye-fill me-2"></i> Lihat Detail
+                      </button>
+                    </div>
                   </div>
                 </div>
               <?php endif; ?>
@@ -1174,13 +1622,29 @@ if (!function_exists('resolveAchieveIconClass')) {
                     if (empty($itemPhotoUrl)) {
                       $itemPhotoUrl = $itemPlaceholder;
                     }
+                    $itemAchJson = htmlspecialchars(json_encode([
+                      'title' => $ach['title'] ?? '',
+                      'year' => $ach['year'] ?? '',
+                      'date_label' => $ach['date_label'] ?? '',
+                      'badge' => $ach['badge_text'] ?? '',
+                      'category' => $cat['name'] ?? 'Pencapaian',
+                      'description' => $ach['description'] ?? '',
+                      'photo' => $itemPhotoUrl,
+                      'small_text' => $ach['small_text'] ?? '',
+                      'heading_text' => $ach['heading_text'] ?? '',
+                      'signature_text' => $ach['signature_text'] ?? ''
+                    ]), ENT_QUOTES, 'UTF-8');
                     ?>
                     <div class="achieve-item reveal">
                       <div class="achieve-item__year-label"><?= esc($ach['year']) ?></div>
                       <div class="achieve-item__dot"></div>
-                      <div class="achieve-item__photo">
+                      <div class="achieve-item__photo" role="button" tabindex="0" title="Klik untuk melihat detail"
+                        data-achieve-detail="<?= $itemAchJson ?>">
                         <img src="<?= $itemPhotoUrl ?>" alt="<?= esc($ach['title']) ?>" loading="lazy"
                           onerror="this.src='<?= $itemPlaceholder ?>'">
+                        <span class="achieve-photo-zoom-badge">
+                          <i class="bi bi-zoom-in"></i> Detail
+                        </span>
                       </div>
                       <div class="achieve-item__text card3d" data-tilt data-tilt-strength="10">
                         <svg class="achieve-spark" aria-hidden="true">
@@ -1194,6 +1658,9 @@ if (!function_exists('resolveAchieveIconClass')) {
                             <span class="achieve-date"><?= esc($ach['date_label']) ?></span>
                             <h3><?= esc($ach['title']) ?></h3>
                             <p class="muted"><?= esc($ach['description']) ?></p>
+                            <button type="button" class="btn-achieve-detail-sm" data-achieve-detail="<?= $itemAchJson ?>">
+                              Lihat Detail <i class="bi bi-arrow-right-short ms-1"></i>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -1226,7 +1693,9 @@ if (!function_exists('resolveAchieveIconClass')) {
                     </div>
                     <h3 class="achieve-empty-title">Belum Ada Milestone di Kategori Ini</h3>
                     <p class="achieve-empty-desc">
-                      Dokumentasi prestasi dan karya untuk kategori <strong class="text-pink"><?= esc($cat['name']) ?></strong> sedang dalam proses kurasi portofolio. Nantikan momen spesial berikutnya! ✨
+                      Dokumentasi prestasi dan karya untuk kategori <strong
+                        class="text-pink"><?= esc($cat['name']) ?></strong> sedang dalam proses kurasi portofolio. Nantikan
+                      momen spesial berikutnya! ✨
                     </p>
                     <div class="achieve-empty-action">
                       <a href="#contact" class="achieve-empty-btn">
@@ -1265,6 +1734,76 @@ if (!function_exists('resolveAchieveIconClass')) {
         <?php endif; ?>
       </div>
     </section>
+
+    <!-- ACHIEVEMENT DETAIL MODAL -->
+    <div id="achieveDetailModal" class="achieve-modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="achieve-modal__backdrop" id="achieveModalBackdrop"></div>
+      <div class="achieve-modal__container">
+        <div class="achieve-modal__dialog">
+          <button type="button" class="achieve-modal__close" id="achieveModalClose" aria-label="Tutup Detail">
+            <i class="bi bi-x-lg"></i>
+          </button>
+
+          <div class="achieve-modal__body">
+            <!-- Left: Certificate / Image Preview -->
+            <div class="achieve-modal__media">
+              <div class="achieve-modal__img-box">
+                <img id="achieveModalImg" src="" alt="Achievement Detail">
+              </div>
+              <a id="achieveModalImgLink" href="#" target="_blank" class="achieve-modal__zoom-link"
+                rel="noopener noreferrer">
+                <i class="bi bi-arrows-fullscreen me-1"></i> Buka Gambar Resolusi Penuh
+              </a>
+            </div>
+
+            <!-- Right: Details Info -->
+            <div class="achieve-modal__info">
+              <div class="achieve-modal__tags">
+                <span class="achieve-modal__tag achieve-modal__tag--cat" id="achieveModalCat">
+                  <i class="bi bi-tag-fill me-1"></i> <span>Kategori</span>
+                </span>
+                <span class="achieve-modal__tag achieve-modal__tag--year" id="achieveModalYear">
+                  <i class="bi bi-calendar3 me-1"></i> <span>2024</span>
+                </span>
+                <span class="achieve-modal__tag achieve-modal__tag--badge" id="achieveModalBadge"
+                  style="display: none;">
+                  <span></span>
+                </span>
+              </div>
+
+              <h2 class="achieve-modal__title" id="achieveModalTitle">Judul Pencapaian</h2>
+
+              <div class="achieve-modal__date" id="achieveModalDateWrap">
+                <i class="bi bi-clock-history me-1 text-pink"></i> <span id="achieveModalDate"></span>
+              </div>
+
+              <div class="achieve-modal__desc-wrap">
+                <h4 class="achieve-modal__section-heading">Deskripsi & Penghargaan</h4>
+                <p class="achieve-modal__desc" id="achieveModalDesc"></p>
+              </div>
+
+              <div class="achieve-modal__meta" id="achieveModalMeta" style="display: none;">
+                <div class="achieve-modal__meta-item" id="achieveModalSmallWrap" style="display: none;">
+                  <span class="meta-label"><i class="bi bi-info-circle me-1"></i> Keterangan</span>
+                  <span class="meta-val" id="achieveModalSmall"></span>
+                </div>
+                <div class="achieve-modal__meta-item" id="achieveModalHeadingWrap" style="display: none;">
+                  <span class="meta-label"><i class="bi bi-person-fill me-1"></i> Sutradara / Tim</span>
+                  <span class="meta-val" id="achieveModalHeading"></span>
+                </div>
+              </div>
+
+              <div class="achieve-modal__footer">
+                <a href="#contact" class="achieve-modal__btn-contact" id="achieveModalContact">
+                  <i class="bi bi-chat-heart-fill me-2"></i> Hubungi untuk Kolaborasi
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <hr class="divider-metallic">
 
     <!-- RESUME -->
@@ -1586,8 +2125,10 @@ if (!function_exists('resolveAchieveIconClass')) {
 
         <!-- FULL WIDTH MAPS & AVAILABILITY -->
         <?php if (!empty($settings['contact_map_iframe'])): ?>
-          <div style="margin-top: 24px;" class="card3d contact__card reveal p-0 overflow-hidden" data-tilt data-tilt-strength="5">
-            <div style="width: 100%; height: 260px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,105,180,0.25);">
+          <div style="margin-top: 24px;" class="card3d contact__card reveal p-0 overflow-hidden" data-tilt
+            data-tilt-strength="5">
+            <div
+              style="width: 100%; height: 260px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,105,180,0.25);">
               <?= $settings['contact_map_iframe'] ?>
             </div>
           </div>
@@ -1596,10 +2137,12 @@ if (!function_exists('resolveAchieveIconClass')) {
         <div style="margin-top: 20px;" class="card3d contact__card reveal" data-tilt data-tilt-strength="5">
           <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
             <div>
-              <h3 class="mb-1"><svg class="ico me-1" aria-hidden="true"><use href="#i-clock"></use></svg> Availability &amp; Location</h3>
+              <h3 class="mb-1"><svg class="ico me-1" aria-hidden="true">
+                  <use href="#i-clock"></use>
+                </svg> Availability &amp; Location</h3>
               <p class="muted mb-0" style="font-size: 14px; line-height: 1.5;">
                 <?php if (!empty($settings['contact_address'])): ?>
-                  <i class="ri-map-pin-2-fill text-pink me-1"></i> <?= esc($settings['contact_address']) ?> &bull; 
+                  <i class="ri-map-pin-2-fill text-pink me-1"></i> <?= esc($settings['contact_address']) ?> &bull;
                 <?php endif; ?>
                 Open untuk monthly retainer &amp; campaign.
               </p>
@@ -1610,12 +2153,12 @@ if (!function_exists('resolveAchieveIconClass')) {
             </div>
           </div>
         </div>
-        </div>
-
-        <footer class="footer">
-          <div class="muted small">© <span id="year"></span> <?= esc($settings['site_title'] ?? 'Annisa Esce') ?> - All
-            rights reserved.</div>
       </div>
+
+      <footer class="footer">
+        <div class="muted small">© <span id="year"></span> <?= esc($settings['site_title'] ?? 'Annisa Esce') ?> - All
+          rights reserved.</div>
+        </div>
       </footer>
       </div>
     </section>
@@ -2146,9 +2689,17 @@ if (!function_exists('resolveAchieveIconClass')) {
     }
 
     @keyframes fabPopEffect {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.35) rotate(-20deg); }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.35) rotate(-20deg);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     /* Butterfly Elements */
@@ -2179,13 +2730,23 @@ if (!function_exists('resolveAchieveIconClass')) {
     }
 
     @keyframes wingFlapLeft {
-      0% { transform: rotateY(0deg); }
-      100% { transform: rotateY(-65deg); }
+      0% {
+        transform: rotateY(0deg);
+      }
+
+      100% {
+        transform: rotateY(-65deg);
+      }
     }
 
     @keyframes wingFlapRight {
-      0% { transform: rotateY(0deg); }
-      100% { transform: rotateY(65deg); }
+      0% {
+        transform: rotateY(0deg);
+      }
+
+      100% {
+        transform: rotateY(65deg);
+      }
     }
   </style>
 
@@ -2235,12 +2796,12 @@ if (!function_exists('resolveAchieveIconClass')) {
 
         butterfly.innerHTML = `
           <div class="butterfly-body">
-            <svg class="butterfly-wing-l" width="${size/2}" height="${size}" viewBox="0 0 50 80" style="animation-duration: ${flapSpeed}s;">
+            <svg class="butterfly-wing-l" width="${size / 2}" height="${size}" viewBox="0 0 50 80" style="animation-duration: ${flapSpeed}s;">
               <path d="M50 40 C30 0, 0 10, 5 35 C10 50, 45 45, 50 40 Z M50 42 C30 50, 10 65, 20 78 C35 85, 48 55, 50 42 Z" fill="${color.l}" opacity="0.95"/>
               <circle cx="30" cy="25" r="4" fill="#ffffff" opacity="0.85"/>
               <circle cx="20" cy="35" r="2.5" fill="#ffffff" opacity="0.85"/>
             </svg>
-            <svg class="butterfly-wing-r" width="${size/2}" height="${size}" viewBox="0 0 50 80" style="animation-duration: ${flapSpeed}s;">
+            <svg class="butterfly-wing-r" width="${size / 2}" height="${size}" viewBox="0 0 50 80" style="animation-duration: ${flapSpeed}s;">
               <path d="M0 40 C20 0, 50 10, 45 35 C40 50, 5 45, 0 40 Z M0 42 C20 50, 40 65, 30 78 C15 85, 2 55, 0 42 Z" fill="${color.r}" opacity="0.95"/>
               <circle cx="20" cy="25" r="4" fill="#ffffff" opacity="0.85"/>
               <circle cx="30" cy="35" r="2.5" fill="#ffffff" opacity="0.85"/>
@@ -2251,8 +2812,8 @@ if (!function_exists('resolveAchieveIconClass')) {
         document.body.appendChild(butterfly);
 
         // Fly from bottom-left across the entire landing page screen to top-right
-        const targetX = Math.random() * (window.innerWidth - 100); 
-        const targetY = - (Math.random() * (window.innerHeight + 300) + 400); 
+        const targetX = Math.random() * (window.innerWidth - 100);
+        const targetY = - (Math.random() * (window.innerHeight + 300) + 400);
         const rotation = (Math.random() - 0.5) * 120;
         const duration = Math.random() * 3000 + 4500; // 4.5s to 7.5s
         const swirlAmp = (Math.random() - 0.5) * 220;
@@ -2298,198 +2859,330 @@ if (!function_exists('resolveAchieveIconClass')) {
        SCROLL BUTTERFLY – TERBANG KE SETIAP SECTION
   ============================================================= -->
   <script>
-  (function () {
-    /* ─── 1. CONFIG: urutan section + target landing ─── */
-    var SECTIONS = [
-      { sectionId: 'home',         targetId: null,               /* hero butterfly itu sendiri */ },
-      { sectionId: 'about',        targetId: 'butterfly-landing-target' },
-      { sectionId: 'brands',       targetId: 'bfly-brands'       },
-      { sectionId: 'projects',     targetId: 'bfly-projects'     },
-      { sectionId: 'achievements', targetId: 'bfly-achievements' },
-      { sectionId: 'resume',       targetId: 'bfly-resume'       },
-      { sectionId: 'customers',    targetId: 'bfly-customers'    },
-      { sectionId: 'contact',      targetId: 'bfly-contact'      },
-    ];
+    (function () {
+      /* ─── 1. CONFIG: urutan section + target landing ─── */
+      var SECTIONS = [
+        { sectionId: 'home', targetId: null,               /* hero butterfly itu sendiri */ },
+        { sectionId: 'about', targetId: 'butterfly-landing-target' },
+        { sectionId: 'brands', targetId: 'bfly-brands' },
+        { sectionId: 'projects', targetId: 'bfly-projects' },
+        { sectionId: 'achievements', targetId: 'bfly-achievements' },
+        { sectionId: 'resume', targetId: 'bfly-resume' },
+        { sectionId: 'customers', targetId: 'bfly-customers' },
+        { sectionId: 'contact', targetId: 'bfly-contact' },
+      ];
 
-    var heroBfly  = document.querySelector('.frame-butterfly-ornament');
-    if (!heroBfly) return;
+      var heroBfly = document.querySelector('.frame-butterfly-ornament');
+      if (!heroBfly) return;
 
-    var currentIdx  = 0;   // index SECTIONS yang aktif sekarang
-    var isFlying    = false;
-    var flyingClone = null;
-    var landedEl    = null;
-    var rafId       = null;
+      var currentIdx = 0;   // index SECTIONS yang aktif sekarang
+      var isFlying = false;
+      var flyingClone = null;
+      var landedEl = null;
+      var rafId = null;
 
-    /* ─── 2. Detect active section index by scroll ─── */
-    function getActiveIdx() {
-      var best = 0;
-      var vh = window.innerHeight;
-      for (var i = 0; i < SECTIONS.length; i++) {
-        var el = document.getElementById(SECTIONS[i].sectionId);
-        if (!el) continue;
-        var rect = el.getBoundingClientRect();
-        // section dianggap aktif jika bagian atasnya sudah melewati 40% viewport
-        if (rect.top <= vh * 0.4) best = i;
-      }
-      return best;
-    }
-
-    /* ─── 3. Helper: quadratic bezier ─── */
-    function easeInOut(t) {
-      return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
-    }
-
-    function bezier(p0, cp, p1, t) {
-      return Math.pow(1-t,2)*p0 + 2*(1-t)*t*cp + t*t*p1;
-    }
-
-    /* ─── 4. Fly animation between two screen coords ─── */
-    function flyBetween(fx, fy, tx, ty, dur, onDone) {
-      if (flyingClone) { flyingClone.remove(); flyingClone = null; }
-      if (rafId)       { cancelAnimationFrame(rafId); rafId = null; }
-
-      flyingClone = document.createElement('div');
-      flyingClone.className = 'frame-butterfly-ornament';
-      flyingClone.innerHTML = heroBfly.innerHTML;
-      flyingClone.style.cssText =
-        'position:fixed;z-index:99999;pointer-events:none;width:100px;height:100px;' +
-        'left:' + fx + 'px;top:' + fy + 'px;' +
-        'filter:drop-shadow(0 0 20px rgba(255,64,129,.95)) drop-shadow(0 0 8px #ff80ab);' +
-        'will-change:transform,left,top;transition:none;';
-      document.body.appendChild(flyingClone);
-
-      // control point: arc bulging upward & sideways
-      var midX = (fx + tx) / 2;
-      var cpX  = midX + (Math.random() > 0.5 ? 1 : -1) * 100;
-      var cpY  = Math.min(fy, ty) - 180;
-      var startTime = null;
-
-      function step(ts) {
-        if (!startTime) startTime = ts;
-        var p = Math.min((ts - startTime) / dur, 1);
-        var t = easeInOut(p);
-        var x = bezier(fx, cpX, tx, t);
-        var y = bezier(fy, cpY, ty, t);
-        var rot = -15 + t * 40;
-        var sc  = 0.95 + Math.sin(t * Math.PI) * 0.2;
-        var op  = t < 0.85 ? 1 : 1 - ((t-0.85)/0.15)*0.5;
-        if (flyingClone) {
-          flyingClone.style.left      = x + 'px';
-          flyingClone.style.top       = y + 'px';
-          flyingClone.style.transform = 'rotate('+rot+'deg) scale('+sc+')';
-          flyingClone.style.opacity   = op;
+      /* ─── 2. Detect active section index by scroll ─── */
+      function getActiveIdx() {
+        var best = 0;
+        var vh = window.innerHeight;
+        for (var i = 0; i < SECTIONS.length; i++) {
+          var el = document.getElementById(SECTIONS[i].sectionId);
+          if (!el) continue;
+          var rect = el.getBoundingClientRect();
+          // section dianggap aktif jika bagian atasnya sudah melewati 40% viewport
+          if (rect.top <= vh * 0.4) best = i;
         }
-        if (p < 1) { rafId = requestAnimationFrame(step); }
-        else {
-          if (flyingClone) { flyingClone.remove(); flyingClone = null; }
-          if (onDone) onDone();
+        return best;
+      }
+
+      /* ─── 3. Helper: quadratic bezier ─── */
+      function easeInOut(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function bezier(p0, cp, p1, t) {
+        return Math.pow(1 - t, 2) * p0 + 2 * (1 - t) * t * cp + t * t * p1;
+      }
+
+      /* ─── 4. Fly animation between two screen coords ─── */
+      function flyBetween(fx, fy, tx, ty, dur, onDone) {
+        if (flyingClone) { flyingClone.remove(); flyingClone = null; }
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+
+        flyingClone = document.createElement('div');
+        flyingClone.className = 'frame-butterfly-ornament';
+        flyingClone.innerHTML = heroBfly.innerHTML;
+        flyingClone.style.cssText =
+          'position:fixed;z-index:99999;pointer-events:none;width:100px;height:100px;' +
+          'left:' + fx + 'px;top:' + fy + 'px;' +
+          'filter:drop-shadow(0 0 20px rgba(255,64,129,.95)) drop-shadow(0 0 8px #ff80ab);' +
+          'will-change:transform,left,top;transition:none;';
+        document.body.appendChild(flyingClone);
+
+        // control point: arc bulging upward & sideways
+        var midX = (fx + tx) / 2;
+        var cpX = midX + (Math.random() > 0.5 ? 1 : -1) * 100;
+        var cpY = Math.min(fy, ty) - 180;
+        var startTime = null;
+
+        function step(ts) {
+          if (!startTime) startTime = ts;
+          var p = Math.min((ts - startTime) / dur, 1);
+          var t = easeInOut(p);
+          var x = bezier(fx, cpX, tx, t);
+          var y = bezier(fy, cpY, ty, t);
+          var rot = -15 + t * 40;
+          var sc = 0.95 + Math.sin(t * Math.PI) * 0.2;
+          var op = t < 0.85 ? 1 : 1 - ((t - 0.85) / 0.15) * 0.5;
+          if (flyingClone) {
+            flyingClone.style.left = x + 'px';
+            flyingClone.style.top = y + 'px';
+            flyingClone.style.transform = 'rotate(' + rot + 'deg) scale(' + sc + ')';
+            flyingClone.style.opacity = op;
+          }
+          if (p < 1) { rafId = requestAnimationFrame(step); }
+          else {
+            if (flyingClone) { flyingClone.remove(); flyingClone = null; }
+            if (onDone) onDone();
+          }
+        }
+        rafId = requestAnimationFrame(step);
+      }
+
+      /* ─── 5. Get landing position (fixed coords) for a section index ─── */
+      function getLandingPos(idx) {
+        if (idx === 0) {
+          // Home: hero butterfly itself
+          var r = heroBfly.getBoundingClientRect();
+          return { x: r.left, y: r.top };
+        }
+        var el = document.getElementById(SECTIONS[idx].targetId);
+        if (!el) {
+          var sec = document.getElementById(SECTIONS[idx].sectionId);
+          if (!sec) return { x: 80, y: 80 };
+          var r2 = sec.getBoundingClientRect();
+          return { x: r2.left + 20, y: r2.top + 20 };
+        }
+        var r3 = el.getBoundingClientRect();
+        return { x: r3.left - 20, y: r3.top - 40 };
+      }
+
+      /* ─── 6. Show/hide landed ornament at a target element ─── */
+      function removeLanded() {
+        if (landedEl) {
+          landedEl.style.opacity = '0';
+          var el = landedEl; landedEl = null;
+          setTimeout(function () { if (el && el.parentNode) el.parentNode.removeChild(el); }, 350);
         }
       }
-      rafId = requestAnimationFrame(step);
-    }
 
-    /* ─── 5. Get landing position (fixed coords) for a section index ─── */
-    function getLandingPos(idx) {
-      if (idx === 0) {
-        // Home: hero butterfly itself
-        var r = heroBfly.getBoundingClientRect();
-        return { x: r.left, y: r.top };
+      function showLanded(idx) {
+        removeLanded();
+        if (idx === 0) {
+          // Back on hero: just show hero butterfly
+          heroBfly.style.transition = 'opacity 0.35s ease';
+          heroBfly.style.opacity = '1';
+          return;
+        }
+        var targetId = SECTIONS[idx].targetId;
+        if (!targetId) return;
+        var titleEl = document.getElementById(targetId);
+        if (!titleEl) return;
+
+        landedEl = document.createElement('div');
+        landedEl.innerHTML = heroBfly.innerHTML;
+        landedEl.style.cssText =
+          'position:absolute;top:-36px;left:-10px;width:80px;height:80px;' +
+          'pointer-events:none;z-index:10;' +
+          'filter:drop-shadow(0 0 18px rgba(255,64,129,.95));' +
+          'animation:aboutButterflyLanded 3s ease-in-out infinite alternate;' +
+          'transform-origin:center bottom;opacity:0;transition:opacity 0.4s ease;';
+        titleEl.style.position = 'relative';
+        titleEl.appendChild(landedEl);
+        setTimeout(function () { if (landedEl) landedEl.style.opacity = '1'; }, 50);
       }
-      var el = document.getElementById(SECTIONS[idx].targetId);
-      if (!el) {
-        var sec = document.getElementById(SECTIONS[idx].sectionId);
-        if (!sec) return { x: 80, y: 80 };
-        var r2 = sec.getBoundingClientRect();
-        return { x: r2.left + 20, y: r2.top + 20 };
-      }
-      var r3 = el.getBoundingClientRect();
-      return { x: r3.left - 20, y: r3.top - 40 };
-    }
 
-    /* ─── 6. Show/hide landed ornament at a target element ─── */
-    function removeLanded() {
-      if (landedEl) {
-        landedEl.style.opacity = '0';
-        var el = landedEl; landedEl = null;
-        setTimeout(function() { if (el && el.parentNode) el.parentNode.removeChild(el); }, 350);
-      }
-    }
-
-    function showLanded(idx) {
-      removeLanded();
-      if (idx === 0) {
-        // Back on hero: just show hero butterfly
-        heroBfly.style.transition = 'opacity 0.35s ease';
-        heroBfly.style.opacity = '1';
-        return;
-      }
-      var targetId = SECTIONS[idx].targetId;
-      if (!targetId) return;
-      var titleEl = document.getElementById(targetId);
-      if (!titleEl) return;
-
-      landedEl = document.createElement('div');
-      landedEl.innerHTML = heroBfly.innerHTML;
-      landedEl.style.cssText =
-        'position:absolute;top:-36px;left:-10px;width:80px;height:80px;' +
-        'pointer-events:none;z-index:10;' +
-        'filter:drop-shadow(0 0 18px rgba(255,64,129,.95));' +
-        'animation:aboutButterflyLanded 3s ease-in-out infinite alternate;' +
-        'transform-origin:center bottom;opacity:0;transition:opacity 0.4s ease;';
-      titleEl.style.position = 'relative';
-      titleEl.appendChild(landedEl);
-      setTimeout(function() { if (landedEl) landedEl.style.opacity = '1'; }, 50);
-    }
-
-    /* ─── 7. Fly from section A → section B ─── */
-    function flyToSection(fromIdx, toIdx) {
-      if (isFlying) return;
-      isFlying = true;
-
-      // Hide hero butterfly if leaving home
-      if (fromIdx === 0) {
-        heroBfly.style.transition = 'opacity 0.2s ease';
-        heroBfly.style.opacity = '0';
-      }
-      // Fade out current landed ornament immediately
-      removeLanded();
-
-      var from = getLandingPos(fromIdx);
-      var to   = getLandingPos(toIdx);
-      var dist = Math.hypot(to.x - from.x, to.y - from.y);
-      var dur  = Math.max(900, Math.min(1800, dist * 1.2));
-
-      flyBetween(from.x, from.y, to.x, to.y, dur, function() {
-        currentIdx = toIdx;
-        isFlying   = false;
-        showLanded(toIdx);
-      });
-    }
-
-    /* ─── 8. Scroll watcher ─── */
-    var ticking = false;
-    window.addEventListener('scroll', function() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function() {
-        ticking = false;
+      /* ─── 7. Fly from section A → section B ─── */
+      function flyToSection(fromIdx, toIdx) {
         if (isFlying) return;
-        var newIdx = getActiveIdx();
-        if (newIdx !== currentIdx) {
-          flyToSection(currentIdx, newIdx);
+        isFlying = true;
+
+        // Hide hero butterfly if leaving home
+        if (fromIdx === 0) {
+          heroBfly.style.transition = 'opacity 0.2s ease';
+          heroBfly.style.opacity = '0';
+        }
+        // Fade out current landed ornament immediately
+        removeLanded();
+
+        var from = getLandingPos(fromIdx);
+        var to = getLandingPos(toIdx);
+        var dist = Math.hypot(to.x - from.x, to.y - from.y);
+        var dur = Math.max(900, Math.min(1800, dist * 1.2));
+
+        flyBetween(from.x, from.y, to.x, to.y, dur, function () {
+          currentIdx = toIdx;
+          isFlying = false;
+          showLanded(toIdx);
+        });
+      }
+
+      /* ─── 8. Scroll watcher ─── */
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          if (isFlying) return;
+          var newIdx = getActiveIdx();
+          if (newIdx !== currentIdx) {
+            flyToSection(currentIdx, newIdx);
+          }
+        });
+      }, { passive: true });
+
+      /* ─── 9. Init state on page load (e.g. refresh mid-page) ─── */
+      var initIdx = getActiveIdx();
+      if (initIdx !== 0) {
+        heroBfly.style.opacity = '0';
+        currentIdx = initIdx;
+        showLanded(initIdx);
+      }
+
+    })();
+  </script>
+
+  <!-- Achievement Detail Modal Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = document.getElementById('achieveDetailModal');
+      if (!modal) return;
+
+      const backdrop = document.getElementById('achieveModalBackdrop');
+      const closeBtn = document.getElementById('achieveModalClose');
+      const modalImg = document.getElementById('achieveModalImg');
+      const modalImgLink = document.getElementById('achieveModalImgLink');
+      const modalCat = document.getElementById('achieveModalCat');
+      const modalYear = document.getElementById('achieveModalYear');
+      const modalBadge = document.getElementById('achieveModalBadge');
+      const modalTitle = document.getElementById('achieveModalTitle');
+      const modalDate = document.getElementById('achieveModalDate');
+      const modalDateWrap = document.getElementById('achieveModalDateWrap');
+      const modalDesc = document.getElementById('achieveModalDesc');
+      const modalMeta = document.getElementById('achieveModalMeta');
+      const modalSmallWrap = document.getElementById('achieveModalSmallWrap');
+      const modalSmall = document.getElementById('achieveModalSmall');
+      const modalHeadingWrap = document.getElementById('achieveModalHeadingWrap');
+      const modalHeading = document.getElementById('achieveModalHeading');
+      const contactBtn = document.getElementById('achieveModalContact');
+
+      function openModal(data) {
+        if (!data) return;
+
+        // Image
+        if (data.photo) {
+          modalImg.src = data.photo;
+          modalImgLink.href = data.photo;
+          modalImgLink.style.display = 'inline-flex';
+        } else {
+          modalImgLink.style.display = 'none';
+        }
+
+        // Tags
+        if (data.category) {
+          modalCat.querySelector('span').textContent = data.category;
+          modalCat.style.display = 'inline-flex';
+        } else {
+          modalCat.style.display = 'none';
+        }
+
+        if (data.year) {
+          modalYear.querySelector('span').textContent = data.year;
+          modalYear.style.display = 'inline-flex';
+        } else {
+          modalYear.style.display = 'none';
+        }
+
+        if (data.badge && data.badge.trim() !== '') {
+          modalBadge.querySelector('span').textContent = data.badge;
+          modalBadge.style.display = 'inline-flex';
+        } else {
+          modalBadge.style.display = 'none';
+        }
+
+        // Title & Date & Desc
+        modalTitle.textContent = data.title || 'Detail Pencapaian';
+
+        if (data.date_label && data.date_label.trim() !== '') {
+          modalDate.textContent = data.date_label;
+          modalDateWrap.style.display = 'block';
+        } else {
+          modalDateWrap.style.display = 'none';
+        }
+
+        modalDesc.textContent = data.description || '-';
+
+        // Extra metadata (small_text, heading_text)
+        let hasMeta = false;
+        if (data.small_text && data.small_text.trim() !== '') {
+          modalSmall.textContent = data.small_text;
+          modalSmallWrap.style.display = 'flex';
+          hasMeta = true;
+        } else {
+          modalSmallWrap.style.display = 'none';
+        }
+
+        if (data.heading_text && data.heading_text.trim() !== '') {
+          modalHeading.textContent = data.heading_text;
+          modalHeadingWrap.style.display = 'flex';
+          hasMeta = true;
+        } else {
+          modalHeadingWrap.style.display = 'none';
+        }
+
+        modalMeta.style.display = hasMeta ? 'flex' : 'none';
+
+        // Show Modal
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      // Triggers
+      document.addEventListener('click', function (e) {
+        const trigger = e.target.closest('[data-achieve-detail]');
+        if (trigger) {
+          e.preventDefault();
+          try {
+            const data = JSON.parse(trigger.getAttribute('data-achieve-detail'));
+            openModal(data);
+          } catch (err) {
+            console.error('Failed to parse achievement data:', err);
+          }
         }
       });
-    }, { passive: true });
 
-    /* ─── 9. Init state on page load (e.g. refresh mid-page) ─── */
-    var initIdx = getActiveIdx();
-    if (initIdx !== 0) {
-      heroBfly.style.opacity = '0';
-      currentIdx = initIdx;
-      showLanded(initIdx);
-    }
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (backdrop) backdrop.addEventListener('click', closeModal);
+      if (contactBtn) {
+        contactBtn.addEventListener('click', function () {
+          closeModal();
+        });
+      }
 
-  })();
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+    });
   </script>
 
 </body>
