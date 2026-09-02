@@ -156,8 +156,9 @@
                                     <input type="text" class="form-control" name="badge_text" value="<?= esc($item['badge_text']) ?>">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Icon Label (Class Remix Icon)</label>
-                                    <input type="text" class="form-control" name="icon" value="<?= esc($item['icon']) ?>">
+                                    <label class="form-label">Icon (Class Bootstrap Icons)</label>
+                                    <input type="text" class="form-control" name="icon" value="<?= esc($item['icon']) ?>" placeholder="bi bi-film">
+                                    <small class="text-muted d-block mt-1">Contoh: <code>bi bi-film</code>, <code>bi bi-award-fill</code>, <code>bi bi-trophy-fill</code></small>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Teks Kecil (contoh: Growth in 3 Months)</label>
@@ -257,8 +258,9 @@
                                 <input type="text" class="form-control" name="badge_text">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Icon Label (Class Remix Icon)</label>
-                                <input type="text" class="form-control" name="icon">
+                                <label class="form-label">Icon (Class Bootstrap Icons)</label>
+                                <input type="text" class="form-control" name="icon" placeholder="bi bi-film">
+                                <small class="text-muted d-block mt-1">Contoh: <code>bi bi-film</code>, <code>bi bi-award-fill</code>, <code>bi bi-trophy-fill</code></small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Teks Kecil (contoh: Growth in 3 Months)</label>

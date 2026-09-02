@@ -35,6 +35,42 @@ if (!function_exists('getLogoSvgPlaceholder')) {
     return 'data:image/svg+xml;base64,' . base64_encode($svg);
   }
 }
+
+if (!function_exists('resolveAchieveIconClass')) {
+  function resolveAchieveIconClass($icon, $default = 'bi bi-award-fill')
+  {
+    if (empty($icon)) {
+      return $default;
+    }
+    $icon = trim($icon);
+    if (str_starts_with($icon, 'bi-')) {
+      return 'bi ' . $icon;
+    }
+    if (str_contains($icon, 'bi ') || str_contains($icon, 'ri-') || str_contains($icon, 'fa-')) {
+      return $icon;
+    }
+    $lower = strtolower($icon);
+    if (str_contains($lower, 'film') || str_contains($lower, 'movie') || str_contains($lower, 'cinema') || str_contains($lower, 'festival')) {
+      return 'bi bi-film';
+    }
+    if (str_contains($lower, 'award') || str_contains($lower, 'winner') || str_contains($lower, 'juara') || str_contains($lower, 'documentary')) {
+      return 'bi bi-award-fill';
+    }
+    if (str_contains($lower, 'trophy') || str_contains($lower, 'champion')) {
+      return 'bi bi-trophy-fill';
+    }
+    if (str_contains($lower, 'star') || str_contains($lower, 'creator')) {
+      return 'bi bi-star-fill';
+    }
+    if (str_contains($lower, 'edu') || str_contains($lower, 'book') || str_contains($lower, 'academy') || str_contains($lower, 'pendidikan')) {
+      return 'bi bi-mortarboard-fill';
+    }
+    if (preg_match('/^[a-zA-Z0-9_-]+$/', $icon)) {
+      return 'bi bi-' . $icon;
+    }
+    return $default;
+  }
+}
 ?>
 <!doctype html>
 <html lang="id" data-theme="dark">
@@ -78,6 +114,184 @@ if (!function_exists('getLogoSvgPlaceholder')) {
   <link rel="stylesheet" href="<?= base_url('assets/style.css?v=' . time()) ?>" />
 
   <style>
+    /* Achievements Timeline Icon Styling */
+    .achieve-icon {
+      flex-shrink: 0 !important;
+      width: 44px !important;
+      height: 44px !important;
+      border-radius: 50% !important;
+      background: linear-gradient(135deg, #ff69b4, #d65a7f) !important;
+      color: #ffffff !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.35) !important;
+    }
+
+    .achieve-icon i {
+      font-size: 20px !important;
+      color: #ffffff !important;
+      line-height: 1 !important;
+    }
+
+    .achieve-icon .ico {
+      width: 22px !important;
+      height: 22px !important;
+      fill: #ffffff !important;
+    }
+
+    /* Achievements Empty State Styling */
+    .achieve-empty-state {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 16px 70px;
+      width: 100%;
+    }
+
+    .achieve-empty-card {
+      max-width: 560px;
+      width: 100%;
+      background: rgba(20, 10, 26, 0.85) !important;
+      border: 1px solid rgba(255, 105, 180, 0.25) !important;
+      border-radius: 24px !important;
+      padding: 44px 32px 38px !important;
+      text-align: center !important;
+      position: relative !important;
+      overflow: hidden !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 105, 180, 0.12) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      margin: 0 auto !important;
+    }
+
+    .achieve-empty-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 260px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #ff69b4, transparent);
+    }
+
+    .achieve-empty-icon-wrap {
+      position: relative;
+      margin: 0 auto 20px;
+      width: 84px;
+      height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .achieve-empty-circle {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(230, 99, 119, 0.08));
+      border: 1.5px solid rgba(255, 105, 180, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff69b4;
+      font-size: 34px;
+      box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+      animation: achieveEmptyFloat 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes achieveEmptyFloat {
+      0% { transform: translateY(0px) scale(0.98); }
+      100% { transform: translateY(-6px) scale(1.02); }
+    }
+
+    .achieve-empty-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 105, 180, 0.12);
+      border: 1px solid rgba(255, 105, 180, 0.3);
+      color: #ff80ab;
+      padding: 5px 16px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .achieve-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff69b4;
+      box-shadow: 0 0 10px #ff69b4;
+      animation: achieveEmptyPulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes achieveEmptyPulse {
+      0%, 100% { opacity: 0.5; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.25); box-shadow: 0 0 14px #ff69b4; }
+    }
+
+    .achieve-empty-title {
+      font-family: serif !important;
+      font-size: 26px !important;
+      line-height: 1.25 !important;
+      color: #ffffff !important;
+      margin: 0 0 12px !important;
+      font-weight: 700 !important;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    .achieve-empty-desc {
+      font-size: 14.5px !important;
+      color: rgba(255, 255, 255, 0.9) !important;
+      line-height: 1.7 !important;
+      max-width: 460px !important;
+      margin: 0 auto 26px !important;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .achieve-empty-desc .text-pink {
+      color: #ff80ab !important;
+      font-weight: 700 !important;
+    }
+
+    .achieve-empty-btn {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, #ff69b4 0%, #e66377 100%);
+      color: #ffffff !important;
+      font-weight: 600;
+      font-size: 13.5px;
+      padding: 11px 26px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .achieve-empty-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(255, 105, 180, 0.5);
+      color: #ffffff !important;
+    }
+
+    @media (max-width: 768px) {
+      .achieve-empty-card {
+        padding: 36px 20px 32px;
+      }
+      .achieve-empty-title {
+        font-size: 20px;
+      }
+      .achieve-empty-desc {
+        font-size: 13px;
+      }
+    }
+
     /* Dynamic Section Backgrounds */
     #about.section::before {
       <?php if (!empty($about['bg_image'])): ?>
@@ -919,8 +1133,7 @@ if (!function_exists('getLogoSvgPlaceholder')) {
                     <div class="main-achieve__photo-text">
                       <span class="small-text">
                         <?php if (!empty($mainAch['icon'])): ?>
-                          <i
-                            class="<?= str_contains($mainAch['icon'], 'ri-') || str_contains($mainAch['icon'], 'bi-') ? esc($mainAch['icon']) : 'ri-' . esc($mainAch['icon']) ?> me-1"></i>
+                          <i class="<?= esc(resolveAchieveIconClass($mainAch['icon'], 'bi bi-trophy-fill')) ?> me-1"></i>
                         <?php endif; ?>
                         <?= esc($mainAch['small_text']) ?>
                       </span>
@@ -975,8 +1188,7 @@ if (!function_exists('getLogoSvgPlaceholder')) {
                         </svg>
                         <div class="achieve-text-inner">
                           <div class="achieve-icon">
-                            <i class="<?= !empty($ach['icon']) ? (str_contains($ach['icon'], 'ri-') || str_contains($ach['icon'], 'bi-') ? esc($ach['icon']) : 'ri-' . esc($ach['icon'])) : 'bi bi-award-fill' ?>"
-                              style="color: #ff69b4; font-size: 16px;"></i>
+                            <i class="<?= esc(resolveAchieveIconClass($ach['icon'] ?? '', 'bi bi-award-fill')) ?>"></i>
                           </div>
                           <div class="achieve-details">
                             <span class="achieve-date"><?= esc($ach['date_label']) ?></span>
@@ -987,6 +1199,41 @@ if (!function_exists('getLogoSvgPlaceholder')) {
                       </div>
                     </div>
                   <?php endforeach; ?>
+                </div>
+              <?php endif; ?>
+
+              <?php if (empty($mainAch) && empty($timelineAchs)): ?>
+                <div class="achieve-empty-state reveal">
+                  <div class="achieve-empty-card" data-tilt data-tilt-strength="6">
+                    <div class="achieve-empty-icon-wrap">
+                      <div class="achieve-empty-circle">
+                        <?php
+                        $catIcon = 'bi bi-award';
+                        $catNameLower = strtolower($cat['name']);
+                        if (str_contains($catNameLower, 'creator')) {
+                          $catIcon = 'bi bi-stars';
+                        } elseif (str_contains($catNameLower, 'academy') || str_contains($catNameLower, 'edu')) {
+                          $catIcon = 'bi bi-mortarboard';
+                        } elseif (str_contains($catNameLower, 'film')) {
+                          $catIcon = 'bi bi-film';
+                        }
+                        ?>
+                        <i class="<?= $catIcon ?>"></i>
+                      </div>
+                    </div>
+                    <div class="achieve-empty-pill">
+                      <span class="achieve-pulse-dot"></span> Segera Hadir
+                    </div>
+                    <h3 class="achieve-empty-title">Belum Ada Milestone di Kategori Ini</h3>
+                    <p class="achieve-empty-desc">
+                      Dokumentasi prestasi dan karya untuk kategori <strong class="text-pink"><?= esc($cat['name']) ?></strong> sedang dalam proses kurasi portofolio. Nantikan momen spesial berikutnya! ✨
+                    </p>
+                    <div class="achieve-empty-action">
+                      <a href="#contact" class="achieve-empty-btn">
+                        <i class="bi bi-chat-heart-fill me-2"></i> Hubungi untuk Kolaborasi
+                      </a>
+                    </div>
+                  </div>
                 </div>
               <?php endif; ?>
 
