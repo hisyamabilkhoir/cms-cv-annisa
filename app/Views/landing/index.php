@@ -114,6 +114,44 @@ if (!function_exists('resolveAchieveIconClass')) {
   <link rel="stylesheet" href="<?= base_url('assets/style.css?v=' . time()) ?>" />
 
   <style>
+    /* Modal Media Adjust to Photo (Uncropped) */
+    .main-media {
+      position: relative;
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      background: transparent !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: auto !important;
+    }
+    .main-media.is-video {
+      aspect-ratio: 16/9 !important;
+      background: #000 !important;
+    }
+    .main-media iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    .main-media img {
+      max-width: 100% !important;
+      max-height: 65vh !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+      display: block !important;
+      border-radius: 12px;
+      margin: 0 auto !important;
+    }
+    .main-media.is-video img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
     /* Achievements Timeline Icon Styling */
     .achieve-icon {
       flex-shrink: 0 !important;

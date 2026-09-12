@@ -1071,6 +1071,7 @@
         mainMedia.innerHTML = "";
 
         if (item.type === "youtube") {
+          mainMedia.classList.add("is-video");
           mainMedia.innerHTML = `
              <img src="${item.thumb}" alt="Video Cover" style="width:100%; height:100%; object-fit:cover; cursor:pointer;">
              <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.35); cursor:pointer;">
@@ -1084,8 +1085,9 @@
             mainMedia.onclick = null;
           };
         } else {
+          mainMedia.classList.remove("is-video");
           mainMedia.onclick = null;
-          mainMedia.innerHTML = `<img src="${item.src}" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover;">`;
+          mainMedia.innerHTML = `<img src="${item.src}" alt="" loading="lazy" style="max-width:100%; max-height:65vh; width:auto; height:auto; object-fit:contain; display:block; margin:0 auto; border-radius:12px;">`;
         }
       };
 
@@ -1163,6 +1165,7 @@
     const mainMedia = document.getElementById("mainMedia");
     if (mainMedia) {
       mainMedia.innerHTML = "";
+      mainMedia.classList.remove("is-video");
     }
   };
 
